@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.3.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="Nginx with lua">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx">
+<meta property="og:url" content="https://github.com/iosh/H.git/2020/07/04/NGINX/index.html">
+<meta property="og:site_name" content="胡先生">
+<meta property="og:description" content="Nginx with lua">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-04T21:50:56.000Z">
+<meta property="article:modified_time" content="2021-04-14T08:31:47.418Z">
+<meta property="article:author" content="H">
+<meta property="article:tag" content="Nginx">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/iosh/H.git/2020/07/04/NGINX/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>Nginx | 胡先生</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">胡先生</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">基础配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx-%E6%8C%87%E4%BB%A4%E5%92%8C%E6%8C%87%E4%BB%A4%E5%9D%97"><span class="nav-number">1.1.</span> <span class="nav-text">Nginx 指令和指令块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8E%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9B%B8%E5%85%B3%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.</span> <span class="nav-text">与客户端相关的配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#server-%E5%9D%97"><span class="nav-number">1.3.</span> <span class="nav-text">server 块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#location-%E5%9D%97"><span class="nav-number">1.4.</span> <span class="nav-text">location 块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#include-%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">1.5.</span> <span class="nav-text">include 的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx-%E5%B8%B8%E8%A7%81%E9%85%8D%E7%BD%AE"><span class="nav-number">1.6.</span> <span class="nav-text">nginx 常见配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%86%85%E7%BD%AE%E5%8F%98%E9%87%8F"><span class="nav-number">1.7.</span> <span class="nav-text">常见内置变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#upstream-%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C"><span class="nav-number">1.8.</span> <span class="nav-text">upstream 使用手册</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%A8%A1%E5%9D%97"><span class="nav-number">2.</span> <span class="nav-text">常见模块</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-ngx-http-headers-module-%E8%AE%BE%E7%BD%AE%E5%93%8D%E5%BA%94%E5%A4%B4"><span class="nav-number">2.1.</span> <span class="nav-text">使用 ngx_http_headers_module 设置响应头</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.</span> <span class="nav-text">缓存系统</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lua"><span class="nav-number">4.</span> <span class="nav-text">lua</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">H</p>
+  <div class="site-description" itemprop="description">个人学习笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iosh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iosh"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/iosh/H.git/2020/07/04/NGINX/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="H">
+      <meta itemprop="description" content="个人学习笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="胡先生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Nginx
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-07-04 21:50:56" itemprop="dateCreated datePublished" datetime="2020-07-04T21:50:56+00:00">2020-07-04</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-14 08:31:47" itemprop="dateModified" datetime="2021-04-14T08:31:47+00:00">2021-04-14</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Nginx with lua</p>
+<span id="more"></span>
+
+<p>Nginx 是一款高性能,高并发著称的 HTTP 服务器,主要用于反向代理,负载均衡,Web 网关等服务</p>
+<p>Nginx 很适合作为 Nodejs 的前置服务器, 用来处理 Node 不适合处理的东西, 例如文件传输, Gzip 压缩, 等会长时间占用线程的操作. 这种操作都可以委托给 Nginx,而 Nodejs 仅仅用来处理请求, 从而发回最大特长.</p>
+<h1 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h1><h2 id="Nginx-指令和指令块"><a href="#Nginx-指令和指令块" class="headerlink" title="Nginx 指令和指令块"></a>Nginx 指令和指令块</h2><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Main</span> <span class="number">1</span>;</span><br><span class="line"><span class="section">events</span> &#123;&#125;</span><br><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">    <span class="attribute">Main</span> <span class="number">2</span>;</span><br><span class="line">    <span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">Main</span> <span class="number">3</span>;</span><br><span class="line">        <span class="section">location</span> &#123;&#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">Main</span> <span class="number">3</span>;</span><br><span class="line">        <span class="section">location</span> &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面主要包含了两种指令:</p>
+<ul>
+<li>简单指令, 由名称和参数组成, 以空格分隔, 以分号结尾, 例如上面的 Main 1; Main 2; 等</li>
+<li>指令块: 由名称和 {} 组成,不以分号结尾, 例如 events http server location 等</li>
+</ul>
+<p>上面例子中 http 是全局参数,针对整体产生影响, server 是对应的具体的服务,主要对指定的主机和端口进行配置, location 则是在具体服务下对 URI 进行配置, URI 即去掉参数的 URL</p>
+<h2 id="与客户端相关的配置"><a href="#与客户端相关的配置" class="headerlink" title="与客户端相关的配置"></a>与客户端相关的配置</h2><p>与客户端相关的配置主要在 http 块中进行, 下面是一些常见的指令</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>client_body_buffer_size</td>
+<td>设置读取客户端请求体的缓冲区大小</td>
+</tr>
+<tr>
+<td>client_body_temp_path</td>
+<td>定义储存客户端请求体的临时文件目录,最多可以定义三个子集目录</td>
+</tr>
+<tr>
+<td>client_body_timeout</td>
+<td>定义读取客户端请求体的超时时间,即两个连续的读动作之间的时间间隔,超时抛出 408</td>
+</tr>
+<tr>
+<td>client_header_buffer_size</td>
+<td>定义客户端请求头的缓冲区大小, 默认 1kb</td>
+</tr>
+<tr>
+<td>client_max_body_size</td>
+<td>设置客户端请求的最大主体的大小, 默认 1Mb</td>
+</tr>
+<tr>
+<td>client_header_timeout</td>
+<td>设置客户端请求头的超时时间</td>
+</tr>
+<tr>
+<td>etag</td>
+<td>设置为 on 表示为静态资源自动生成 ETag 响应头</td>
+</tr>
+<tr>
+<td>large_client_header_buffer</td>
+<td>设置大型客户端请求头的缓冲区大小</td>
+</tr>
+<tr>
+<td>keepalive_timeout</td>
+<td>设置连接超时时间,超过超时时间后会关闭 HTTP 连接</td>
+</tr>
+<tr>
+<td>send_timeout</td>
+<td>指定客户端的超时时间</td>
+</tr>
+<tr>
+<td>server_name_hash_bucket_size</td>
+<td>设置 server_name (Nginx 中配置的全部域名) 散列桶的大小, 默认取决于处理器缓存行的大小</td>
+</tr>
+<tr>
+<td>server_name_hash_max_size</td>
+<td>设置 server_names 散列表的最大值</td>
+</tr>
+<tr>
+<td>server_tokens</td>
+<td>启用或者禁用在错误页面或者响应头中标识 Nginx 版本</td>
+</tr>
+<tr>
+<td>tcp_nodelay</td>
+<td>启用或者禁用 TCP_NODELAY 选项,只有保持当前活动时,才会被弃用</td>
+</tr>
+<tr>
+<td>tcp_nopush</td>
+<td>仅当 sendfile 时使用, 能够将响应头和正文的开始部分一起发送</td>
+</tr>
+</tbody></table>
+<h2 id="server-块"><a href="#server-块" class="headerlink" title="server 块"></a>server 块</h2><p>server 即服务部分, 如果请求头中的 Host 头和 server_name 匹配则将请求指向对应的 server 块</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">server_name</span>     huxiansheng.net</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>server_name 支持使用通配符正则表达式, 支持配置多域名, 服务名,当有多个 server 块时会存在匹配优先级的问题,优先级顺序如下:</p>
+<ol>
+<li>精确名字</li>
+<li>以 * 开头的最长的通配符名称, 例如 *.huxiansheng.net</li>
+<li>以 * 结尾的最长通配符名称, 例如 huxiansheng.*</li>
+<li>按照文件顺序,第一个匹配到的正则表达式</li>
+<li>如果没有匹配到对应的 server_name, 则会访问 default_server</li>
+</ol>
+<h2 id="location-块"><a href="#location-块" class="headerlink" title="location 块"></a>location 块</h2><p>location 块在 server 块中使用, 他的作用是根据客户端请求的 URL 去定位不同的应用, 即当服务器接收到客户端请求之后, 需要在服务器端指定目录中寻找客户端所请求的资源</p>
+<table>
+<thead>
+<tr>
+<th>配置格式</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>location=/uri</td>
+<td>精确匹配</td>
+</tr>
+<tr>
+<td>location= ^~/uri</td>
+<td>^~ 匹配某个 URL 前缀开头的请求, 不支持正则表达式</td>
+</tr>
+<tr>
+<td>location ~</td>
+<td>~ 区分大小写的匹配,属于正则表达式</td>
+</tr>
+<tr>
+<td>location ~*</td>
+<td>~* 标识不区分大小写匹配,属于正则表达式</td>
+</tr>
+<tr>
+<td>location /uri</td>
+<td>标识前缀匹配, 不带修饰符,但是优先级没有正则表达式高</td>
+</tr>
+<tr>
+<td>location /</td>
+<td>通用匹配,默认找不到其他匹配时,会进行匹配</td>
+</tr>
+<tr>
+<td>location @</td>
+<td>命名空间,不提供常规的请求匹配</td>
+</tr>
+</tbody></table>
+<p>匹配优先级也是按照上面的表格进行的, <code>@</code> 标识命名空间的位置,通常在重定向时进行匹配,且不会改变 URL 的原始请求</p>
+<p>打开 debug 模式可以看到每个请求的执行过程,包括匹配到对应的 location 操作</p>
+<p>有些指令可以在 location 块中执行, 主要有以下几个</p>
+<ul>
+<li>internal 表示该 location 只支持 Nginx 内部请求的访问, 例如支持 rewrite error_page 等重定向,但不能通过外部的 HTTP 直接访问</li>
+<li>limit_except 限定该 location 块可以执行的 HTTP 方法, 例如 GET</li>
+<li>alias 指定位置的替换</li>
+<li>root 也是指定位置的替换, 但是是相对位置 alias 是绝对地址</li>
+</ul>
+<h2 id="include-的使用"><a href="#include-的使用" class="headerlink" title="include 的使用"></a>include 的使用</h2><p>include 用来指定主配置文件包含的其他扩展配置文件, include 可以出现在全局 location serve 等任何一个位置</p>
+<p>include 还支持通配符导入例如:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">include</span>  /home/test/<span class="regexp">*.config</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="nginx-常见配置"><a href="#nginx-常见配置" class="headerlink" title="nginx 常见配置"></a>nginx 常见配置</h2><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">user</span> www www; <span class="comment"># 定义运行Nginx的用户和用户组</span></span><br><span class="line">woker_processes2; # Nginx 进程数</span><br><span class="line"><span class="attribute">woker_cpu_affinity</span>  auto; <span class="comment"># 配置Nginx 继承的 cpu 亲缘性</span></span><br><span class="line"><span class="attribute">error_log</span>  /var/log/error_log  <span class="literal">info</span>; <span class="comment"># 定义全局的错误日志的类型默认是 error;</span></span><br><span class="line"><span class="attribute">worker_rlimit_nofile</span>  <span class="number">65535</span>;  <span class="comment"># 一个 worker 进程最多能打开的文件数量</span></span><br><span class="line"><span class="attribute">pid</span> /var/run/nginx.pid; <span class="comment"># 进程文件</span></span><br><span class="line"><span class="attribute">worker_priority</span>  -<span class="number">10</span>; <span class="comment"># 在linux 系统下资源使用的优先级</span></span><br><span class="line"><span class="attribute">worker_shutdown_timeout</span>  <span class="number">30</span>; <span class="comment"># 若30s无法平滑退出,则强行关闭进程</span></span><br><span class="line"></span><br><span class="line"><span class="section">events</span> &#123;</span><br><span class="line">    <span class="comment"># 单个进程的最大连接数, 整个 Nginx 的最大连接数 = 单个进程的最大连接数 * 进程数</span></span><br><span class="line">    <span class="attribute">worker_connections</span>  <span class="number">10000</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># nginx 网络模型 epoll 用在 linux 2.6 + 的高性能的网络 I/O上, 如果是在 FreeBSD 上, 则用 kqueue 模型</span></span><br><span class="line">    <span class="attribute">use</span> <span class="literal">epoll</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">    <span class="attribute">include</span>  conf/mime.types;   <span class="comment"># 引入文件扩展名与文件类型的映射表;</span></span><br><span class="line">    <span class="attribute">default_type</span>  application/octet-stream; <span class="comment"># 默认文件类型</span></span><br><span class="line">    <span class="attribute">log_format</span> main <span class="string">&#x27;$remote_addr - $remote_user [$time_local]&#x27;</span></span><br><span class="line">                    <span class="string">&#x27; &quot;$request&quot; $status $bytes_sent&#x27;</span></span><br><span class="line">                    <span class="string">&#x27; &quot;$http_referer&quot; $ &quot;$http_user_agent&quot;&#x27;</span></span><br><span class="line">                    <span class="string">&#x27;&quot;$htt_cookie&quot;&#x27;</span>; <span class="comment"># 自定义日志格式</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">client_header_buffer_size</span>  <span class="number">1k</span>; <span class="comment"># 设置用户请求头使用的 buffer 的大小</span></span><br><span class="line">    <span class="attribute">large_client_header_buffers</span> <span class="number">4</span> <span class="number">4k</span>; <span class="comment"># 默认的缓冲区大小不够用时就会使用此参数</span></span><br><span class="line">    <span class="attribute">server_names_hash_bucket_size</span>  <span class="number">128</span>;<span class="comment">#设置 server_names 散列桶的大小</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">gzip</span> <span class="literal">on</span>; <span class="comment"># 设置 gzip</span></span><br><span class="line">    <span class="attribute">gzip</span> _comp_level <span class="number">6</span>; <span class="comment"># 设置压缩等级</span></span><br><span class="line">    <span class="attribute">gzip</span> _min_length <span class="number">1100</span>; <span class="comment"># 设置允许压缩的页面最小字节数</span></span><br><span class="line">    <span class="attribute">gzip</span> _buffers   <span class="number">4</span> <span class="number">8k</span>; <span class="comment"># 设置系统需要获取多大缓存用于储存 gzip 的压缩结果胡拘留 48看代表按照原始数据的大小, 即以 8kb 为单位的 四倍申请内存</span></span><br><span class="line">    <span class="attribute">gzip</span> _types  text/plain  text/css ; <span class="comment"># 匹配MIME类型压缩</span></span><br><span class="line">    <span class="attribute">output_buffers</span>  <span class="number">2</span>  <span class="number">32k</span>  <span class="comment"># 色值用于从磁盘读取响应的缓冲区的数量和大小 2  32k 代表按照原始数据 即 32k 为单位的 2倍申请内存</span></span><br><span class="line">    sendfile <span class="literal">on</span>; <span class="comment"># 启用sendfile()函数</span></span><br><span class="line">    <span class="attribute">tcp_nopush</span> <span class="literal">on</span>; <span class="comment"># #为了防止网络堵塞,需要开启 sendfile</span></span><br><span class="line">    <span class="attribute">tcp_nodelay</span> <span class="literal">on</span>; <span class="comment">#为了防止网络堵塞需要开启 sendfile</span></span><br><span class="line">    <span class="attribute">keepalive_timeout</span>  <span class="number">90s</span>; <span class="comment"># 长连接超时时间, 单位是秒</span></span><br><span class="line">    <span class="attribute">upstream</span>  backend &#123;&#125;  <span class="comment"># upstream 块,</span></span><br><span class="line">    <span class="attribute">server</span> <span class="number">192.168.1.12:9000</span> weight=<span class="number">2</span>;<span class="comment">#weight 代表权重, 权重越高,则请求的比例越高</span></span><br><span class="line">    <span class="attribute">server</span> <span class="number">192.168.1.23:9000</span> weight=<span class="number">3</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">listen</span>  <span class="number">80</span>;</span><br><span class="line">        <span class="attribute">server_ame</span>  huxiansheng.net; <span class="comment"># 如果只有一个 server 的话可以不写</span></span><br><span class="line">        <span class="attribute">access_log</span>  /var/log/nginx.access_log   main; <span class="comment"># 访问日志记录</span></span><br><span class="line">        <span class="attribute">charset</span> utf-<span class="number">8</span>   <span class="comment"># 默认编码</span></span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">            <span class="attribute">proxy_pass</span>  http://localhost:8000; <span class="comment"># 请求转发</span></span><br><span class="line">            <span class="attribute">proxy_redirece</span>  <span class="literal">off</span>; <span class="comment"># 如果需要修改从被代理服务器传来的应答头中的&quot;Location&quot;和&quot;Refresh&quot;字段，可以用这个指令设置。</span></span><br><span class="line">            <span class="attribute">proxy_set_header</span> Host   $host;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> X-Real-ip  $remote_addr;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> X-Forwarded_For $proxy_add_x_frwarded_for;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">error_page</span>  <span class="number">404</span>  /<span class="number">404</span>.html;<span class="comment"># 对后端服务器抛出的 404页面进行重定向</span></span><br><span class="line">        <span class="attribute">location</span> /<span class="number">404</span>.html &#123;</span><br><span class="line">            <span class="attribute">root</span> /spool/www</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        location ~*\.(jpg|jpeg|gif)$ &#123;</span><br><span class="line">            <span class="attribute">root</span>  /spool/www;</span><br><span class="line">            <span class="attribute">expires</span>  <span class="number">30d</span>; <span class="comment">#浏览器保留缓存时间</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="常见内置变量"><a href="#常见内置变量" class="headerlink" title="常见内置变量"></a>常见内置变量</h2><p>Nginx 提供了一些用来获取 HTTP 和 TCP 的信息</p>
+<table>
+<thead>
+<tr>
+<th>变量名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$arg_name</td>
+<td>值 URL 请求中的参数,name 是参数的名字</td>
+</tr>
+<tr>
+<td>$args</td>
+<td>代表 URL 中所有的请求的参数</td>
+</tr>
+<tr>
+<td>$binary_remote_addr</td>
+<td>客户端地址以二进制数据的形式出现,通常回合一些限速模块一起使用</td>
+</tr>
+<tr>
+<td>$body_bytes_sent</td>
+<td>发给客户端的字节数,不包含响应头</td>
+</tr>
+<tr>
+<td>$bytes_sent</td>
+<td>发给客户端的总字节数</td>
+</tr>
+<tr>
+<td>$document_uri</td>
+<td>设置$uri 的别名</td>
+</tr>
+<tr>
+<td>$hostname</td>
+<td>运行 Nginx 的服务器名</td>
+</tr>
+<tr>
+<td>$http_referer</td>
+<td>表示请求是从哪个页面链接过来的</td>
+</tr>
+<tr>
+<td>$http_user_agent</td>
+<td>客户端浏览器的相关信息</td>
+</tr>
+<tr>
+<td>$remote_addr</td>
+<td>客户端 IP 地址</td>
+</tr>
+<tr>
+<td>$remote_port</td>
+<td>客户端端口号</td>
+</tr>
+<tr>
+<td>$remote_user</td>
+<td>客户端名,通常在 author basic 模块中使用</td>
+</tr>
+<tr>
+<td>$request_filename</td>
+<td>请求的文件路径, 基于 root alias 指令和 URI 请求生成</td>
+</tr>
+<tr>
+<td>$request_time</td>
+<td>请求被 Nginx 接收后,一只相应数据返回给客户端所使用的时间</td>
+</tr>
+<tr>
+<td>$request_uri</td>
+<td>请求的 URI,带参数</td>
+</tr>
+<tr>
+<td>$request</td>
+<td>记录请求的 URL 和 hTTP</td>
+</tr>
+<tr>
+<td>$request_length</td>
+<td>请求的长度,包括请求行,请求头和正文</td>
+</tr>
+<tr>
+<td>$server_name</td>
+<td>虚拟主机的 server_name 值,通常是域名</td>
+</tr>
+<tr>
+<td>$server_port</td>
+<td>端口号</td>
+</tr>
+<tr>
+<td>$server_addr</td>
+<td>服务器的 IP 地址</td>
+</tr>
+<tr>
+<td>$request_method</td>
+<td>请求的方式 例如 post get</td>
+</tr>
+<tr>
+<td>$schema</td>
+<td>请求协议, http https</td>
+</tr>
+<tr>
+<td>$sent_http_name</td>
+<td>任意响应头,name 为响应头的名字,name 是小写</td>
+</tr>
+<tr>
+<td>$realip_remote_addr</td>
+<td>保留原来的客户地址,在 real_ip 中使用</td>
+</tr>
+<tr>
+<td>$server_protocol</td>
+<td>请求采用的协议名称和版本号</td>
+</tr>
+<tr>
+<td>$uri</td>
+<td>当前请求的 URI 在请求过程中 URI 可能会变化,例如内部重定向或使用索引文件的时候</td>
+</tr>
+<tr>
+<td>$nginx_version</td>
+<td>Nginx 版本号</td>
+</tr>
+<tr>
+<td>$pid</td>
+<td>worker 进程的 PID</td>
+</tr>
+<tr>
+<td>$pipe</td>
+<td>如果请求是 HTTp 流水线 piplined 发送的 pipe 值为 p 否则为.</td>
+</tr>
+<tr>
+<td>$connection_requests</td>
+<td>当前通过一个连接获得的请求数量</td>
+</tr>
+<tr>
+<td>$cookie_name</td>
+<td>name 即 COokie 的名称, 可以得到 Cookie 的信息</td>
+</tr>
+<tr>
+<td>$status</td>
+<td>http 请求状态</td>
+</tr>
+<tr>
+<td>$msec</td>
+<td>日志写入的时间,单位为秒,精度是毫秒</td>
+</tr>
+<tr>
+<td>$time_local</td>
+<td>在通用日志可是下的本地时间</td>
+</tr>
+<tr>
+<td>$upstream_addr</td>
+<td>请求反向代理到后端服务器的 IP 地址</td>
+</tr>
+<tr>
+<td>$ upstream_port</td>
+<td>请求到反向代理后服务器的端口号</td>
+</tr>
+<tr>
+<td>$upstream_response_time</td>
+<td>请求在后端服务器消耗的时间</td>
+</tr>
+<tr>
+<td>$upstream_status</td>
+<td>请求在后端服务器的 HTTP 响应状态</td>
+</tr>
+<tr>
+<td>$geoip_city</td>
+<td>城市名称, 在 geoip 模块中使用</td>
+</tr>
+</tbody></table>
+<h2 id="upstream-使用手册"><a href="#upstream-使用手册" class="headerlink" title="upstream 使用手册"></a>upstream 使用手册</h2><p>利用 proxy_pass 可以将请求转发到后端服务器, 如果需要指向多台服务器就要用到 ngx_http_upstream_module ,它为反向代理提供了负载均衡以及故障转移等重要功能</p>
+<p>代理多台服务器</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义一组服务器</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">upstream</span> test_servers&#123;</span><br><span class="line">    <span class="attribute">server</span> <span class="number">172.0.0.1:80</span> max_fails=<span class="number">5</span>  fail_timeout=<span class="number">10s</span> weight = <span class="number">10</span>;</span><br><span class="line">    <span class="attribute">server</span>  <span class="number">172.0.0.1:81</span> max_fails=<span class="number">5</span>  fail_timeout=<span class="number">10s</span> weight = <span class="number">5</span>;</span><br><span class="line">    <span class="attribute">server</span> <span class="number">172.0.1.2</span> backup;</span><br><span class="line">    <span class="attribute">server</span> <span class="number">172.0.0.3</span> down;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="comment"># 通过代理将请求发送给 upstream 命名的 HTTP 服务</span></span><br><span class="line"></span><br><span class="line">        <span class="attribute">proxy_pass</span>  http:/test_servers;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>指令 upstream<br>语法 upstream name {}<br>环境 http<br>含义 定义一组 htpp 服务器, 这些服务器可以监听不同的端口,以及 TCP 和 UNIX 套接字, 在以一个 upstream 中可以浑噩使用不同的端口 TCP 和 UNIX 套接字</p>
+<h1 id="常见模块"><a href="#常见模块" class="headerlink" title="常见模块"></a>常见模块</h1><h2 id="使用-ngx-http-headers-module-设置响应头"><a href="#使用-ngx-http-headers-module-设置响应头" class="headerlink" title="使用 ngx_http_headers_module 设置响应头"></a>使用 ngx_http_headers_module 设置响应头</h2><p>这是个默认自带的模块, 主要包含 add_header 和 expires 两个指令</p>
+<ol>
+<li><p>expires 用法 expires 30d; expires epoch max | off 等 , 默认值为 off<br>设置 Expires 和 Cache-Control 响应字段,主要用于控制缓存时间例如<br>expires -1; # 输出响应头是 cache-control: no-cache, 表示不缓存<br>expires 1h; # 输出的响应头是 cache-control: max-age=3600</p>
+</li>
+<li><p>add_header 用法 add_header Cache-Contron no-cache always;<br>用来添加响应头字段. 最后的 always 字段表示在所有的响应中都加入这个响应头, Nginx 默认不会再 404 500 等状态码中添加响应头.</p>
+</li>
+</ol>
+<h1 id="缓存系统"><a href="#缓存系统" class="headerlink" title="缓存系统"></a>缓存系统</h1><p>缓存在整个服务系统中都是极为重要的存在,既能提升请求的访问速度, 又可以减少后端请求的压力.</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置缓存空间的名字及其存放路径和存放方式</span></span><br><span class="line"><span class="attribute">proxy_cache_path</span>  /data/nginxcahe levels=<span class="number">1</span>:<span class="number">2</span>  keys_zone=cachedata:<span class="number">100m</span>  inactive=<span class="number">7d</span> max_size=<span class="number">50g</span> use_temp_path=<span class="literal">off</span>;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="comment"># 指定缓存空间和大小</span></span><br><span class="line">        <span class="attribute">proxy_cache</span>  cachedata;</span><br><span class="line">        <span class="comment"># 指定缓存的 HTTP 状态和缓存时间</span></span><br><span class="line">        <span class="attribute">proxy_cache_valid</span>   <span class="number">200</span>  <span class="number">304</span>  <span class="number">10s</span>;</span><br><span class="line">        <span class="attribute">proxy_cache_valid</span> <span class="number">301</span> <span class="number">302</span> <span class="number">100s</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 请求最少访问两次才会被缓存</span></span><br><span class="line">        <span class="attribute">proxy_cache_min_uses</span>  <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 指定换粗的 key</span></span><br><span class="line">        <span class="attribute">proxy_cache_key</span>  $scheme$host$is_args$args;</span><br><span class="line">        <span class="comment"># 缓存 HTTP 请求方法类型</span></span><br><span class="line">        <span class="attribute">proxy_cache_methods</span>  GET HEAD;</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 添加一个响应头, 用来标识请求是否命中缓存</span></span><br><span class="line">        <span class="attribute">add_header</span>  N-Cahe-Status  @upstream_cache_status;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 设置 on标识允许将请求的 HEAD 方法改成 GET 方法缓存;</span></span><br><span class="line">        <span class="attribute">proxy_cache_convert_head</span>  <span class="literal">on</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">sendfile</span> <span class="literal">on</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">proxy_set_header</span>  Host  $host:$server_port;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP  $remote_addr;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 当缓存失效时,回去后端服务器获取数据, 然后,将返回给用户并缓存;</span></span><br><span class="line">        <span class="attribute">proxy_pass</span> http://192.168.1.1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="lua"><a href="#lua" class="headerlink" title="lua"></a>lua</h1><p>在 Nginx 中引入 lua 的几个原因:</p>
+<ol>
+<li>Nginx 缺少 if elseif else 这种简单的逻辑, 通常需要使用很多 if,繁琐且可读性差</li>
+<li>Nginx 缺少大小判断等表达式,导致实现一些简单的功能也比较复杂</li>
+<li>Nginx 缺少动态限速功能, 如需相关规则生效需要重启 Nginx 且第三方和原生的配置都缺乏灵活性</li>
+<li>Nginx 缺少冬天路由功能,如需要根据请求的路由动态调整服务器的转发规则则需要重启 Nginx</li>
+<li>Nginx 在 API 网关系统中未实现智能化</li>
+<li>Nginx 与数据库交互能理有限</li>
+<li>大多数 Nginx 模块都是使用 C 语言开发的, 且开发人员还需要了解 Nginx 内部构造,开发难度较大.</li>
+</ol>
+<p>目前比较有名的 Nginx 框架有:</p>
+<ol>
+<li>Tengine 由淘宝出品的 2011 年开源, 其由 Nginx + Lua 开发的优点凸显出了,并在淘宝网中拥有广泛事件</li>
+<li>openRest 由国人章亦春发起, Tengine 和 openRest 区别在于 openRest 是完全开源产品与 Nginx 紧密配合, 而 Tengine 内部的 Nginx 更新会慢</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/05/25/babel%20parser/" rel="prev" title="babel parse">
+                  <i class="fa fa-chevron-left"></i> babel parse
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/11/14/mongoDB/" rel="next" title="mongoDB">
+                  mongoDB <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">H</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

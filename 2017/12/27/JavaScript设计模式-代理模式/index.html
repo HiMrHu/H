@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.3.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="代理模式是为一个对象提供一个代用品或占位符，以便控制对它的访问。 代理模式是一种非常有意义的模式，在生活中可以找到很多代理模式的场景，比如，明星都有经纪人作为代理，如果详情明星办一场商业演出，那么只能联系他的经纪人，经纪人会把细节谈好，再把合同交给明星。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript设计模式-代理模式">
+<meta property="og:url" content="https://github.com/iosh/H.git/2017/12/27/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:site_name" content="胡先生">
+<meta property="og:description" content="代理模式是为一个对象提供一个代用品或占位符，以便控制对它的访问。 代理模式是一种非常有意义的模式，在生活中可以找到很多代理模式的场景，比如，明星都有经纪人作为代理，如果详情明星办一场商业演出，那么只能联系他的经纪人，经纪人会把细节谈好，再把合同交给明星。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-12-27T20:12:34.000Z">
+<meta property="article:modified_time" content="2021-04-14T08:31:47.418Z">
+<meta property="article:author" content="H">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/iosh/H.git/2017/12/27/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>JavaScript设计模式-代理模式 | 胡先生</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">胡先生</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E4%BE%8B%E5%AD%90%EF%BC%8C%E5%B0%8F%E6%98%8E%E8%BF%BD-MM-%E7%9A%84%E6%95%85%E4%BA%8B"><span class="nav-number">1.</span> <span class="nav-text">第一个例子，小明追 MM 的故事</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0%E5%9B%BE%E7%89%87%E9%A2%84%E5%8A%A0%E8%BD%BD"><span class="nav-number">2.</span> <span class="nav-text">虚拟代理实现图片预加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E7%9A%84%E6%84%8F%E4%B9%89"><span class="nav-number">3.</span> <span class="nav-text">代理的意义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E5%92%8C%E6%9C%AC%E4%BD%93%E6%8E%A5%E5%8F%A3%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7"><span class="nav-number">4.</span> <span class="nav-text">代理和本体接口的一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E4%BB%A3%E7%90%86%E5%90%88%E5%B9%B6-HTTP-%E8%AF%B7%E6%B1%82"><span class="nav-number">5.</span> <span class="nav-text">虚拟代理合并 HTTP 请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E4%BB%A3%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">缓存代理</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">H</p>
+  <div class="site-description" itemprop="description">个人学习笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iosh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iosh"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/iosh/H.git/2017/12/27/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="H">
+      <meta itemprop="description" content="个人学习笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="胡先生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JavaScript设计模式-代理模式
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-12-27 20:12:34" itemprop="dateCreated datePublished" datetime="2017-12-27T20:12:34+00:00">2017-12-27</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-14 08:31:47" itemprop="dateModified" datetime="2021-04-14T08:31:47+00:00">2021-04-14</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>代理模式是为一个对象提供一个代用品或占位符，以便控制对它的访问。</p>
+<p>代理模式是一种非常有意义的模式，在生活中可以找到很多代理模式的场景，比如，明星都有经纪人作为代理，如果详情明星办一场商业演出，那么只能联系他的经纪人，经纪人会把细节谈好，再把合同交给明星。</p>
+<span id="more"></span>
+
+<h3 id="第一个例子，小明追-MM-的故事"><a href="#第一个例子，小明追-MM-的故事" class="headerlink" title="第一个例子，小明追 MM 的故事"></a>第一个例子，小明追 MM 的故事</h3><p>小明遇到了一个百分百女生，两天后小明决定送一朵花表白，小明知道女生有一个闺蜜，于是拜托她送花给女生。</p>
+<p>用代理模拟一下过程</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Flower = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> xiaoming = &#123;</span><br><span class="line">  senFlower: <span class="function"><span class="keyword">function</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> flower = <span class="keyword">new</span> Flower();</span><br><span class="line">    target.receiveFlower(flower);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> A = &#123;</span><br><span class="line">  receiveFlower: <span class="function"><span class="keyword">function</span>(<span class="params">flower</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;收到花&quot;</span> + flower);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">xiaoming.senFlower(A);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 引入代理B通过B给A送花</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Flower = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> xiaoming = &#123;</span><br><span class="line">  senFlower: <span class="function"><span class="keyword">function</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> flower = <span class="keyword">new</span> Flower();</span><br><span class="line">    target.receiveFlower(flower);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> B = &#123;</span><br><span class="line">  receiveFlower: <span class="function"><span class="keyword">function</span>(<span class="params">flower</span>) </span>&#123;</span><br><span class="line">    A.receiveFlower(flower);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> A = &#123;</span><br><span class="line">  receiveFlower: <span class="function"><span class="keyword">function</span>(<span class="params">flower</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;收到花&quot;</span> + flower);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">xiaoming.senFlower(B);</span><br></pre></td></tr></table></figure>
+
+<p>至此完成一个最简单的代理模式编写。</p>
+<p>此处的代理模式其实毫无用处，他做的知识把请求简单的交给本体。</p>
+<h3 id="虚拟代理实现图片预加载"><a href="#虚拟代理实现图片预加载" class="headerlink" title="虚拟代理实现图片预加载"></a>虚拟代理实现图片预加载</h3><p>在 web 开发中，图片预加载是一种常用的技术，比如直接给 img 标签节点设置 src 属性，现用一张 loading 图片占位，然后异步加载图片，等到图片加载好了再把它填充到 img 节点。</p>
+<p>下面实现这个虚拟代理，首先创建一个普通的本体对象，这个对象负责往页面中创建一个 img 标签，并且提供一个对外的 setSrc 接口，外接调用这个接口，便可以给该 img 标签设置 src 属性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myImage = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> imgNode = docoment.createElement(<span class="string">&quot;img&quot;</span>);</span><br><span class="line">  <span class="built_in">document</span>.body.appendChild(imgNode);</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    setSrc: <span class="function"><span class="keyword">function</span>(<span class="params">src</span>) </span>&#123;</span><br><span class="line">      imgNode.src = src;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line">myImage.setSrc(<span class="string">&quot;图片地址&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>现在开始引用代理对象 proxyImage，通过这个代理对象，在图片被真正加载好之前，页面将出现一张占位的 loading.gif，来提示用户图片正在加载。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> proxyImage = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> img = <span class="keyword">new</span> myImage();</span><br><span class="line">  img.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    myImage.setSrc(<span class="built_in">this</span>.src);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    setSrc: <span class="function"><span class="keyword">function</span>(<span class="params">src</span>) </span>&#123;</span><br><span class="line">      myImage.setSrc(<span class="string">&quot;图片地址&quot;</span>);</span><br><span class="line">      img.src = src;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line">proxyImage.setSrc(<span class="string">&quot;图片地址&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="代理的意义"><a href="#代理的意义" class="headerlink" title="代理的意义"></a>代理的意义</h3><p>为了说明代理的意义，引入一个面向对象的设计原则—单一职责原则。<br>单一职责原则指的是，就一个类而言，应该仅有一个引起它变化的原因，如果一个对象承担了多项职责，就意味着这个对象将变得巨大，引起他变化的原因可能会有多个，面向对象设计鼓励奖行为分不到细粒度的对象中，如果一个对象承担的职责过多，等于把这些职责耦合到了一起，这种耦合会导致脆弱和低内聚的设计，当变化发生时，设计可能遭到意外的破坏。</p>
+<h3 id="代理和本体接口的一致性"><a href="#代理和本体接口的一致性" class="headerlink" title="代理和本体接口的一致性"></a>代理和本体接口的一致性</h3><p>在客户看来，代理对象和本体是一直的，代理接手请求的过程对于用户来说是透明的，用户并不清楚代理和本体的区别，这样做有两个好处</p>
+<ol>
+<li> 用户可以放心的请求代理，他只关心是否能得到想要的额结果。</li>
+<li> 在任何使用本体的地方都可以替换成使用代理。</li>
+</ol>
+<h3 id="虚拟代理合并-HTTP-请求"><a href="#虚拟代理合并-HTTP-请求" class="headerlink" title="虚拟代理合并 HTTP 请求"></a>虚拟代理合并 HTTP 请求</h3><p>在 web 开发中也许开销最大的就是网络请求，下面通过一个例子合并请求。</p>
+<p>现在页面放置 checkbox 节点，点击一个按钮就会触发一个请求</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">&lt;input type=<span class="string">&#x27;checkbox&#x27;</span> id=<span class="string">&#x27;1&#x27;</span> /&gt;</span><br><span class="line">&lt;input type=<span class="string">&#x27;checkbox&#x27;</span> id=<span class="string">&#x27;2‘ /&gt;</span></span><br><span class="line"><span class="string">&lt;input type=&#x27;</span>checkbox<span class="string">&#x27; id=&#x27;</span><span class="number">3</span><span class="string">&#x27; /&gt;</span></span><br><span class="line"><span class="string">&lt;input type=&#x27;</span>checkbox<span class="string">&#x27; id=&#x27;</span><span class="number">4</span><span class="string">&#x27; /&gt;</span></span><br><span class="line"><span class="string">&lt;input type=&#x27;</span>checkbox<span class="string">&#x27; id=&#x27;</span><span class="number">5</span><span class="string">&#x27; /&gt;</span></span><br><span class="line"><span class="string">&lt;input type=&#x27;</span>checkbox<span class="string">&#x27; id=&#x27;</span><span class="number">6</span><span class="string">&#x27; /&gt;</span></span><br><span class="line"><span class="string">&lt;input type=&#x27;</span>checkbox<span class="string">&#x27; id=&#x27;</span><span class="number">7</span><span class="string">&#x27; /&gt;</span></span><br><span class="line"><span class="string">&lt;input type=&#x27;</span>checkbox<span class="string">&#x27; id=&#x27;</span><span class="number">8</span><span class="string">&#x27; /&gt;</span></span><br><span class="line"><span class="string">&lt;input type=&#x27;</span>checkbox<span class="string">&#x27; id=&#x27;</span><span class="number">9</span><span class="string">&#x27; /&gt;</span></span><br><span class="line"><span class="string">&lt;/body&gt;</span></span><br><span class="line"><span class="string">// 给CheckBox绑定点击事件，并且点击的同事往另一台服务器同步文件</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">var synchronousFile = function(id)&#123;</span></span><br><span class="line"><span class="string">	console.log(&#x27;</span>开始同步文件id为<span class="string">&#x27;+id)</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">var checkbox = document.getElementsBytagName(&#x27;</span>input<span class="string">&#x27;)</span></span><br><span class="line"><span class="string">for(var i = 0,c; c = checkbox[i++])&#123;</span></span><br><span class="line"><span class="string">	c.onclick = function()&#123;</span></span><br><span class="line"><span class="string">		if(this.checked === true)&#123;</span></span><br><span class="line"><span class="string">			synchronousFile(this.id)</span></span><br><span class="line"><span class="string">		&#125;</span></span><br><span class="line"><span class="string">	&#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>选择一个 CheckBox 就会触发一次请求，以我单身 25 年手速，一秒可以点九个，由此可见频发触发网络请求将会带来相当大的开销</p>
+<p>解决方案是通过一个代理函数 proxySynchronousFile 来手机一段时间之内的请求（函数节流？）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> synchronousFile = <span class="function"><span class="keyword">function</span>(<span class="params">id</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;开始同步&quot;</span> + id);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> proxySynchronousFile = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> cache = [], <span class="comment">//保存一段时间内需要同步的id</span></span><br><span class="line">    timer; <span class="comment">// 定时器</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">id</span>) </span>&#123;</span><br><span class="line">    cache.push(id);</span><br><span class="line">    <span class="keyword">if</span> (timer) &#123;</span><br><span class="line">      <span class="comment">// 保证不会覆盖已经启动的定时器</span></span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  timer = <span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    synchronousFile(cache.join(<span class="string">&quot;,&quot;</span>));</span><br><span class="line">    timer = <span class="literal">null</span>;</span><br><span class="line">    cache.length = <span class="number">0</span>;</span><br><span class="line">  &#125;, <span class="number">1000</span>);</span><br><span class="line">&#125;)();</span><br><span class="line"><span class="keyword">var</span> checkbox = <span class="built_in">document</span>.getElementsByTagName(<span class="string">&quot;input&quot;</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, c; (c = checkbox[i]); i++) &#123;</span><br><span class="line">  c.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span>.checked === <span class="literal">true</span>) &#123;</span><br><span class="line">      proxySynchronousFile(<span class="built_in">this</span>.id);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="缓存代理"><a href="#缓存代理" class="headerlink" title="缓存代理"></a>缓存代理</h3><p>缓存代理可以为一些开销大的运算结果提供暂时的储存，下次运算时，如果传递进来的参数和以前一直，则返回前面储存的运算结果。</p>
+<ol>
+<li> 乘积计算</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mult = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;开始计算乘积&quot;</span>);</span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, l = <span class="built_in">arguments</span>.length; i &lt; l; i++) &#123;</span><br><span class="line">    a = a * <span class="built_in">arguments</span>[i];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> a;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">mult(<span class="number">2</span>, <span class="number">3</span>); <span class="comment">// 6</span></span><br><span class="line">mult(<span class="number">3</span>, <span class="number">3</span>, <span class="number">5</span>); <span class="comment">// 24</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 加入代理函数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> proxyMult = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> cache = &#123;&#125;;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> args = <span class="built_in">Array</span>.prototype.join.call(<span class="built_in">arguments</span>, <span class="string">&quot;,&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (args <span class="keyword">in</span> cache) &#123;</span><br><span class="line">      <span class="keyword">return</span> cache[args];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (cache[args] = mult.apply(<span class="built_in">this</span>, <span class="built_in">arguments</span>));</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">proxyMult(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line">proxyMult(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>);</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/12/26/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" rel="prev" title="JavaScript设计模式-策略模式">
+                  <i class="fa fa-chevron-left"></i> JavaScript设计模式-策略模式
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/01/16/C%E8%AF%AD%E8%A8%80%E5%9F%BA%E6%9C%AC%E5%87%BD%E6%95%B0%E7%BB%83%E4%B9%A0/" rel="next" title="C语言基本函数练习">
+                  C语言基本函数练习 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">H</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

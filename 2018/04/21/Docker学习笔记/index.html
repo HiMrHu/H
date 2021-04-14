@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.3.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="Docker 实践学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker学习笔记">
+<meta property="og:url" content="https://github.com/iosh/H.git/2018/04/21/Docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="胡先生">
+<meta property="og:description" content="Docker 实践学习笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-04-21T19:30:32.000Z">
+<meta property="article:modified_time" content="2021-04-14T08:31:47.418Z">
+<meta property="article:author" content="H">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/iosh/H.git/2018/04/21/Docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>Docker学习笔记 | 胡先生</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">胡先生</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">Docker 基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-%E5%88%9D%E6%8E%A2"><span class="nav-number">1.1.</span> <span class="nav-text">Docker 初探</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.2.</span> <span class="nav-text">Docker 是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-%E6%9C%89%E4%BB%80%E4%B9%88%E5%A5%BD%E5%A4%84"><span class="nav-number">1.3.</span> <span class="nav-text">Docker 有什么好处</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-%E5%85%B3%E9%94%AE%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="nav-number">1.4.</span> <span class="nav-text">Docker 关键的命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%95%9C%E5%83%8F%E4%B8%8E%E5%AE%B9%E5%99%A8"><span class="nav-number">1.5.</span> <span class="nav-text">镜像与容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-%E5%AE%89%E8%A3%85%E4%B8%8E%E8%BF%90%E8%A1%8C"><span class="nav-number">1.6.</span> <span class="nav-text">Docker 安装与运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E9%95%9C%E5%83%8F%E5%B9%B6%E8%BF%90%E8%A1%8C%E5%AE%B9%E5%99%A8"><span class="nav-number">1.7.</span> <span class="nav-text">定义一个镜像并运行容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%95%99%E7%A8%8B"><span class="nav-number">1.8.</span> <span class="nav-text">Docker 微服务教程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%BB%BA-WordPress-%E5%AE%B9%E5%99%A8"><span class="nav-number">1.8.1.</span> <span class="nav-text">自建 WordPress 容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%87%E7%94%A8%E5%AE%98%E6%96%B9%E7%9A%84-WordPress-%E5%AE%B9%E5%99%A8"><span class="nav-number">1.8.2.</span> <span class="nav-text">采用官方的 WordPress 容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%87%E7%94%A8-Docker-Compose-%E5%B7%A5%E5%85%B7"><span class="nav-number">1.8.3.</span> <span class="nav-text">采用 Docker Compose 工具</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">H</p>
+  <div class="site-description" itemprop="description">个人学习笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iosh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iosh"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/iosh/H.git/2018/04/21/Docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="H">
+      <meta itemprop="description" content="个人学习笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="胡先生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Docker学习笔记
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-04-21 19:30:32" itemprop="dateCreated datePublished" datetime="2018-04-21T19:30:32+00:00">2018-04-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-14 08:31:47" itemprop="dateModified" datetime="2021-04-14T08:31:47+00:00">2021-04-14</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Docker 实践学习笔记</p>
+<span id="more"></span>
+
+<p>Docker 是相当了不起的，当它未出现之前，应用程序还是一些庞大的单体软件，独自运行在一堆钢铁和硅块上，持续多年，并且拒绝改变，不思进取，对于想要快速前行的组织而言，这的确是一个难题，因此虚拟机的崛起也就不足为奇，应用程序不必再和这些硬件捆绑在一起，使得这一切可以更快更替，更加灵活。</p>
+<p>但是虚拟机本身也是很复杂的，那么应该如何管理所有的复杂性，通过配置管理当然可以办到，但是配置管理就不复杂了吗。</p>
+<p>而我们的 Docker 采取了一种截然不同的做法，如果用户将软件放在一个容器内，他会将应用程序本身的复杂度和基础设施<code>相隔</code>开来，这使得基础设施本身变得更加简单，而应用程序也更加易于装配，基于此，与传统虚拟机相比，计数速度和执行效率都有了巨大的飞跃，容器的启动也成为了毫秒级，而不是分钟级，内存是共享的，而不是预先分配，这使得应用程序能够以更低的成本运行，同时也意味着可以按照想要的方式架设应用，而不在收缓慢的、不太领过的基础设施的制约。</p>
+<p>Docker 在关键的适合出现了，正是为了迎合许多软件祖师的一个迫切需求：以一种开放和灵活的方式构建软件，然后在不同的环境下能够可靠的一致的部署它，用户不需要学习新的编程语言，购买昂贵的硬件，也无需在为了构建、部署和运行可抑制的应用程序而在安装或者配置过程上花费大量时间。</p>
+<h1 id="Docker-基础"><a href="#Docker-基础" class="headerlink" title="Docker 基础"></a>Docker 基础</h1><h2 id="Docker-初探"><a href="#Docker-初探" class="headerlink" title="Docker 初探"></a>Docker 初探</h2><p>Docker 是一个允许用户<code>在任何地方构建、分发及运行任何应用</code>的平台。</p>
+<p>Docker 的出现，改变了开发中用于管理软件活动的不同技术组合而成的状态，因为这些工具需要由专业工程师管理和维护，而且多数工具具有自己<code>独特</code>的配置方式。Docker 出现允许不同的工程师参与到这个过程中，有效的使用一门语言，这让协作变得轻而易举，所有东西通过共同的流水线转变成可以在任何目标平台使用的单一产物，无需继续维护一堆让人眼花缭乱的工具配置。</p>
+<h2 id="Docker-是什么"><a href="#Docker-是什么" class="headerlink" title="Docker 是什么"></a>Docker 是什么</h2><p>要理解 Docker 是什么，从一个比喻开始会比计数性解释来的更简单，而且这个 Docker 的比喻非常具有说服力，Docker 原本是指在船只停靠在港口之后将商品转移或移出的工人，箱子和物品的大小和形状各异，而有经验的码头工人能以核算的方式将手工将商品装入船只，因而他们备受青睐，雇人搬东西并不便宜，但除此之外别无选择。</p>
+<p>对于软件行业工作的人来讲，这听起来应该很熟悉，大量时间和精力将被花费在各种奇形怪状的软件防止到装满了其他奇形怪状软件、大小各异的船只上、以便将其卖给其他地方的用户或商业机构。</p>
+<p>在 Docker 出现之前，部署软件到不同的环境所需工作量巨大，即使不采用手工运行脚本的方式在不同的机器上进行软件配置，用户也不得不权利应付哪些配置管理工具，他们掌握着渴求资源且快速变化的环境的状态，即便将这些工作封装到虚拟机中，还是需要花费大量时间来部署这些虚拟机，等待他们恩启动并管理他们所产生的额外的资源开销。</p>
+<p>使用 Docker ，配置工作从资源管理中分离出来，而部署工作则是微不足道的：运行 docker run ，环境的镜像会被拉去下来并准备运行，所消耗的资源更少并且是内含的，因此不会干扰到其他环境。</p>
+<p>而使用者则不需要担心容器是如何被分发到任何机器中，只要上面右 Docker ，那么一切都不是问题。</p>
+<h2 id="Docker-有什么好处"><a href="#Docker-有什么好处" class="headerlink" title="Docker 有什么好处"></a>Docker 有什么好处</h2><p>几个重要的问题，出现了<code>为什么要使用 Docker</code>,<code>Docker 用在什么地方</code>，针对为什么的简要答案是：只需要一点点付出，Docker 就能快速为企业节省大量时间和金钱。</p>
+<ol>
+<li><p>代替虚拟机 VM</p>
+<p>Docker 可以在很多情况下替代虚拟机，如果用户只关心应用程序，而不是操作系统，可以使用 Docker 替代虚拟机，并将操作系统交给其他人考虑，Docker 不但启动速度快，迁移的同时也更为轻量，同时得益于他的分层文件系统，与其他人分享时候变得更简单，更快捷。而且它牢牢的扎根在命令行中，非常适合脚本化。</p>
+</li>
+<li><p>软件原型</p>
+<p>如果想快速体验软件，同时为了避免干扰目前的设置或者配备一个虚拟机的麻烦，Docker 可以在毫秒级内提供一个沙箱环境。</p>
+</li>
+<li><p>打包软件</p>
+<p>因为对 Linux 用户而言，Docker 镜像并没有依赖，所以非常适合用来打包软件，用户可以构建镜像，并确保它可以运行在任何 Linux 机器上。</p>
+</li>
+<li><p>让微服务构架成为可能</p>
+<p>Docker 有助于将一个复杂系统分解成一系列可组合的部分，这让用户可以用更离散的方式来思考其服务，用户可以在不影响全局的前提下重组软件使其各部分更容易管理和可插拔。</p>
+</li>
+<li><p>网络建模</p>
+<p>由于可以在一台机器上启动数百个甚至数千个隔离的容器，因此对网络进行建模轻而易举，对于实现现实世界的测试场景非常有用，而且所费无几。</p>
+</li>
+<li><p>离线时启用全栈生产力</p>
+<p>因为可以将系统中所有部分捆绑在 Docker 容器中，用户可以将其编排运行在笔记本电脑中移动办公，即便在离线时也没什么问题。</p>
+</li>
+<li><p>降低调试支出</p>
+<p>大家想必都遇到过，代码在进行交互的时候，想在一个新的电脑上跑起来，异常麻烦。真的很麻烦，还说不定到处报错，甚至无法启动，而使用 Docker 可以让用户清晰的说明即便是脚本的形式，在一个属性已知的系统上调试的问题，错误和环境重现变得简单，这得益于 Docker 与提供宿主环境的机器，是分离的。</p>
+</li>
+<li><p>文档化软件依赖及接触点</p>
+<p>通过文档化结构方式构建镜像，为迁移到不同环境做好准备，Docker 强制用户从一个基准点开始明确记录软件依赖，即使用户不打算在所有地方都使用 Docker，这种文档记录需要也有助于在其他地方安装软件。</p>
+</li>
+<li><p>启用持续交付</p>
+<p>持续交付是一种基于流水线的软件交付类型，该流水线通过一个自动化或者半自动化流程在每次变动时重新构建系统然后交付到生产环境中。</p>
+<p>因为用户可以更准确的控制构建环境的状态，Docker 构建比传统软件构建方法更具有可重现性和复制性，是持续交付的实现变得更容易，通过一个以 Docker 为中心的可重现的构建过程，标准的持续交付计数，变得很简单。</p>
+</li>
+</ol>
+<h2 id="Docker-关键的命令"><a href="#Docker-关键的命令" class="headerlink" title="Docker 关键的命令"></a>Docker 关键的命令</h2><p>Docker 的中心功能是构建、分发及在任何具有 Docker 的地方运行软件，对于一个终端用户而言，Docker 是一个用于运行命令行的程序，就像 git 一样，这个程序具有执行不同操作的子命令。</p>
+<p>Docker 的子命令</p>
+<table>
+<thead>
+<tr>
+<th align="center">命令</th>
+<th align="center">目的</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">docker build</td>
+<td align="center">构建一个 Docker 镜像</td>
+</tr>
+<tr>
+<td align="center">docker run</td>
+<td align="center">以容器的形式运行一个 Docker 镜像</td>
+</tr>
+<tr>
+<td align="center">docker commit</td>
+<td align="center">将一个 Docker 容器作为一个镜像提交</td>
+</tr>
+<tr>
+<td align="center">docker tag</td>
+<td align="center">给一个 Docker 镜像打标签</td>
+</tr>
+</tbody></table>
+<h2 id="镜像与容器"><a href="#镜像与容器" class="headerlink" title="镜像与容器"></a>镜像与容器</h2><p>如果不熟悉 Docker ，可能是第一次听说上面的<code>容器</code>和<code>镜像</code>这两个词语，它们是 Docker 中最重要的概念，因此需要花点时间明确其中的差异。</p>
+<p>看待<code>镜像</code>和<code>容器</code>的方式是将他们类比为<code>程序</code>和<code>进程</code>，一个<code>进程</code>可以视为一个<code>被执行的应用程序</code>，同样，一个 Docker 容器可以视为一个运行中的 Docker 镜像。</p>
+<p>如果熟悉<code>面向对象</code>，看待镜像和容器的另一种方法是<code>将镜</code>像看做<code>类</code>，而将<code>容器</code>看为<code>对象</code>，<code>对象</code>是<code>类</code>的具体实例，同样，<code>容器</code>是<code>镜像</code>的实例，用户可以从<code>单个镜像</code>创建<code>多个容器</code>，就像<code>对象</code>一样，他们之间是<code>相互隔离</code>的，无论用户在对象内修改了什么，<code>都不会影响</code>到<code>类</code>的定义，因为他们从本质上根本就是<code>不同的东西</code>。</p>
+<blockquote>
+<p>这里穿插一下 Docker 的基础知识，因为我也不会 Docker ，而本书并不会讲 Docker 如何安装运行等</p>
+</blockquote>
+<h2 id="Docker-安装与运行"><a href="#Docker-安装与运行" class="headerlink" title="Docker 安装与运行"></a>Docker 安装与运行</h2><p>我是看的阮一峰老师写的<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html">Docker 入门教程</a></p>
+<p>Docker 是一个开源的商业产品，有两个版本：社区版（Community Edition，缩写为 CE）和企业版（Enterprise Edition，缩写为 EE）。企业版包含了一些收费服务，个人开发者一般用不到。下面的介绍都针对社区版。</p>
+<p>Docker CE 下载地址</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.docker.com/docker-for-mac/install/">Mac</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.docker.com/docker-for-windows/install/">Windows</a> 请注意 windows 安装比较麻烦，需要系统开启 Hyper-V 功能，具体怎么做百度有，系统版本需要是 Windows 10 企业版、专业版或教育版 才有这个功能，那么家庭版没这个功能怎么办，请前往淘宝寻找解决方案</li>
+<li><a target="_blank" rel="noopener" href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">Ubuntu</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.docker.com/install/linux/docker-ce/debian/">Debian</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.docker.com/install/linux/docker-ce/centos/">CentOS</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.docker.com/install/linux/docker-ce/fedora/">Fedora</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.docker.com/install/linux/docker-ce/binaries/">其他 Linux 发行版</a></li>
+</ul>
+<p>我目前使用的是 Ubuntu 系统</p>
+<p>首先更新软件源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+
+<p>更新以下软件，允许通过 HTTPS 使用储存库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install apt-transport-https  ca-certificates  curl  software-properties-common</span><br></pre></td></tr></table></figure>
+
+<p>添加 Docker 官方的 GPG 秘钥</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;ubuntu&#x2F;gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+
+<p>官方的秘钥指纹是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88</span><br></pre></td></tr></table></figure>
+
+<p>通过搜索秘钥指纹后八位来确定是否正确，次步骤是为了安全起见，可能吧</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-key fingerprint 0EBFCD88</span><br></pre></td></tr></table></figure>
+
+<p>在命令行输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsb_release -cs</span><br></pre></td></tr></table></figure>
+
+<p>看它的返回值是什么来分别安装我的返回值是 <code>xenial</code> 代表 <code>Ubuntu 16.4</code> 不知道这一步有什么意义</p>
+<p>基本上个人电脑和服务器电脑都是 x86 构架输入一下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository \</span><br><span class="line">   &quot;deb [arch&#x3D;amd64] https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;ubuntu \</span><br><span class="line">   $(lsb_release -cs) \</span><br><span class="line">   stable&quot;</span><br></pre></td></tr></table></figure>
+
+<p>这一步应该是将下载地址指向正确的系统构架地址</p>
+<p>再次更新 <code>apt</code>软件包索引，以便可以搜到 Docker</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+
+<p>安装最新版的 Docker CE</p>
+<p>友情提示，带梯子全局代理之后输入下面的命令，不然根本下载不动。至于如何用梯子全局代理，百度，如何不使用梯子下载 Docker ，百度。不在废话。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install docker-ce</span><br></pre></td></tr></table></figure>
+
+<p>测试是否安装完毕在命令行输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">docker version</span><br><span class="line"></span><br><span class="line">之后输出类似如下内容表示 Docker 已经安装完成</span><br><span class="line">Client:</span><br><span class="line"> Version:	18.03.0-ce</span><br><span class="line"> API version:	1.37</span><br><span class="line"> Go version:	go1.9.4</span><br><span class="line"> Git commit:	0520e24</span><br><span class="line"> Built:	Wed Mar 21 23:10:01 2018</span><br><span class="line"> OS&#x2F;Arch:	linux&#x2F;amd64</span><br><span class="line"> Experimental:	false</span><br><span class="line"> Orchestrator:	swarm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Docker 需要用户具有 root 权限，为了避免每次命令都输入 sudo，可以将用户加入 Docker 用户组</p>
+<p>创建 Docker 用户组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo groupadd docker</span><br></pre></td></tr></table></figure>
+
+<p>提示 docker 组已存在，应该是安装的时候创建了</p>
+<p>将用户添加到 Docker 用户组中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -aG docker $USER</span><br></pre></td></tr></table></figure>
+
+<p>之后重启或者注销，才会生效</p>
+<p>之后可以输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run hello-world</span><br></pre></td></tr></table></figure>
+
+<p>输入这条命令之后，会有两个情况</p>
+<p>情况一报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker: Get https:&#x2F;&#x2F;registry-1.docker.io&#x2F;v2&#x2F;library&#x2F;hello-world&#x2F;manifests&#x2F;latest: net&#x2F;http: TLS....</span><br></pre></td></tr></table></figure>
+
+<p>遇到这个问题，就是不可描述问题，一全局梯子，二换源</p>
+<p>换源有两个推荐</p>
+<p><a target="_blank" rel="noopener" href="https://www.docker-cn.com/registry-mirror">Docker 中国官方镜像</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.daocloud.io/mirror#accelerator-doc">daocloud 加速镜像</a>需要注册</p>
+<p>情况二就是正常输入欢迎信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Hello from Docker!</span><br><span class="line">This message shows that your installation appears to be working correctly.</span><br><span class="line">.......</span><br></pre></td></tr></table></figure>
+
+<p>输出这段欢迎词之后容器就会自动终止，但是有些是提供服务的，例如安装和运行 Ubuntu 的 image ，就可以在命令行体验 Ubuntu 系统</p>
+<p>对于不会自动终止的容器，必须使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container kill [containID]</span><br></pre></td></tr></table></figure>
+
+<p>id 可以通过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image ls</span><br></pre></td></tr></table></figure>
+
+<p>找到对应的 id，结束掉进程</p>
+<h2 id="定义一个镜像并运行容器"><a href="#定义一个镜像并运行容器" class="headerlink" title="定义一个镜像并运行容器"></a>定义一个镜像并运行容器</h2><p>接下来使用<code>node</code>框架<code>express</code>在 3000 端口显示一个 hello world 并且制作成 Docker 的镜像</p>
+<p>新建一个 demo 文件</p>
+<p>demo 作为 Docker 的工程目录</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">将终端路径切换到demo下输入</span><br><span class="line">npm init <span class="comment">// 创建一个package文件</span></span><br><span class="line">npm i express <span class="comment">// 安装express</span></span><br></pre></td></tr></table></figure>
+
+<p>然后在新建一个 index.js 文件然后里面写上 espress 标准的 hello world 代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&#x27;/&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  res.send(<span class="string">&#x27;Hello World!&#x27;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> server = app.listen(<span class="number">3000</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> host = server.address().address;</span><br><span class="line">  <span class="keyword">var</span> port = server.address().port;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;Example app listening at http://%s:%s&#x27;</span>, host, port);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>那么现在有了一个 demo 文件夹，文件夹内有</p>
+<p><code>index.js</code> <code>node_modules</code> <code>package.json</code> <code>package-lock.json</code></p>
+<p>index.js 文件里面我们写了上面的代码，而且可以通过 node index.js 来运行这段代码 确定启动服务，<a target="_blank" rel="noopener" href="http://localhost:3000/">http://localhost:3000/</a> 端口也可以显示 hello world！</p>
+<p>接下来就是将制作 Docker 镜像</p>
+<p>现在，在 demo 文件夹中新建一个文件，文件名为 <code>.dockerignore</code>这个文件类似于 git 的忽略文件，之后在其中写入</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.git</span><br><span class="line">node_modules</span><br><span class="line">npm-debug.log</span><br><span class="line">就是忽略这三个文件和文件夹</span><br></pre></td></tr></table></figure>
+
+<p>接下来新建另一个文件<code>Dockerfile</code>这个就是 Docker 工作文件，Docker 会根据文件内的内容一步一步执行，在文件中写入如下内容</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将官方的 node 8.11.1</span></span><br><span class="line"><span class="keyword">FROM</span> node:<span class="number">8.11</span>.<span class="number">1</span></span><br><span class="line"><span class="comment"># 将工作目录设置为 /app</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /app</span></span><br><span class="line"><span class="comment"># 将当前目录下的(demo目录)app文件夹复制到/app中的镜像中</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> . /app</span></span><br><span class="line"><span class="comment"># 运行npm 安装以来包</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> npm install --registry=https://registry.npm.taobao.org</span></span><br><span class="line"><span class="comment"># 对外暴露 3000 端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">3000</span></span><br><span class="line"><span class="comment"># 容器启动后运行该条命令</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> node index.js</span></span><br></pre></td></tr></table></figure>
+
+<p>那么 demo 文件夹内现在有以下文件</p>
+<p><code>index.js</code> express 源代码<br><code>node_modules</code> 依赖文件夹（上面写了忽略规则，所以会被忽略<br><code>package.json</code>npm 的工作文件<br><code>Dockerfile</code> Docker 工作文件<br><code>.dockerignore</code> Docker 构建镜像忽略文件</p>
+<p>接下来构建 Docker 镜像及 image 文件</p>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用 Docker 生成 image 文件， -t 是用来指定 image 文件的名字 我起了 demoapp ，如果不指定那么默认标签就是 latest 最后的点代表 Dockerfile 文件所在位置 当前路径就是 .</span></span><br><span class="line">docker build -t demoapp .</span><br></pre></td></tr></table></figure>
+
+<p>接下来如果没有报错，那么就是等待 Docker 依据 Dockerfile 文件下载依赖，有点慢，换了国内镜像还是慢，不知道是不是我网速问题。</p>
+<p>成功之后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># docker 以 demoapp 为镜像运行一个容器，映射主机5000端口和容器的3000 端口，运行完毕之后容器不会自动删除</span><br><span class="line">docker container run -p 5000:3000 -it demoapp</span><br><span class="line"></span><br><span class="line"># 和上面的命令一样但是运行后会自动删除容器 可以使用 docker container ls --all 查看容器是否被删除了</span><br><span class="line">docker container run --rm -p 5000:3000 -it demoapp</span><br></pre></td></tr></table></figure>
+
+<p>之后就会用浏览器打开</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;localhost:5000</span><br></pre></td></tr></table></figure>
+
+<p>可以访问到并且反返回了 hello world 那么就成功了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker container run</span><br><span class="line"># 上面这条命令每运行一次都会生成一个容器，如果不想生成新的容器应该使用下面的命令</span><br><span class="line"></span><br><span class="line">docker container start 容器id</span><br><span class="line"></span><br><span class="line"># 查看容器ID命令使用 docker container ls --all</span><br></pre></td></tr></table></figure>
+
+<p>以下是上面所有的 Docker 用到或者可以用到的一些相关命令</p>
+<figure class="highlight do"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">docker build -t friendlyname .     # 使用此目录的 Dockerfile 创建镜像（命令最后有个点别忘了</span><br><span class="line">docker <span class="keyword">run</span> -<span class="keyword">d</span> -p 4000:80 friendlyname         # 运行镜像，后台模式</span><br><span class="line">docker ps           # 查看所有正在运行的容器的列表 或者使用 docker container <span class="keyword">ls</span> --all</span><br><span class="line">docker stop &lt;CONTAINER ID&gt;                     # 安全结束容器</span><br><span class="line">docker ps -a           # 查看所有容器的列表，甚至包含未运行的容器</span><br><span class="line">docker kill &lt;CONTAINER ID&gt;                   # 强制关闭指定的容器</span><br><span class="line">docker <span class="keyword">rm</span> &lt;CONTAINER ID&gt;              # 从此机器中删除指定的容器</span><br><span class="line">docker <span class="keyword">rm</span> $(docker ps -a -q)           # 从此机器中删除所有容器</span><br><span class="line">docker images -a                               # 显示此机器上的所有镜像</span><br><span class="line">docker rmi &lt;imagename&gt;            # 从此机器中删除指定的镜像</span><br><span class="line">docker rmi $(docker images -q)             # 从此机器中删除所有镜像</span><br><span class="line">docker login             # 使用您的 Docker 凭证登录此 <span class="keyword">CLI</span> 会话</span><br><span class="line">docker tag &lt;image&gt; username/repository:tag  # 标记 &lt;image&gt; 以上传到镜像库</span><br><span class="line">docker push username/repository:tag            # 将已标记的镜像上传到镜像库</span><br><span class="line">docker <span class="keyword">run</span> username/repository:tag                   # 运行镜像库中的镜像</span><br></pre></td></tr></table></figure>
+
+<p>之后使用上面的命令将本地的<code>镜像</code>和<code>容器</code>都删掉吧，感觉还是满占地方的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker rm $(docker ps -a -q) # 删除所有容器,没有任何容器会返回错误</span><br><span class="line">docker rmi $(docker images -q) # 删除所有镜像，没有任何镜像会返回错误</span><br></pre></td></tr></table></figure>
+
+<h2 id="Docker-微服务教程"><a href="#Docker-微服务教程" class="headerlink" title="Docker 微服务教程"></a>Docker 微服务教程</h2><p>这里 还是阮老师的教程 <a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2018/02/docker-wordpress-tutorial.html">教程地址</a></p>
+<p>看完之后然后我在准备看一下官方文档，之后继续回去看书。</p>
+<p>因为阮老师的教程写的很详细，我就不会照抄阮老师的教程了，我只会将我觉得比较重要的东西记录下来</p>
+<p>阮老师教程上使用了三种方法，演示如何假设 WordPress 网站，分别动手试试</p>
+<ul>
+<li>方法 A：自建 WordPress 容器</li>
+<li>方法 B：采用官方的 WordPress 容器</li>
+<li>方法 C：采用 Docker Compose 工具</li>
+</ul>
+<p>第一种方法是<code>事无巨细，皆需亲为</code>，从开始搭建一遍</p>
+<p>第二种方法是<code>使用官方提供的便捷镜像</code>，快速搭建服务</p>
+<p>第三种方法是<code>使用 Docker 官方容器管理工具</code>方便管理多个容器互相协作</p>
+<p>一个一个动手写一下</p>
+<h3 id="自建-WordPress-容器"><a href="#自建-WordPress-容器" class="headerlink" title="自建 WordPress 容器"></a>自建 WordPress 容器</h3><p>首先新建一个<code>demo</code>文件夹，并且将命令行目录切换到<code>demo</code>文件夹，手动或者命令行命令都可以</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir demo &amp;&amp; cd demo</span><br></pre></td></tr></table></figure>
+
+<p>然后使用命令创建一个基于<code>php</code>的 image (镜像) 新建一个容器，并且运行这个容器，<code>php</code>的标签是<code>5.6-apache</code>说明 <code>php</code>版本是 5.6 并且自带了<code>Apache</code>服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker container run \ # Docker 运行一个容器，</span><br><span class="line">  --rm \ # 运行结束后删除容器</span><br><span class="line">  --name wordpress \ #容器的名字叫做 wordpress</span><br><span class="line">  --volume &quot;$PWD&#x2F;&quot;:&#x2F;var&#x2F;www&#x2F;html \ # 将当前目录（demo）映射到容器的 &#x2F;var&#x2F;www&#x2F;html 因为 Apache 对外访问的默认目录是这个，因此在 demo 文件中的任何修改，都会反应到容器里面，从而被外部访问到</span><br><span class="line">  php:5.6-apache # 指定镜像名称</span><br><span class="line"></span><br><span class="line">  # 这是一行命令， \ 带便换行符，将一条命令分成几行展示，和下面这条命令是一样的,复制下面的命令，我在上面命令后面写了注释</span><br><span class="line"></span><br><span class="line">docker container run --rm --name wordpress  --volume &quot;$PWD&#x2F;&quot;:&#x2F;var&#x2F;www&#x2F;html php:5.6-apache</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的命令之后，Docker 就会去镜像仓库下载镜像，并根据镜像生成名为 wordpress 镜像。然后服务就跑起来了，简单吧。</p>
+<p>那么 emmmmm 不出不知道你们是否可以访问到<code>172.17.0.2</code>我访问不到，那么怎么办呢，ctrl + c 结束掉当前容器(他会自己删除容器),之后输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container run -p 80:80   --rm   --name wordpress   --volume &quot;$PWD&#x2F;&quot;:&#x2F;var&#x2F;www&#x2F;html   php:5.6-apache</span><br></pre></td></tr></table></figure>
+
+<p>多了一个端口暴露指令 <code>-p 80:80</code></p>
+<p>之后访问</p>
+<p><a target="_blank" rel="noopener" href="http://localhost/">http://localhost/</a></p>
+<p>就可以访问啦，然后就看到</p>
+<blockquote>
+<p>Forbidden You don’t have permission to access / on this server.</p>
+</blockquote>
+<p>我们已经映射了容器的<code>/var/www/html</code> 到 <code>demo</code>文件夹下，当前因为<code>demo</code>文件夹没有文件，所以无法提供访问，添加一个最简单的 php 文件，在 demo 文件夹下新建一个 index.php 文件，在文件内写入</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">phpinfo();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>之后在访问</p>
+<p><a target="_blank" rel="noopener" href="http://localhost/">http://localhost/</a></p>
+<p>就可以访问到一个页面了</p>
+<p>接下来从 <a target="_blank" rel="noopener" href="https://cn.wordpress.org/">WordPress 官方网站</a> 中下载下来安装包,或者直接点击 <a target="_blank" rel="noopener" href="https://cn.wordpress.org/wordpress-4.9.4-zh_CN.zip">下载 WordPress4.9.4 安装包</a></p>
+<p>之后将 WordPress 压缩包里面的 WordPress 文件夹放到 demo 文件夹内然后访问</p>
+<p><a target="_blank" rel="noopener" href="http://localhost/wordpress/">http://localhost/wordpress/</a></p>
+<p>就可以看到安装界面了，那么要安装和运行 WordPress 还需要一个数据库 MySQL 数据库，那就再跑一个镜像，这个镜像跑 MySQL。</p>
+<p>这样逻辑上就是跑两个容器 一个 WordPress 容器， 一个 MySQL 容器</p>
+<p>新建一个命令行窗口，刚才哪个别关里面还跑着我们的 WordPress 呢</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">docker container run \ # Docker 运行一个容器</span><br><span class="line">  -d \ # 容器启动后，在后台运行</span><br><span class="line">  --rm \ # 运行结束后删除容器</span><br><span class="line">  --name wordpressdb \ # 容器名称为 wordpressdb</span><br><span class="line">  --env MYSQL_ROOT_PASSWORD&#x3D;123456 \ # 向容器传进一个环境变量 MYSQL_ROOT_PASSWORD，等号后面的值会作为 MySQL 的根密码，不太懂这个根密码什么意思</span><br><span class="line">  --env MYSQL_DATABASE&#x3D;wordpress \ # 向容器传进一个环境变量 MYSQL_DATABASE，等号后面的值会被创建同名的数据库</span><br><span class="line">  mysql:5.7 # MySQL数据库镜像</span><br><span class="line"></span><br><span class="line">  # 上面的还是一条指令为了方便写注释就拆成多行，直接复制下面这行就可以了</span><br><span class="line">docker container run -d --rm --name wordpressdb --env MYSQL_ROOT_PASSWORD&#x3D;123456 --env MYSQL_DATABASE&#x3D;wordpress mysql:5.7</span><br></pre></td></tr></table></figure>
+
+<p>上面这条命令多了一个 -d 容器运行后，会自动后台，可以使用</p>
+<p>docker container ls</p>
+<p>开看看当前运行的容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                NAMES</span><br><span class="line">56da209af68b        mysql:5.7           &quot;docker-entrypoint.s…&quot;   About a minute ago   Up About a minute   3306&#x2F;tcp             wordpressdb</span><br><span class="line">cd8b32dc65ae        php:5.6-apache      &quot;docker-php-entrypoi…&quot;   23 minutes ago       Up 23 minutes       0.0.0.0:80-&gt;80&#x2F;tcp   wordpress</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>会发现数据库容器确实在运行中，数据库是后台运行的，前台看不到他的输出，如果像看到它的输出，必须使用下面的命令</p>
+<p>docker container logs wordpressdb</p>
+<p>接下来需要将 WordPress 和 MySQL 链接起来，但是官方的 PHP 镜像不带 MySQL 扩展，所以得自己新建 镜像</p>
+<p>首先 ctrl + c 退出 WordPress 容器进程，因为在启动命令中右 <code>--rm</code> 所以退出后容器会自己删除。</p>
+<p>之后在 demo 目录中新建一个 <code>Dockerfile</code> 文件，并写入下面的内容</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指定容器镜像为php:5.6-apache</span></span><br><span class="line"><span class="keyword">FROM</span> php:<span class="number">5.6</span>-apache</span><br><span class="line"><span class="comment"># 运行php官方提供的安装扩展指令，安装mysqli插件，方便链接MySQL数据库</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> docker-php-ext-install mysqli</span></span><br><span class="line"><span class="comment"># 之后运行 apache2-foreground 命令跑起来 php环境</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [ <span class="string">&quot;apache2-foreground&quot;</span> ]</span></span><br></pre></td></tr></table></figure>
+
+<p>接下来命令（demo 文件路径下）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"># 基于我们上面写的 Dockerfile 文件生成一个镜像 phpwithmysql 别忘了，最后还有个点，然后等待生成镜像</span><br><span class="line"></span><br><span class="line">docker build -t phpwithmysql .</span><br><span class="line"></span><br><span class="line"># 修改 demo 文件夹下 wordpress 文件夹的权限，保证它有写入权限，以便安装</span><br><span class="line"></span><br><span class="line">chmod -R 777 wordpress</span><br><span class="line"></span><br><span class="line"># 接下来根据镜像新建一个 WordPress 容器</span><br><span class="line"></span><br><span class="line">docker container run \ # 运行一个容器</span><br><span class="line">  --rm \ # 结束后删除容器</span><br><span class="line">  -p 80:80 \ # 映射本地80端口到容器的80端口</span><br><span class="line">  --name wordpress \ # 容器名称为 WordPress</span><br><span class="line">  --volume &quot;$PWD&#x2F;&quot;:&#x2F;var&#x2F;www&#x2F;html \ # 将demo 文件夹映射到容器的 &#x2F;var&#x2F;www&#x2F;html 目录</span><br><span class="line">  --link wordpressdb:mysql \ # 链接 wordpress 和 mysql 数据库</span><br><span class="line">  phpwithmysql # 依据 phpwithmysql 镜像生成容器</span><br><span class="line"></span><br><span class="line"># 直接复制下面的命令就可以了</span><br><span class="line"></span><br><span class="line">docker container run -p 80:80  --rm   --name wordpress   --volume &quot;$PWD&#x2F;&quot;:&#x2F;var&#x2F;www&#x2F;html   --link wordpressdb:mysql   phpwithmysql</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>接下来访问</p>
+<p><a target="_blank" rel="noopener" href="http://localhost/wordpress/">http://localhost/wordpress/</a></p>
+<p>就会跳转到 WordPress 的安装界面，点击现在就开始按钮进行安装， 接着 WordPress 要求数据数据库参数，输入参数如下</p>
+<p><code>数据库名</code>： wordpress</p>
+<p><code>用户名</code>： root</p>
+<p><code>密码</code>： 123456</p>
+<p><code>数据库主机</code>： mysql</p>
+<p><code>表前缀</code>： wp_</p>
+<p>接下来就不用说了。之后就成了，也就安装完毕了。第一步也就完成了接下来关闭容器（他会自动删除容器），删除我们生成的容器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 停止php 和 MySQL 容器 他会自动删除 因为启动的时候添加了 --rm</span><br><span class="line">docker container stop wordpress wordpressdb</span><br><span class="line"></span><br><span class="line"># 然后列出本地的 镜像文件 吧用不着的都删除了</span><br><span class="line">docker image ls</span><br><span class="line"></span><br><span class="line"># 然后根据列表上面的id 删除镜像，此步骤可选，想删除就删除不想就留着</span><br><span class="line">docker rmi 镜像id  镜像id  镜像id</span><br><span class="line"></span><br><span class="line"># 可以连续删除多个本地镜像</span><br></pre></td></tr></table></figure>
+
+<h3 id="采用官方的-WordPress-容器"><a href="#采用官方的-WordPress-容器" class="headerlink" title="采用官方的 WordPress 容器"></a>采用官方的 WordPress 容器</h3><p>上面采用了自己构建 WordPress 容器，分别生成 php 容器和 MySQL 容器，然后还需要链接起来，很麻烦，Docker 已经提供了官方的 WordPress image 镜像文件，直接用就可以了。</p>
+<p><a target="_blank" rel="noopener" href="https://hub.docker.com/_/wordpress/">这里有镜像的详细使用说明都可以看看</a> 里面有启动变量参数</p>
+<p>首先新建并启动 MySQL 容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker container run \</span><br><span class="line">  -d \ # 后台运行</span><br><span class="line">  --rm \ # 结束后删除容器</span><br><span class="line">  --name wordpressdb \ # 容器名称为 wordpressdb</span><br><span class="line">  --env MYSQL_ROOT_PASSWORD&#x3D;123456 \ # 根密码</span><br><span class="line">  --env MYSQL_DATABASE&#x3D;wordpress \ # 数据库名称</span><br><span class="line">  mysql:5.7</span><br></pre></td></tr></table></figure>
+
+<p>之后就会在后台运行 MySQL 服务</p>
+<p>然后运行基于官方的 WordPress image ，新建并启动 WordPress 容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">docker container run \</span><br><span class="line">  -d \ # 后台运行</span><br><span class="line">  -p 80:80 \ # 映射本机和容器端口</span><br><span class="line">  --rm \ # 结束后自动删除容器</span><br><span class="line">  --name wordpress \ # 容器名称</span><br><span class="line">  --env WORDPRESS_DB_PASSWORD&#x3D;123456 \ # 通过变量向容器内传入数据库密码</span><br><span class="line">  --link wordpressdb:mysql \ # 链接数据库 和 WordPress 两个容器</span><br><span class="line">  wordpress # 镜像名称</span><br><span class="line"></span><br><span class="line">  # 老规矩复制下面的命令</span><br><span class="line">  docker container run -d -p 80:80 --rm --name wordpress --env WORDPRESS_DB_PASSWORD&#x3D;123456 --link wordpressdb:mysql wordpress</span><br></pre></td></tr></table></figure>
+
+<p>之后访问就可以看到安装界面了</p>
+<p><a target="_blank" rel="noopener" href="http://localhost/">http://localhost/</a></p>
+<p>不想玩了就输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop wordpress wordpressdb</span><br></pre></td></tr></table></figure>
+
+<p>关闭两个容器进程就可以了</p>
+<h3 id="采用-Docker-Compose-工具"><a href="#采用-Docker-Compose-工具" class="headerlink" title="采用 Docker Compose 工具"></a>采用 Docker Compose 工具</h3><p>Docker Compose 是用来提供一种更简单的方法来管理容器之间的联动，就不用我们一个一个去启动还要传参数。</p>
+<p>windows 和 Mac 安装 Docker 同时一同安装 Docker Compose ，linux 安装 <a target="_blank" rel="noopener" href="https://docs.docker.com/compose/install/#prerequisites">Docker Compose 教程</a></p>
+<p>安装完毕之后输入</p>
+<p>docker-compose –version</p>
+<p>验证是否安装成功</p>
+<p>之后在 demo 文件夹中，新建 docker-compose.yml 文件写入下面内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># mysql 容器配置</span><br><span class="line">mysql:</span><br><span class="line">    # 容器的镜像</span><br><span class="line">    image: mysql:5.7</span><br><span class="line">    # 环境变量分别输入 数据库根密码 和 数据库名称</span><br><span class="line">    environment:</span><br><span class="line">     - MYSQL_ROOT_PASSWORD&#x3D;123456</span><br><span class="line">     - MYSQL_DATABASE&#x3D;wordpress</span><br><span class="line"># WordPress 容器配置</span><br><span class="line">web:</span><br><span class="line">    # 容器镜像</span><br><span class="line">    image: wordpress</span><br><span class="line">    # 链接到 MySQL 容器</span><br><span class="line">    links:</span><br><span class="line">     - mysql</span><br><span class="line">    # 输入环境变量，就是数据库的密码</span><br><span class="line">    environment:</span><br><span class="line">     - WORDPRESS_DB_PASSWORD&#x3D;123456</span><br><span class="line">    # 映射端口本地和容器端口</span><br><span class="line">    ports:</span><br><span class="line">     - &quot;80:80&quot;</span><br><span class="line">    # 映射容器目录到</span><br><span class="line">    working_dir: &#x2F;var&#x2F;www&#x2F;html</span><br><span class="line">    # 设置容器工作目录</span><br><span class="line">    volumes:</span><br><span class="line">     - wordpress:&#x2F;var&#x2F;www&#x2F;html</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 启动所有服务</span><br><span class="line">$ docker-compose up</span><br><span class="line"># 关闭所有服务</span><br><span class="line">$ docker-compose stop</span><br></pre></td></tr></table></figure>
+
+<p>使用启动命令之后就可以打开</p>
+<p><a target="_blank" rel="noopener" href="http://localhost/">http://localhost/</a></p>
+<p>进行访问了</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/04/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%9E%84%E9%80%A0%E5%92%8C%E8%A7%A3%E9%87%8A/" rel="prev" title="计算机程序的构造和解释">
+                  <i class="fa fa-chevron-left"></i> 计算机程序的构造和解释
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/04/22/React%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/" rel="next" title="React详细介绍">
+                  React详细介绍 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">H</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

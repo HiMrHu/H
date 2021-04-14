@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.3.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="GitLab CI 使用笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用 GitLab CI 进行持续集成">
+<meta property="og:url" content="https://github.com/iosh/H.git/2019/08/29/%E4%BD%BF%E7%94%A8GitLab%20CI%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/index.html">
+<meta property="og:site_name" content="胡先生">
+<meta property="og:description" content="GitLab CI 使用笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-08-29T13:49:27.000Z">
+<meta property="article:modified_time" content="2021-04-14T08:31:47.426Z">
+<meta property="article:author" content="H">
+<meta property="article:tag" content="javaScript">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/iosh/H.git/2019/08/29/%E4%BD%BF%E7%94%A8GitLab%20CI%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>用 GitLab CI 进行持续集成 | 胡先生</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">胡先生</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">2.</span> <span class="nav-text">核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Pipeline"><span class="nav-number">2.1.</span> <span class="nav-text">Pipeline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Stage"><span class="nav-number">2.2.</span> <span class="nav-text">Stage</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Jobs"><span class="nav-number">2.2.1.</span> <span class="nav-text">Jobs</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">3.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-GitLab-Runner"><span class="nav-number">3.1.</span> <span class="nav-text">安装 GitLab Runner</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C-GitLab-Runner"><span class="nav-number">3.2.</span> <span class="nav-text">注册 GitLab Runner</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gitlab-ci-yml"><span class="nav-number">3.3.</span> <span class="nav-text">gitlab-ci.yml</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">H</p>
+  <div class="site-description" itemprop="description">个人学习笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iosh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iosh"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/iosh/H.git/2019/08/29/%E4%BD%BF%E7%94%A8GitLab%20CI%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="H">
+      <meta itemprop="description" content="个人学习笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="胡先生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          用 GitLab CI 进行持续集成
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-08-29 13:49:27" itemprop="dateCreated datePublished" datetime="2019-08-29T13:49:27+00:00">2019-08-29</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-14 08:31:47" itemprop="dateModified" datetime="2021-04-14T08:31:47+00:00">2021-04-14</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>GitLab CI 使用笔记</p>
+<span id="more"></span>
+
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>GitLab 自带了 GitLab Continuous Integration (GItLab CI),并且默认已经打开,要使用此项服务需要在项目的根目录下配置一个 <code>.gitlab-ci.yml</code> 配置文件描述 pipeline 工作流程,一般流程分为 <code>test</code> <code>build</code> <code>deploy</code>, 而 GItLab CI 使用 <code>GitLab Runner</code> 来执行 <code>pipeline</code> 中的每一步, 而这个 <code>GitLab Runner</code> 是需要安装在自己的服务器上的.</p>
+<p>核心流程图如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+--------------+                                                 +------------+</span><br><span class="line">|              |                                                 |            |</span><br><span class="line">| Commit&#x2F;Merge +-----&gt;GItLab CI +-------&gt;GitLab Runner+--------&gt; |Run pipeline|</span><br><span class="line">|              |                                                 |            |</span><br><span class="line">+--------------+                                                 +------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>即 通过 Commit or Merge 触发 GitLab CI, 之后 GitLab CI 会通知已经注册好的 GItLab Runner 来执行 .gitlab-ci.yml 中配置的步骤</p>
+<h1 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h1><h2 id="Pipeline"><a href="#Pipeline" class="headerlink" title="Pipeline"></a>Pipeline</h2><p>Pipeline 是一组分阶段执行的作业, 相当于一次构建任务, 例如一套完整的 Test Build Deploy, 代码库中的任何 Commit/Merge 都会触发 Pipeline 从而执行任务</p>
+<h2 id="Stage"><a href="#Stage" class="headerlink" title="Stage"></a>Stage</h2><p>Stage 就是 Pipeline 中的每个步骤例如 Test Build 这种单个的步骤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">+------------------------------------------------------------+</span><br><span class="line">|                                                            |</span><br><span class="line">|                                                            |</span><br><span class="line">|    Pipeline                                                |</span><br><span class="line">|                                                            |</span><br><span class="line">|                                                            |</span><br><span class="line">|  +------------+      +-----------+      +-------------+    |</span><br><span class="line">|  | Stage Test +-----&gt;+Stage Build+-----&gt;+ Stage Deploy|    |</span><br><span class="line">|  +------------+      +-----------+      +-------------+    |</span><br><span class="line">|                                                            |</span><br><span class="line">|                                                            |</span><br><span class="line">|                                                            |</span><br><span class="line">+------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+
+<p>在实际中一个 Pipeline 内可以包含若干个 Stage 上图只是示例</p>
+<h3 id="Jobs"><a href="#Jobs" class="headerlink" title="Jobs"></a>Jobs</h3><p>Jobs 就是单个 Stage 所执行的工作, 一个 Stage 可以有多个 Jobs, 这些 Jobs 是并行的,并且都执行成功之后当前的 Stage 才会成功,同理如果有一个 Jobs 执行失败了当前 Stage 就会失败,同理 Pipeline 就会失败</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+----+Stage     +-----&gt; Next Stage</span><br><span class="line">|               |</span><br><span class="line">|               |</span><br><span class="line">+---&gt; test 1+--&gt;+</span><br><span class="line">|               |</span><br><span class="line">+---&gt; test 2+--&gt;+</span><br><span class="line">|               |</span><br><span class="line">+---&gt; test 3 +--+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上面就是一些主要的概念,下面就是具体操作</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="安装-GitLab-Runner"><a href="#安装-GitLab-Runner" class="headerlink" title="安装 GitLab Runner"></a>安装 GitLab Runner</h2><p>安装 GitLab Runner 教程官网上有, 使用 Docker 进行安装. GitLab Runner 和 GitLab 版本不做强行要求,不过官网上说最好一样.</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">GitlabRunner:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">gitlab/gitlab-runner:latest</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./gitlab-runner/config:/etc/gitlab-runner</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/var/run/docker.sock:/var/run/docker.sock</span></span><br></pre></td></tr></table></figure>
+
+<p>执行 <code>docker-compose up -d</code> 会生成一个 gitlab-runner 文件夹,文件夹下有一一个 config 文件夹, 文件夹下会有一个空的 config.toml 文件</p>
+<h2 id="注册-GitLab-Runner"><a href="#注册-GitLab-Runner" class="headerlink" title="注册 GitLab Runner"></a>注册 GitLab Runner</h2><p>注册 GitLab Runner ,输入 以下命令进入容器内部进行注册, 打开自己的 GitLab 项目,在侧边栏最后一项的设置里面找到 CI/CD, 左边会显示注册用的 url 和 Token</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it 容器名称 gitlab-runner register</span><br></pre></td></tr></table></figure>
+
+<p><code>Please enter the gitlab-ci coordinator URL (e.g. https://gitlab.com/):</code></p>
+<p>输入网页上的 URL</p>
+<p>回车</p>
+<p><code>Please enter the gitlab-ci token for this runner:</code></p>
+<p>输入网页上显示的 Token</p>
+<p>回车</p>
+<p><code>Please enter the gitlab-ci description for this runner</code></p>
+<p>输入这个 runner 的描述</p>
+<p><code>Please enter the gitlab-ci tags for this runner (comma separated):</code></p>
+<p>输入这个 runner 的标签</p>
+<p><code>Please enter the executor: parallels, shell, virtualbox, docker, docker-ssh, ssh, docker+machine, docker-ssh+machine, kubernetes, custom:</code></p>
+<p>使用了 docker 就输入 docker</p>
+<p><code>Please enter the default Docker image (e.g. ruby:2.6):</code></p>
+<p>输入默认使用的 docker 镜像 文档上写了输入 <code>alpine:latest</code></p>
+<p>这个时候在刷新网页就可以看到注册之后的 Gitlab Runner 已经连接的信息了</p>
+<h2 id="gitlab-ci-yml"><a href="#gitlab-ci-yml" class="headerlink" title="gitlab-ci.yml"></a>gitlab-ci.yml</h2><p>具体配置可以参照官网下面给出一个非常简单的</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">image:</span> <span class="string">node:lts-alpine</span> <span class="comment"># 使用镜像</span></span><br><span class="line"></span><br><span class="line"><span class="attr">build:</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">gitlabRunner</span> <span class="comment"># 这里是上面注册gitlab runner 时候输入的那个 tag 意思就是这个项目使用 指定的 gitlab runner 如果不写任务会被一直等待</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span></span><br><span class="line">  <span class="attr">before_script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">yarn</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">script:</span> <span class="string">&quot;yarn run build&quot;</span></span><br><span class="line">  <span class="attr">only:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line">  <span class="attr">cache:</span></span><br><span class="line">    <span class="attr">paths:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">node_modules</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/javaScript/" rel="tag"># javaScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/05/27/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="prev" title="前端面试题">
+                  <i class="fa fa-chevron-left"></i> 前端面试题
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/11/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="next" title="计算机网络">
+                  计算机网络 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">H</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

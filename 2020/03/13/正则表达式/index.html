@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.3.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="正则学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="正则表达式">
+<meta property="og:url" content="https://github.com/iosh/H.git/2020/03/13/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/index.html">
+<meta property="og:site_name" content="胡先生">
+<meta property="og:description" content="正则学习">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-13T18:20:04.000Z">
+<meta property="article:modified_time" content="2021-04-14T08:31:47.426Z">
+<meta property="article:author" content="H">
+<meta property="article:tag" content="正则表达式">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/iosh/H.git/2020/03/13/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>正则表达式 | 胡先生</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">胡先生</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">使用正则表达式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E7%BA%AF%E6%96%87%E6%9C%AC"><span class="nav-number">2.</span> <span class="nav-text">匹配纯文本</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E5%A4%9A%E4%B8%AA%E7%BB%93%E6%9E%9C%E5%8C%B9%E9%85%8D"><span class="nav-number">2.1.</span> <span class="nav-text">有多个结果匹配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E6%AF%8D%E5%A4%A7%E5%B0%8F%E5%86%99%E9%97%AE%E9%A2%98"><span class="nav-number">2.2.</span> <span class="nav-text">字母大小写问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E4%BB%BB%E6%84%8F%E5%AD%97%E7%AC%A6"><span class="nav-number">2.3.</span> <span class="nav-text">匹配任意字符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6"><span class="nav-number">2.4.</span> <span class="nav-text">匹配特殊字符</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E4%B8%80%E7%BB%84%E5%AD%97%E7%AC%A6"><span class="nav-number">3.</span> <span class="nav-text">匹配一组字符</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E5%A4%9A%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%AD%E7%9A%84%E6%9F%90%E4%B8%80%E4%B8%AA"><span class="nav-number">3.1.</span> <span class="nav-text">匹配多个字符中的某一个</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%96%E9%9D%9E%E5%8C%B9%E9%85%8D"><span class="nav-number">3.2.</span> <span class="nav-text">取非匹配</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%85%83%E5%AD%97%E7%AC%A6"><span class="nav-number">4.</span> <span class="nav-text">使用元字符</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E7%A9%BA%E7%99%BD%E5%AD%97%E7%AC%A6"><span class="nav-number">4.1.</span> <span class="nav-text">匹配空白字符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E6%95%B0%E5%AD%97"><span class="nav-number">4.2.</span> <span class="nav-text">匹配数字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E5%AD%97%E6%AF%8D%E5%92%8C%E6%95%B0%E5%AD%97"><span class="nav-number">4.3.</span> <span class="nav-text">匹配字母和数字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E7%A9%BA%E7%99%BD%E5%AD%97%E7%AC%A6-%E4%B8%8E%E9%9D%9E%E7%A9%BA%E7%99%BD%E5%AD%97%E7%AC%A6"><span class="nav-number">4.4.</span> <span class="nav-text">匹配空白字符(与非空白字符)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%88%96%E5%85%AB%E8%BF%9B%E5%88%B6%E6%95%B0%E5%80%BC"><span class="nav-number">4.5.</span> <span class="nav-text">匹配十六进制或八进制数值</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8D%E5%A4%8D%E5%8C%B9%E9%85%8D"><span class="nav-number">5.</span> <span class="nav-text">重复匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E9%9B%B6%E4%B8%AA%E6%88%96%E8%80%85%E5%A4%9A%E4%B8%AA%E5%AD%97%E7%AC%A6"><span class="nav-number">5.1.</span> <span class="nav-text">匹配零个或者多个字符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E9%9B%B6%E4%B8%AA%E6%88%96%E8%80%85%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6"><span class="nav-number">5.2.</span> <span class="nav-text">匹配零个或者一个字符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%A4%8D%E5%8C%B9%E9%85%8D%E6%8C%87%E5%AE%9A%E6%AC%A1%E6%95%B0"><span class="nav-number">5.3.</span> <span class="nav-text">重复匹配指定次数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%A4%8D%E6%AC%A1%E6%95%B0%E5%8C%BA%E9%97%B4"><span class="nav-number">5.4.</span> <span class="nav-text">重复次数区间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%B2%E6%AD%A2%E8%BF%87%E5%BA%A6%E5%8C%B9%E9%85%8D"><span class="nav-number">5.5.</span> <span class="nav-text">防止过度匹配</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%8D%E7%BD%AE%E5%8C%B9%E9%85%8D"><span class="nav-number">6.</span> <span class="nav-text">位置匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%B9%E7%95%8C"><span class="nav-number">6.1.</span> <span class="nav-text">边界</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E8%AF%8D%E8%BE%B9%E7%95%8C"><span class="nav-number">6.2.</span> <span class="nav-text">单词边界</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BE%B9%E7%95%8C"><span class="nav-number">6.3.</span> <span class="nav-text">字符串边界</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%AD%90%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">7.</span> <span class="nav-text">使用子表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%90%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E5%B5%8C%E5%A5%97"><span class="nav-number">7.1.</span> <span class="nav-text">子表达式的嵌套</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9E%E6%BA%AF%E5%BC%95%E7%94%A8-%E5%89%8D%E5%90%8E%E4%B8%80%E8%87%B4%E5%8C%B9%E9%85%8D"><span class="nav-number">8.</span> <span class="nav-text">回溯引用: 前后一致匹配</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">H</p>
+  <div class="site-description" itemprop="description">个人学习笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iosh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iosh"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/iosh/H.git/2020/03/13/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="H">
+      <meta itemprop="description" content="个人学习笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="胡先生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          正则表达式
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-03-13 18:20:04" itemprop="dateCreated datePublished" datetime="2020-03-13T18:20:04+00:00">2020-03-13</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-14 08:31:47" itemprop="dateModified" datetime="2021-04-14T08:31:47+00:00">2021-04-14</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>正则学习</p>
+<span id="more"></span>
+
+<p>准备:</p>
+<ul>
+<li>正则表达式必学必会</li>
+<li><a target="_blank" rel="noopener" href="https://regexr.com/">正则验证网站</a></li>
+</ul>
+<p>正则表达式并不是一种完备的程序设计语言,它甚至算不上是一种额能够直接安装运行的程序,正则表达式是内置于其他语言或者软件产品里面的迷你语言,大多数语言和工具都支持正则表达式.</p>
+<h1 id="使用正则表达式"><a href="#使用正则表达式" class="headerlink" title="使用正则表达式"></a>使用正则表达式</h1><p>不存在所谓的正则表达式程序,在绝大多数的产品软件,编程语言,工具程序和开发环境里,正则表达式语言都已被实现.</p>
+<p>正则表达式的使用方法和具体功能,在不同的应用程序和语言中各有不同</p>
+<p>在使用正则表达式之前,应该了解以下几个事实:</p>
+<ul>
+<li>同一个问题有很多种解决办法,正则并不是唯一的</li>
+<li>学习正则表达式和其他语言一样,重在实践实践,在实践.</li>
+</ul>
+<h1 id="匹配纯文本"><a href="#匹配纯文本" class="headerlink" title="匹配纯文本"></a>匹配纯文本</h1><p>直接使用纯文本进行匹配</p>
+<p>JavaScript</p>
+<p>匹配</p>
+<p>JavaScript is not Java<br>中的 JavaScript</p>
+<h2 id="有多个结果匹配"><a href="#有多个结果匹配" class="headerlink" title="有多个结果匹配"></a>有多个结果匹配</h2><p>大多数正则表达式引擎的默认行为是只返回一个匹配结果.为了匹配多个正则表达式提供了 <code>g</code></p>
+<h2 id="字母大小写问题"><a href="#字母大小写问题" class="headerlink" title="字母大小写问题"></a>字母大小写问题</h2><p>可以使用 <code>i</code> 标志来强制执行不区分大小写匹配搜索</p>
+<h2 id="匹配任意字符"><a href="#匹配任意字符" class="headerlink" title="匹配任意字符"></a>匹配任意字符</h2><p>在正则表达式中, <code>.</code> (英文句号) 可以匹配人以单个的字符</p>
+<h2 id="匹配特殊字符"><a href="#匹配特殊字符" class="headerlink" title="匹配特殊字符"></a>匹配特殊字符</h2><p>有些字符在正则中有特殊意义, 如果要匹配这个字符本身,就需要在符号签名加入一个\字符来进行转义.</p>
+<h1 id="匹配一组字符"><a href="#匹配一组字符" class="headerlink" title="匹配一组字符"></a>匹配一组字符</h1><h2 id="匹配多个字符中的某一个"><a href="#匹配多个字符中的某一个" class="headerlink" title="匹配多个字符中的某一个"></a>匹配多个字符中的某一个</h2><p>正则使用 [any characher] 捕获这个集合中的任意字符.<br>例如:<br>[ab]c<br>就会匹配<br>ac<br>bc</p>
+<p>这里还有字符区间:</p>
+<ul>
+<li>A-Z 匹配 A 到 Z 的所有大写字母</li>
+<li>a-z 匹配 a 到 z 的所有小写字母</li>
+<li>A-F 匹配 A 到 F 的所有大写字母</li>
+<li>A-z 匹配大小写的字母</li>
+</ul>
+<h2 id="取非匹配"><a href="#取非匹配" class="headerlink" title="取非匹配"></a>取非匹配</h2><p>就是给定一个集合,匹配这个集合之外的字符.</p>
+<p>使用元字符 <code>^</code>来标识对一个字符集合进行取非匹配.</p>
+<p>例如 [^zx] , 即不匹配 z 也不匹配 x, [^0-9] 不匹配任何数字</p>
+<h1 id="使用元字符"><a href="#使用元字符" class="headerlink" title="使用元字符"></a>使用元字符</h1><p>元字符是一些在正则表达式中有着特殊含义的字符,因为元字符在正则中有特殊的含义,所以这些字符就无法用来代表他们本身,所以需要转义</p>
+<p>例如:<br>t[t]<br>匹配 ‘t[t]’<br>如果不转义的话就会被理解为限定第二个字符为 t 而不是括号</p>
+<h2 id="匹配空白字符"><a href="#匹配空白字符" class="headerlink" title="匹配空白字符"></a>匹配空白字符</h2><p>常见空白字符</p>
+<table>
+<thead>
+<tr>
+<th>元字符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>[\b]</td>
+<td>回退(并删除)一个字符</td>
+</tr>
+<tr>
+<td>\f</td>
+<td>换页符</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>换行符</td>
+</tr>
+<tr>
+<td>\r</td>
+<td>回车符</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>制表符</td>
+</tr>
+<tr>
+<td>\v</td>
+<td>垂直制表符</td>
+</tr>
+</tbody></table>
+<h2 id="匹配数字"><a href="#匹配数字" class="headerlink" title="匹配数字"></a>匹配数字</h2><p>数字元字符</p>
+<table>
+<thead>
+<tr>
+<th>元字符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\d</td>
+<td>任何一个数字字符</td>
+</tr>
+<tr>
+<td>\D</td>
+<td>任何一个非数字字符</td>
+</tr>
+</tbody></table>
+<h2 id="匹配字母和数字"><a href="#匹配字母和数字" class="headerlink" title="匹配字母和数字"></a>匹配字母和数字</h2><table>
+<thead>
+<tr>
+<th>元字符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\w</td>
+<td>任何一个字母数字字符或者下划线等价于[a-zA-Z0-9_]</td>
+</tr>
+<tr>
+<td>\W</td>
+<td>和\w 相反</td>
+</tr>
+</tbody></table>
+<h2 id="匹配空白字符-与非空白字符"><a href="#匹配空白字符-与非空白字符" class="headerlink" title="匹配空白字符(与非空白字符)"></a>匹配空白字符(与非空白字符)</h2><table>
+<thead>
+<tr>
+<th>元字符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\s</td>
+<td>任何一个空白字符</td>
+</tr>
+<tr>
+<td>\S</td>
+<td>任何一个非空白字符</td>
+</tr>
+</tbody></table>
+<h2 id="匹配十六进制或八进制数值"><a href="#匹配十六进制或八进制数值" class="headerlink" title="匹配十六进制或八进制数值"></a>匹配十六进制或八进制数值</h2><ol>
+<li>使用十六进制 \x</li>
+<li>使用八进制 \0</li>
+</ol>
+<h1 id="重复匹配"><a href="#重复匹配" class="headerlink" title="重复匹配"></a>重复匹配</h1><p>要想匹配同一个字符或者字符集的多次重复,只要简单的给这个字符或者字符集加上一个+字符作为后缀就可以了, + 匹配一个或者多个字符. 例如 a 匹配 a 背身, a+将匹配一个或者多个连续出现的 a</p>
+<h2 id="匹配零个或者多个字符"><a href="#匹配零个或者多个字符" class="headerlink" title="匹配零个或者多个字符"></a>匹配零个或者多个字符</h2><p>使用 _ 元字符来完成, _ 的用法与 + 完全一样, 只要把它放在一个字符或者字符集后面,就可以匹配该字符连续出现零次或者多次的情况.</p>
+<h2 id="匹配零个或者一个字符"><a href="#匹配零个或者一个字符" class="headerlink" title="匹配零个或者一个字符"></a>匹配零个或者一个字符</h2><p>使用 ? 可以匹配一个字符的零次或者一次出现,最多不超过一次.</p>
+<p>例如使用<br>https?<br>可以匹配 http 和 https</p>
+<h2 id="重复匹配指定次数"><a href="#重复匹配指定次数" class="headerlink" title="重复匹配指定次数"></a>重复匹配指定次数</h2><p>使用{2}来指定匹配次数 a{5}匹配连续出现五次的 a</p>
+<h2 id="重复次数区间"><a href="#重复次数区间" class="headerlink" title="重复次数区间"></a>重复次数区间</h2><p>使用{1,5} 来匹配重复区间例如 a{1,4} 最少出现一次,最多出现四次, a{3, } 表示至少出现三次</p>
+<h2 id="防止过度匹配"><a href="#防止过度匹配" class="headerlink" title="防止过度匹配"></a>防止过度匹配</h2><p>贪婪就是尽可能多的匹配,懒惰就是尽可能少的匹配</p>
+<table>
+<thead>
+<tr>
+<th>贪婪元字符</th>
+<th>懒惰元字符</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>*</td>
+<td>*?</td>
+</tr>
+<tr>
+<td>+</td>
+<td>+?</td>
+</tr>
+<tr>
+<td>{b,}</td>
+<td>{n,}?</td>
+</tr>
+</tbody></table>
+<h1 id="位置匹配"><a href="#位置匹配" class="headerlink" title="位置匹配"></a>位置匹配</h1><h2 id="边界"><a href="#边界" class="headerlink" title="边界"></a>边界</h2><p>位置匹配用来解决在设呢地方进行字符串匹配操作的问题.</p>
+<h2 id="单词边界"><a href="#单词边界" class="headerlink" title="单词边界"></a>单词边界</h2><p>第一种边界,由限定符\b 指定单词边界,用来匹配一个单词的开始或者结尾</p>
+<p>\bcat\b</p>
+<p>the cat scattere his food all over the room</p>
+<p>匹配 cat</p>
+<p>\b 匹配的是一个这样的位置,这个位置位于一个能够来构成单词的字符和一个不能用来构成单词的字符之间</p>
+<h2 id="字符串边界"><a href="#字符串边界" class="headerlink" title="字符串边界"></a>字符串边界</h2><p>字符串边界用来进行与字符串有关的位置匹配,用来定一个字符串边界的元字符有两个:一个使用来定义字符串开头的^, 另一个是用来定义字符串结尾的$.</p>
+<h1 id="使用子表达式"><a href="#使用子表达式" class="headerlink" title="使用子表达式"></a>使用子表达式</h1><p>子表达式是一个跟大的表达式的一部分, 把一个表达式划分为一系列子表达式的目的是为了吧哪些子表达式当做一个独立元素来使用, 子表达式必须使用()包裹</p>
+<h2 id="子表达式的嵌套"><a href="#子表达式的嵌套" class="headerlink" title="子表达式的嵌套"></a>子表达式的嵌套</h2><p>子表达式允许嵌套,事实上,子表达式允许多重嵌套,这种嵌套层次理论上没有限制</p>
+<p>多重嵌套的子表达式可以构造出功能及其西青大的正则表达式,但是会变得难以阅读和理解,但是大多数嵌套子表达式都没有他们看上去那么复杂.</p>
+<h1 id="回溯引用-前后一致匹配"><a href="#回溯引用-前后一致匹配" class="headerlink" title="回溯引用: 前后一致匹配"></a>回溯引用: 前后一致匹配</h1><p>回溯引用用于匹配进行前后一致匹配.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag"># 正则表达式</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/02/29/SQL%E5%85%A5%E9%97%A8/" rel="prev" title="SQL入门">
+                  <i class="fa fa-chevron-left"></i> SQL入门
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/03/23/React/" rel="next" title="React">
+                  React <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">H</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

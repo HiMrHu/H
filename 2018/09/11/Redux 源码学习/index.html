@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.3.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="学习 Redux 源码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redux 源码学习">
+<meta property="og:url" content="https://github.com/iosh/H.git/2018/09/11/Redux%20%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="胡先生">
+<meta property="og:description" content="学习 Redux 源码">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-09-11T15:12:29.000Z">
+<meta property="article:modified_time" content="2021-04-14T08:31:47.422Z">
+<meta property="article:author" content="H">
+<meta property="article:tag" content="源码学习">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/iosh/H.git/2018/09/11/Redux%20%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>Redux 源码学习 | 胡先生</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">胡先生</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">前置条件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redux"><span class="nav-number">2.</span> <span class="nav-text">Redux</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#store"><span class="nav-number">2.1.</span> <span class="nav-text">store</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#createStore"><span class="nav-number">2.1.1.</span> <span class="nav-text">createStore</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">dispatch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#subscribe"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">subscribe</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#getState"><span class="nav-number">2.1.1.3.</span> <span class="nav-text">getState</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#combineReducers"><span class="nav-number">2.1.1.4.</span> <span class="nav-text">combineReducers</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bindActionCreators"><span class="nav-number">2.1.1.5.</span> <span class="nav-text">bindActionCreators</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#compose"><span class="nav-number">2.1.1.6.</span> <span class="nav-text">compose</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#applyMiddleware"><span class="nav-number">2.1.1.7.</span> <span class="nav-text">applyMiddleware</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0-React-Redux"><span class="nav-number">3.</span> <span class="nav-text">学习 React-Redux</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Provider"><span class="nav-number">3.1.</span> <span class="nav-text">Provider</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#connect"><span class="nav-number">3.2.</span> <span class="nav-text">connect</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">H</p>
+  <div class="site-description" itemprop="description">个人学习笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iosh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iosh"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/iosh/H.git/2018/09/11/Redux%20%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="H">
+      <meta itemprop="description" content="个人学习笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="胡先生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redux 源码学习
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-09-11 15:12:29" itemprop="dateCreated datePublished" datetime="2018-09-11T15:12:29+00:00">2018-09-11</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-14 08:31:47" itemprop="dateModified" datetime="2021-04-14T08:31:47+00:00">2021-04-14</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>学习 Redux 源码</p>
+<span id="more"></span>
+
+<h1 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h1><p>注解<a href="https://github.com/iosh/Redux">Redux 源码</a></p>
+<h1 id="Redux"><a href="#Redux" class="headerlink" title="Redux"></a>Redux</h1><p>根据<a href="https://github.com/reduxjs/redux/tree/master/examples/counter">Redux 提供的 TodoList</a>,思路是根据使用,反向的带入源码进行学习<br>这个例子中只使用了 <code>createStore</code> <code>dispatch</code> <code>getState</code></p>
+<h2 id="store"><a href="#store" class="headerlink" title="store"></a>store</h2><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">&quot;react-dom&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">&quot;redux&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> Counter <span class="keyword">from</span> <span class="string">&quot;./components/Counter&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> counter <span class="keyword">from</span> <span class="string">&quot;./reducers&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = createStore(counter);</span><br><span class="line"><span class="keyword">const</span> rootEl = <span class="built_in">document</span>.getElementById(<span class="string">&quot;root&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> render = <span class="function">() =&gt;</span></span><br><span class="line">  ReactDOM.render(</span><br><span class="line">    &lt;Counter</span><br><span class="line">      value=&#123;store.getState()&#125;</span><br><span class="line">      onIncrement=&#123;<span class="function">() =&gt;</span> store.dispatch(&#123; <span class="attr">type</span>: <span class="string">&quot;INCREMENT&quot;</span> &#125;)&#125;</span><br><span class="line">      onDecrement=&#123;<span class="function">() =&gt;</span> store.dispatch(&#123; <span class="attr">type</span>: <span class="string">&quot;DECREMENT&quot;</span> &#125;)&#125;</span><br><span class="line">    /&gt;,</span><br><span class="line">    rootEl</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">render();</span><br><span class="line">store.subscribe(render);</span><br></pre></td></tr></table></figure>
+
+<p>在上面的例子里, counter export default 一个函数, 即 reducer 函数, 这个函数作为参数传递给 createStore 生成 store</p>
+<h3 id="createStore"><a href="#createStore" class="headerlink" title="createStore"></a>createStore</h3><p>redux 的<a href="https://github.com/iosh/Redux/blob/master/Redux/index.js">入口文件</a>,判断当前运行代码是是否为开发版本代码,以及引入并导出了所有的模块</p>
+<p><a href="https://github.com/iosh/Redux/blob/master/Redux/createStore.js">createStore 注释版本源码</a></p>
+<p>createStore 函数接受 reducer 作为参数, 并且最终返回一个对象:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   dispatch,</span><br><span class="line">   subscribe,</span><br><span class="line">   getState,</span><br><span class="line">   replaceReducer,</span><br><span class="line">   [$$observable]: observable</span><br><span class="line"></span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>createStore 最终返回的是上面那样一个对象,有几种方法,并且内部储存了 Reducer 的返回值作为整个状态树的 state</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> store = createStore(counter)</span><br><span class="line"></span><br><span class="line"><span class="comment">// store 的值变成了</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    dispatch,</span><br><span class="line">    subscribe,</span><br><span class="line">    getState,</span><br><span class="line">    replaceReducer,</span><br><span class="line">    [$$observable]: observable</span><br><span class="line"></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来是调用 dispatch</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> render = <span class="function">() =&gt;</span></span><br><span class="line">  ReactDOM.render(</span><br><span class="line">    &lt;Counter</span><br><span class="line">      value=&#123;store.getState()&#125;</span><br><span class="line">      onIncrement=&#123;<span class="function">() =&gt;</span> store.dispatch(&#123; <span class="attr">type</span>: <span class="string">&quot;INCREMENT&quot;</span> &#125;)&#125;</span><br><span class="line">      onDecrement=&#123;<span class="function">() =&gt;</span> store.dispatch(&#123; <span class="attr">type</span>: <span class="string">&quot;DECREMENT&quot;</span> &#125;)&#125;</span><br><span class="line">    /&gt;,</span><br><span class="line">    rootEl</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line"><span class="comment">// 拿到了store 对象之后就可以调用 dispatch 方法来触发所有订阅更新</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="dispatch"><a href="#dispatch" class="headerlink" title="dispatch"></a>dispatch</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dispatch</span>(<span class="params">action</span>) </span>&#123;</span><br><span class="line">  <span class="comment">/** 判断action是不是一个普通对象 */</span></span><br><span class="line">  <span class="keyword">if</span> (!isPlainObject(action)) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(</span><br><span class="line">      <span class="string">&quot;Actions must be plain objects. &quot;</span> +</span><br><span class="line">        <span class="string">&quot;Use custom middleware for async actions.&quot;</span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 判断action是否存在 type 属性 */</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> action.type === <span class="string">&quot;undefined&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(</span><br><span class="line">      <span class="string">&#x27;Actions may not have an undefined &quot;type&quot; property. &#x27;</span> +</span><br><span class="line">        <span class="string">&quot;Have you misspelled a constant?&quot;</span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 判断是否在 dispatch 中 */</span></span><br><span class="line">  <span class="keyword">if</span> (isDispatching) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&quot;Reducers may not dispatch actions.&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    isDispatching = <span class="literal">true</span>;</span><br><span class="line">    <span class="comment">/** 调用 reducer 函数并且将当前state和action传过去 */</span></span><br><span class="line">    currentState = currentReducer(currentState, action);</span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    isDispatching = <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 一串赋值, 首先将 nextListenrs 赋值给 currentListeners */</span></span><br><span class="line">  <span class="keyword">const</span> listeners = (currentListeners = nextListeners);</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; listeners.length; i++) &#123;</span><br><span class="line">    <span class="comment">/** 逐个运行订阅函数进行发布 */</span></span><br><span class="line">    <span class="keyword">const</span> listener = listeners[i];</span><br><span class="line">    listener();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">/** 返回 action  */</span></span><br><span class="line">  <span class="keyword">return</span> action;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>dispatch 的源码就做了三件事</p>
+<ul>
+<li><p>判断 action 是否合法(必须是一个普通的包含 type 属性的对象)</p>
+</li>
+<li><p>调用 reducer 函数并且传入 state 和 action 作为参数,并将 reducer 的返回值作为新的 state</p>
+</li>
+<li><p>最后逐个调用函数发布更新通知(订阅发布模式),并将 action 返回</p>
+</li>
+</ul>
+<p>dispatch 是发布,那么必然有一个订阅函数,用来订阅事件</p>
+<h4 id="subscribe"><a href="#subscribe" class="headerlink" title="subscribe"></a>subscribe</h4><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> render = <span class="function">() =&gt;</span></span><br><span class="line">  ReactDOM.render(</span><br><span class="line">    &lt;Counter</span><br><span class="line">      value=&#123;store.getState()&#125;</span><br><span class="line">      onIncrement=&#123;<span class="function">() =&gt;</span> store.dispatch(&#123; <span class="attr">type</span>: <span class="string">&quot;INCREMENT&quot;</span> &#125;)&#125;</span><br><span class="line">      onDecrement=&#123;<span class="function">() =&gt;</span> store.dispatch(&#123; <span class="attr">type</span>: <span class="string">&quot;DECREMENT&quot;</span> &#125;)&#125;</span><br><span class="line">    /&gt;,</span><br><span class="line">    rootEl</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">render();</span><br><span class="line">store.subscribe(render);</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码调用 store.subscribe 并将 render 函数作为参数传递</p>
+<p>那么 subscribe 函数的源代码为</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">subscribe</span>(<span class="params">listener</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> listener !== <span class="string">&quot;function&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&quot;Expected the listener to be a function.&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (isDispatching) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(</span><br><span class="line">      <span class="string">&quot;You may not call store.subscribe() while the reducer is executing. &quot;</span> +</span><br><span class="line">        <span class="string">&quot;If you would like to be notified after the store has been updated, subscribe from a &quot;</span> +</span><br><span class="line">        <span class="string">&quot;component and invoke store.getState() in the callback to access the latest state. &quot;</span> +</span><br><span class="line">        <span class="string">&quot;See https://redux.js.org/api-reference/store#subscribe(listener) for more details.&quot;</span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> isSubscribed = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">  ensureCanMutateNextListeners(); <span class="comment">// 使监听器数组发生变化生成一个新的数组</span></span><br><span class="line">  nextListeners.push(listener); <span class="comment">// 之后 push 一个监听器</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">unsubscribe</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 之后返回一个函数用于卸载/取消监听器</span></span><br><span class="line">    <span class="keyword">if</span> (!isSubscribed) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (isDispatching) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(</span><br><span class="line">        <span class="string">&quot;You may not unsubscribe from a store listener while the reducer is executing. &quot;</span> +</span><br><span class="line">          <span class="string">&quot;See https://redux.js.org/api-reference/store#subscribe(listener) for more details.&quot;</span></span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    isSubscribed = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    ensureCanMutateNextListeners();</span><br><span class="line">    <span class="keyword">const</span> index = nextListeners.indexOf(listener);</span><br><span class="line">    nextListeners.splice(index, <span class="number">1</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过分析源码可以看出 subscribe 函数 接受一个函数作为参数,之后通过构造一个通知事件列表,并将事件 push 订阅数组内<br>最后 subscribe 函数返回一个函数用于取消订阅</p>
+<h4 id="getState"><a href="#getState" class="headerlink" title="getState"></a>getState</h4><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> render = <span class="function">() =&gt;</span></span><br><span class="line">  ReactDOM.render(</span><br><span class="line">    &lt;Counter</span><br><span class="line">      value=&#123;store.getState()&#125;</span><br><span class="line">      onIncrement=&#123;<span class="function">() =&gt;</span> store.dispatch(&#123; <span class="attr">type</span>: <span class="string">&quot;INCREMENT&quot;</span> &#125;)&#125;</span><br><span class="line">      onDecrement=&#123;<span class="function">() =&gt;</span> store.dispatch(&#123; <span class="attr">type</span>: <span class="string">&quot;DECREMENT&quot;</span> &#125;)&#125;</span><br><span class="line">    /&gt;,</span><br><span class="line">    rootEl</span><br><span class="line">  );</span><br></pre></td></tr></table></figure>
+
+<p>getState 方法的作用就非常简单了,直接返回当前的状态树,源码也非常简单.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getState</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (isDispatching) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(</span><br><span class="line">      <span class="string">&quot;You may not call store.getState() while the reducer is executing. &quot;</span> +</span><br><span class="line">        <span class="string">&quot;The reducer has already received the state as an argument. &quot;</span> +</span><br><span class="line">        <span class="string">&quot;Pass it down from the top reducer instead of reading it from the store.&quot;</span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> currentState;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>判断当前是否正在处理 dispatch,如果是的话抛出错误,如果不是返回当前 state 树</p>
+<h4 id="combineReducers"><a href="#combineReducers" class="headerlink" title="combineReducers"></a>combineReducers</h4><p>combineReducers 是用来组合被拆分的 reducer 将多个 reducer 组合成一个然后传递给 createStore</p>
+<p>合并后的 reducer 可以调用各个子 reducer，并把它们返回的结果合并成一个 state 对象。<br>由 combineReducers() 返回的 state 对象，<br>会将传入的每个 reducer 返回的 state 按其传递给 combineReducers() 时对应的 key 进行命名</p>
+<p>一般调用格式为</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;combineReducers&#125; <span class="keyword">from</span> <span class="string">&#x27;redux&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> combineReducers(&#123;</span><br><span class="line">  reducerName: reducer1,</span><br><span class="line">  reducerName1: reducer2,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">之后将函数返回结果传递给 createStore 生成 store</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://github.com/iosh/Redux/blob/master/Redux/combineReducers.js">带注释源码</a></p>
+<p>源码中, combineReducers 在开发环境下会对每个 reducers 属性进行检查,如果其中某个 reducer 的<br>返回值为 undefined 那么抛出错误,以及 reducer 的值是否为函数,如果再生产环境下,会忽略所有 reducers 里面值<br>不是函数的 reducer, 最终构造成一个 createStore 可以使用的 reducer</p>
+<p>而且会根据对象的 key 在 reducer 中生成对应属性名的对象, 每次逐个调用的时候都是传入 reducer 对应的部分 state</p>
+<h4 id="bindActionCreators"><a href="#bindActionCreators" class="headerlink" title="bindActionCreators"></a>bindActionCreators</h4><p>这个函数用的比较少</p>
+<p>bindActionCreators(actionCreators, dispatch)</p>
+<p>第一个参数可以使一个 actionCreatos 或者是一个 值为 actionCreatos 的对象<br>第二个参数就是 connect 传给的 或者 store 的 dispatch 了</p>
+<p>例如</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addTodo</span>(<span class="params">text</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    type: <span class="string">&#x27;ADD_TODO&#x27;</span>,</span><br><span class="line">    text</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bindActionCreators(addTodo, dispatch)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 或者</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> actionCreators = &#123;</span><br><span class="line">  addTodo: <span class="function">(<span class="params">text</span>) =&gt;</span> (&#123;</span><br><span class="line">    type: <span class="string">&#x27;ADD_TODO&#x27;</span>,</span><br><span class="line">    text</span><br><span class="line">  &#125;)</span><br><span class="line">  removeTodo: <span class="function">(<span class="params">id</span>) =&gt;</span> (&#123;</span><br><span class="line">    type: <span class="string">&#x27;REMOVE_TODO&#x27;</span>,</span><br><span class="line">    id</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bindActionCreators(actionCreators, dispatch)</span><br></pre></td></tr></table></figure>
+
+<p>上面两种介绍方案</p>
+<p>源码非常简单就不过多笔记凑字数了</p>
+<p><a href="https://github.com/iosh/Redux/blob/master/Redux/bindActionCreators.js">带注释源码</a></p>
+<h4 id="compose"><a href="#compose" class="headerlink" title="compose"></a>compose</h4><p><a href="https://github.com/iosh/Redux/blob/master/Redux/compose.js">带注释源码</a></p>
+<p>代码写的很巧妙,也没什么好说的</p>
+<h4 id="applyMiddleware"><a href="#applyMiddleware" class="headerlink" title="applyMiddleware"></a>applyMiddleware</h4><p>首先 createStore 判断有没有 applyMiddleware, 如果有那么就将 createStore 函数本身以及 reducer 和用于<br>初始化 state 的 preloadedState 作为参数传递给 applyMiddleware 的返回值</p>
+<p>那么 applyMiddleware 的返回值是什么:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">applyMiddleware</span>(<span class="params">...middlewares</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="params">createStore</span> =&gt;</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> store = createStore(...args);</span><br><span class="line">    <span class="keyword">let</span> dispatch = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(</span><br><span class="line">        <span class="string">`Dispatching while constructing your middleware is not allowed. `</span> +</span><br><span class="line">          <span class="string">`Other middleware would not be applied to this dispatch.`</span></span><br><span class="line">      );</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> middlewareAPI = &#123;</span><br><span class="line">      getState: store.getState,</span><br><span class="line">      dispatch: <span class="function">(<span class="params">...args</span>) =&gt;</span> dispatch(...args)</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">const</span> chain = middlewares.map(<span class="function"><span class="params">middleware</span> =&gt;</span> middleware(middlewareAPI));</span><br><span class="line">    dispatch = compose(...chain)(store.dispatch);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      ...store,</span><br><span class="line">      dispatch</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>返回了一个函数,函数接受一个参数在 createStore 中是这样调用这个函数的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">enhancer(createStore)(reducer, preloadedState);</span><br></pre></td></tr></table></figure>
+
+<p>它将 createStore 函数本身和其他参数传递给了这个返回的函数</p>
+<p>那么在返回头看 applyMiddleware</p>
+<p>这时候 applyMiddleware 拿到了 createStore 函数 和函数参数,进行了一次调用调用之后拿到了 store</p>
+<p>并且构造了一个带警告的 dispatch 函数</p>
+<p>之后对 applyMiddleware 参数数组进行依次执行,将拿到的 getStote 方法和 构造的带错误提示的 dispatch 方法<br>传递给了每个中间件</p>
+<p>之后又调用了 compose 方法,传入了所有的中间件作为参数,让中间件成为链式最后返回 store 和 他的所有方法</p>
+<h1 id="学习-React-Redux"><a href="#学习-React-Redux" class="headerlink" title="学习 React-Redux"></a>学习 React-Redux</h1><p>Redux 官网提供了一个和 React 更好配合使用的例子,例子中使用了 React-redux 这个辅助库来帮助在 React 中使用 Redux</p>
+<p><a href="https://github.com/reduxjs/redux/blob/master/examples/todos/src/index.js">React-Redux-TODO-LIST</a></p>
+<p>首先为了在 React 中更简单的使用 Redux , 所以 Redux 官方提供了一个 React-Redux 库,可以在 React 中高效和灵活的使用</p>
+<p>React-Redux 库为我们提供了一个组件和一个函数</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Provider, connect &#125; <span class="keyword">from</span> <span class="string">&quot;react-redux&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Provider"><a href="#Provider" class="headerlink" title="Provider"></a>Provider</h2><p><a href="https://github.com/iosh/Redux/blob/master/React-Redux/components/Provider.js">带注释源码</a></p>
+<p>源码也比较简单</p>
+<p>主要就是一个高阶组件内部使用了, <code>context</code> 这个 API (旧版), 对下属所有子组件进行通信</p>
+<p><Provider> 组价接受一个 store 作为属性,这个属性在内部会被赋值为组件属性, 并且设置了 childContextTypes 和 getChildContext</p>
+<p>React 会向下自动传递参数,任何组件只要在它的子组件中,就能通过定义 contextType 来获取参数</p>
+<h2 id="connect"><a href="#connect" class="headerlink" title="connect"></a>connect</h2><p>这个组件比较复杂, 主要承担了几种职责:</p>
+<ul>
+<li>判断传入参数是否合法</li>
+<li>通过一个高阶组件,内部通过 context 订阅 store 并且判断是否发生变化来决定组件是否进行重新渲染</li>
+</ul>
+<p>其他的写的比较绕,看起来不容易理解,仅仅理解了一个大概</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/" rel="tag"># 源码学习</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/09/06/%E5%B8%B8%E8%A7%81POST%E6%8F%90%E4%BA%A4%E6%95%B0%E6%8D%AE%E6%96%B9%E5%BC%8F%E4%B8%8ECORS%E8%B7%A8%E5%9F%9F%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/" rel="prev" title="常见 POST 提交数据方式与 CORS 跨域资源共享">
+                  <i class="fa fa-chevron-left"></i> 常见 POST 提交数据方式与 CORS 跨域资源共享
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/12/01/Docker%E5%85%A5%E9%97%A8/" rel="next" title="Docker入门">
+                  Docker入门 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">H</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

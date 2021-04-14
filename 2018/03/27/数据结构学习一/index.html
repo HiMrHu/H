@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.3.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="学习数据结构笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构学习一">
+<meta property="og:url" content="https://github.com/iosh/H.git/2018/03/27/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0%E4%B8%80/index.html">
+<meta property="og:site_name" content="胡先生">
+<meta property="og:description" content="学习数据结构笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-03-27T16:55:19.000Z">
+<meta property="article:modified_time" content="2021-04-14T08:31:47.426Z">
+<meta property="article:author" content="H">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/iosh/H.git/2018/03/27/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0%E4%B8%80/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>数据结构学习一 | 胡先生</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">胡先生</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">数学基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E5%92%8C%E5%AF%B9%E6%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text">指数和对数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.1.</span> <span class="nav-text">指数函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E6%95%B0"><span class="nav-number">1.1.2.</span> <span class="nav-text">指数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E6%95%B0"><span class="nav-number">1.1.3.</span> <span class="nav-text">对数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.3.</span> <span class="nav-text">什么是数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%AE%97%E6%B3%95"><span class="nav-number">1.4.</span> <span class="nav-text">什么是算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%A5%BD%E7%9A%84%E7%AE%97%E6%B3%95"><span class="nav-number">1.5.</span> <span class="nav-text">什么是好的算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6%E7%9A%84%E6%B8%90%E8%BF%9B%E8%A1%A8%E7%A4%BA%E6%B3%95"><span class="nav-number">1.6.</span> <span class="nav-text">算法复杂度的渐进表示法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%A4%A7%E5%AD%90%E5%88%97%E5%92%8C%E9%97%AE%E9%A2%98"><span class="nav-number">1.7.</span> <span class="nav-text">最大子列和问题</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">H</p>
+  <div class="site-description" itemprop="description">个人学习笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iosh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iosh"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/iosh/H.git/2018/03/27/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0%E4%B8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="H">
+      <meta itemprop="description" content="个人学习笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="胡先生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据结构学习一
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-03-27 16:55:19" itemprop="dateCreated datePublished" datetime="2018-03-27T16:55:19+00:00">2018-03-27</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-14 08:31:47" itemprop="dateModified" datetime="2021-04-14T08:31:47+00:00">2021-04-14</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>学习数据结构笔记</p>
+<span id="more"></span>
+
+<h1 id="数学基础"><a href="#数学基础" class="headerlink" title="数学基础"></a>数学基础</h1><h2 id="指数和对数"><a href="#指数和对数" class="headerlink" title="指数和对数"></a>指数和对数</h2><h3 id="指数函数"><a href="#指数函数" class="headerlink" title="指数函数"></a>指数函数</h3><p>$$f(x) = 2^x$$</p>
+<p>其中 x = 0 那么<br>$$2^0 = 1$$<br>其中 x = 1 那么<br>$$2^1 = 2$$<br>其中 x = 2 那么，以此类推<br>$$2^2 = 4$$<br>$$2^3 = 8$$<br>$$2^{-1} = \frac {1} {2}$$</p>
+<p>对应的对数是函数是指数的反函数</p>
+<p>$$f^-1(x) = log_2^x$$</p>
+<p>其中-1 读作 inverse，就是 f 的反函数</p>
+<p>反推上面的指数函数得出</p>
+<p>$$log_2^4 = 2$$<br>$$log_2^8 = 3$$<br>$$log_2^1 = 0$$</p>
+<p>下面是以 10 为底的对数和指数</p>
+<p>$$f(x) = 10^x$$</p>
+<h3 id="指数"><a href="#指数" class="headerlink" title="指数"></a>指数</h3><p>$$f^-1(x) = log_10^x$$</p>
+<p>以 10 为底的的对数叫做常用对数<br>任何数的 0 次方都是 1</p>
+<p>$$10^0 = 1$$<br>$$10^1 = 10$$<br>$$10^2 = 100$$<br>$$10^3 = 1000$$<br>$$10^-1 = \frac {1} {10}$$</p>
+<p>$${log_{10}}^{1000} = 3$$</p>
+<p>那么<br>$${log_7}^{49} = 2$$</p>
+<p>同理</p>
+<p>$${log_5}^{125} = 3$$</p>
+<p>在程序员的世界中基本上没有注明的底全都是以 2 为底，如果有其他底数会特别注明。</p>
+<p>指数运算运算性质</p>
+<p>主要运算性质：</p>
+<ol>
+<li><p>$$a^m*a^n = a^{m+n}$$</p>
+</li>
+<li><p>$$\frac {a^m} {a^n} = a^{m-n}$$</p>
+</li>
+<li><p>$$(a^m)^n = a^{mn}$$</p>
+</li>
+<li><p>$$(ab)^n = a^n * b^n$$</p>
+</li>
+<li><p>$$a{\frac{m}{n}} = h\sqrt a^m$$</p>
+</li>
+</ol>
+<p>就最后一个不太容易懂，太菜了</p>
+<h3 id="对数"><a href="#对数" class="headerlink" title="对数"></a>对数</h3><p>对数式的运算性质</p>
+<p>主要运算性质：</p>
+<ol>
+<li><p>$${log_a}^m + {log_a}^n = {log_a}^{mn}$$</p>
+</li>
+<li><p>$${log_a}^m - {log_a}^n = {log_a}^{\frac{m}{n}}$$</p>
+</li>
+<li><p>$${log_a}^{b^n} = n {log_a}^b $$</p>
+</li>
+<li><p>$${log_{am}}^b = {\frac{1}{m}}{log_a}^b$$</p>
+</li>
+<li><p>$${log_a}^b = {\frac{log_c^b}{log_c^a}}$$</p>
+</li>
+<li><p>$$a{log_a}^b = b^c$$</p>
+</li>
+</ol>
+<p>这个没懂</p>
+<ol start="7">
+<li><p>$${log_a}^a = 1$$</p>
+</li>
+<li><p>$${log_a}^b ={\frac{1}{log_b^a}}$$</p>
+</li>
+</ol>
+<p>上面的都没怎么看懂，学校学的都忘了。真菜</p>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><blockquote>
+<p>数据结构是计算机中储存、组织数据的方式，通常情况下，精心的数据结构可以带来最优效率的算法 – 维基百科</p>
+</blockquote>
+<p>从上面的定义可以看到数据结构和算法是息息相关的</p>
+<p>举例：<br>图书馆如何摆放图书</p>
+<p>方法一：随便放，哪里有空放哪里随便放。<br>但是这样的存在的问题是，找书的时候就很乏力，书一多几乎是无法完成的任务。</p>
+<p>方法二：按照书名拼音字母进行顺序排放<br>这样我们找书就可以使用二分查找法，随机抽一本书看看我们要找的书字母是在这本书之前还是之后，在确定向前还是向后然后重复这个步骤，就很快找到想要的书了，但是这种方法，弊端是插入新书，因为已经摆放好的书按顺序拜访，中间没有空位，那么插入新书就要把旧书向后挪，最坏情况是要移掉所有</p>
+<p>那么现实中书店是如何分类的，在现实中书店是根据图书的分类进行摆放，可能分类之中还有分类</p>
+<p>方法三：将书架划分成若干区域，每个区域按一种类别摆放图书，在每种分类中，再按照书名进行摆放。<br>这样查找只需要在上面的二分查找之前，先确定分类，然后二分查找，插入新书也是先找到分类然后找到位置，将书向后移，然后插入，这样，插入和查找都比较方便。</p>
+<p>例子二：<br>写一个程序，实现一个函数 PrintN，使得传入一个正整数 N 的参数后，能顺序从 1 打印到 N 的所有整数。</p>
+<p>c 语言实现</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">int</span> m = <span class="number">1000</span>;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">1</span>; i&lt;=m; i++)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>JavaScript 实现<br>JavaScript 就在 node 里面跑就好了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">main</span>(<span class="params">m</span>)</span>&#123;</span><br><span class="line"> <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">1</span>; i &lt;= m; i++)&#123;</span><br><span class="line">     <span class="built_in">console</span>.log(i);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line">main(process.argv[<span class="number">2</span>])</span><br><span class="line">运行的时候就是node 文件名.js 参数M的值</span><br><span class="line">node在运行代码的时候可以通过process.argv来获取命令行参数，第<span class="number">0</span>,<span class="number">1</span>位是程序路径和主模块文件路径第三位<span class="number">2</span>才是要获取的参数</span><br></pre></td></tr></table></figure>
+
+<p>第二种递归实现方法</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintN</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n)</span><br><span class="line">    &#123;</span><br><span class="line">        PrintN(n - <span class="number">1</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">clock_t</span> start, tend;</span><br><span class="line">    start = clock();</span><br><span class="line">    <span class="keyword">int</span> n = <span class="number">100000</span>;</span><br><span class="line">    PrintN(n);</span><br><span class="line">    tend = clock();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lf\n&quot;</span>, (<span class="keyword">double</span>)(tend-start)/CLOCKS_PER_SEC);</span><br><span class="line">&#125;</span><br><span class="line">在n = <span class="number">100000</span>的时候可以看到比较明显的执行过程</span><br><span class="line">而执行时间大概<span class="number">0.02</span>微秒</span><br></pre></td></tr></table></figure>
+
+<p>JavaScript 实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.time(<span class="string">&quot;a&quot;</span>)</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">main</span>(<span class="params">m</span>)</span>&#123;</span><br><span class="line"> <span class="keyword">if</span>(m == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line"> main(m-<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.timeEnd(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">main(process.argv[<span class="number">2</span>])</span><br><span class="line">main(process.argv[<span class="number">2</span>])</span><br><span class="line"><span class="number">10000</span>平均执行时间在<span class="number">0.15</span>毫秒</span><br><span class="line">node x.js <span class="number">100000</span> 内存溢出</span><br><span class="line"><span class="number">10000</span></span><br><span class="line">就可以看到明显的执行过程</span><br></pre></td></tr></table></figure>
+
+<h2 id="什么是数据结构"><a href="#什么是数据结构" class="headerlink" title="什么是数据结构"></a>什么是数据结构</h2><ol>
+<li><p><code>数据对象</code>在计算机中组织的方式</p>
+</li>
+<li><p>数据对象必定与一系列加在其上的<code>操作</code>相关联</p>
+</li>
+<li><p>完成这些操作所用的方法就是<code>算法</code></p>
+</li>
+</ol>
+<blockquote>
+<p>抽象数据类型</p>
+</blockquote>
+<p>这句话分为<br>数据类型，数据类型包含：<br>数据对象集<br>数据集合相关联的操作集</p>
+<p>抽象：<br>与存放数据的机器无关<br>与数据存储的物理结构无关<br>与实现操作的算法和编程语言也无关</p>
+<h2 id="什么是算法"><a href="#什么是算法" class="headerlink" title="什么是算法"></a>什么是算法</h2><blockquote>
+<p>算法，算法是一个有限的指令集，可以接受或者不接受输入，但是一定有输出，一定在有限的步骤后终止，每一条指令必须有重复的目标，不可以由歧义，要在计算机能处理的范围之内，描述应该不依赖任何一种具体的语言实现的手段。</p>
+</blockquote>
+<p>举例：<br>选择排序算法的伪代码描述</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SelectionSort</span><span class="params">(<span class="keyword">int</span> List[], <span class="keyword">int</span> N)</span></span>&#123;</span><br><span class="line">    <span class="comment">// 将N个整数List[0]...List[N-1]进行非递归排序</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; N; i ++)</span><br><span class="line">    MinPosition = ScanForMin(<span class="built_in">list</span>, i, N<span class="number">-1</span>);</span><br><span class="line">    从List[i]到List[N<span class="number">-1</span>]中找到最小元素，并将其位置复制给MinPosition.</span><br><span class="line">    Swap(List[i], List[MinPostion]);</span><br><span class="line">    将未排序的最小元素切换到有序部分的最后位置</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="什么是好的算法"><a href="#什么是好的算法" class="headerlink" title="什么是好的算法"></a>什么是好的算法</h2><p>算法的指标有一下两种：</p>
+<ol>
+<li><p>空间复杂度 S(n) - 根据算法写成的程序在执行时<code>占用储存单元的长度</code>。这个长度和输入数据的规模有关，空间复杂度过高的算法可能导致使用的内存超限，造成程序非正常终端。</p>
+</li>
+<li><p>时间复杂度 T(n) - 根据算法写成的程序在执行时<code>耗费时间的长度</code>，这个长度也和输入数据的规模有关，时间复杂度过高的低效算法也可能导致有生之年系列。</p>
+</li>
+</ol>
+<blockquote>
+<p>在分析一般算法的效率时，主要关注两种复杂度</p>
+</blockquote>
+<ol>
+<li>最坏情况复杂度</li>
+</ol>
+<p>$$T_{worst}(n)$$</p>
+<p>2.平均复杂度</p>
+<p>$$T_{avg}(n)\leq T_{worst}(n)$$</p>
+<h2 id="算法复杂度的渐进表示法"><a href="#算法复杂度的渐进表示法" class="headerlink" title="算法复杂度的渐进表示法"></a>算法复杂度的渐进表示法</h2><p>其中 log 是对数上面数学基础讲了<br>n log n 就是 n×log n</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>1</th>
+<th>2</th>
+<th>4</th>
+<th>8</th>
+<th>16</th>
+<th>32</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>log n</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<td>n</td>
+<td>1</td>
+<td>2</td>
+<td>4</td>
+<td>8</td>
+<td>16</td>
+<td>32</td>
+</tr>
+<tr>
+<td>n log n</td>
+<td>0</td>
+<td>2</td>
+<td>8</td>
+<td>24</td>
+<td>64</td>
+<td>160</td>
+</tr>
+<tr>
+<td>$$n^2$$</td>
+<td>1</td>
+<td>4</td>
+<td>16</td>
+<td>64</td>
+<td>256</td>
+<td>1024</td>
+</tr>
+<tr>
+<td>$$n^3$$</td>
+<td>1</td>
+<td>8</td>
+<td>64</td>
+<td>512</td>
+<td>4096</td>
+<td>32768</td>
+</tr>
+<tr>
+<td>$$2^n$$</td>
+<td>2</td>
+<td>4</td>
+<td>16</td>
+<td>256</td>
+<td>65536</td>
+<td>很大</td>
+</tr>
+<tr>
+<td>n!(n 乘阶）</td>
+<td>1</td>
+<td>2</td>
+<td>24</td>
+<td>40326</td>
+<td>很大</td>
+<td>很大</td>
+</tr>
+</tbody></table>
+<h2 id="最大子列和问题"><a href="#最大子列和问题" class="headerlink" title="最大子列和问题"></a>最大子列和问题</h2><p>算法 1：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MaxSubseqSuml</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> N)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ThisSum, MaxSum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> i, j, k;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; N; i ++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(j = i; j &lt; N; j++)&#123;</span><br><span class="line">            ThisSum = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(k = i; k &lt;= j; k ++)&#123;</span><br><span class="line">                ThisSum += A[k];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(THisSum &gt; MaxSum)&#123;</span><br><span class="line">                MaxSum = ThisSum;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">算法复杂度是n³，三层<span class="keyword">for</span>循环。最简单的判断方法。</span><br></pre></td></tr></table></figure>
+
+<p>算法二：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MaxSubseqSum2</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> N)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ThisSum, MaxSum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> i, j;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; N; i ++)&#123;</span><br><span class="line">        ThisSum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(j = i; j &lt; N; j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(ThisSum &gt; MaxSum)&#123;</span><br><span class="line">                MaxSum = ThisSum;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> MaxSum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">复杂度为n²，两个<span class="keyword">for</span></span><br></pre></td></tr></table></figure>
+
+<p>算法三：</p>
+<p>分而治之</p>
+<p>这里是实现了一段分而治之的代码<br>复杂度是 n log n，我的理解就是比如 n = 8<br>那么就是 8 log 8 = 8 × 2³ = 64；</p>
+<p>算法四：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MaxSubseqSum4</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ThisSum, MaxSum;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    ThisSum = MaxSum = <span class="number">0</span>; <span class="comment">// 连续赋值是不好的</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; N; i++)&#123;</span><br><span class="line">        ThisSum += A[i];</span><br><span class="line">        <span class="keyword">if</span>(ThisSum &gt; MaxSum)&#123;</span><br><span class="line">            MaxSum = ThisSum;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(ThisSum &lt; <span class="number">0</span>)&#123; <span class="comment">// 这段比较重要，判断和是不是负数，如果是负数，那么就归零。</span></span><br><span class="line">            ThisSum = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> MaxSum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">这段代码看懂了，复杂度是N遍历一次就完了</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/03/26/JavaScript%E4%B8%AD%E7%9A%84%E6%95%B0%E7%BB%84/" rel="prev" title="JavaScript中的数组">
+                  <i class="fa fa-chevron-left"></i> JavaScript中的数组
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/03/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0%E4%BA%8C%E7%BA%BF%E6%80%A7%E7%BB%93%E6%9E%84/" rel="next" title="数据结构学习二线性结构">
+                  数据结构学习二线性结构 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">H</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

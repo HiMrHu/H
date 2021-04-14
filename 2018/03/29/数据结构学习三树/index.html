@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.3.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="学习数据结构笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构学习三树">
+<meta property="og:url" content="https://github.com/iosh/H.git/2018/03/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0%E4%B8%89%E6%A0%91/index.html">
+<meta property="og:site_name" content="胡先生">
+<meta property="og:description" content="学习数据结构笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-03-29T21:01:49.000Z">
+<meta property="article:modified_time" content="2021-04-14T08:31:47.426Z">
+<meta property="article:author" content="H">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/iosh/H.git/2018/03/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0%E4%B8%89%E6%A0%91/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>数据结构学习三树 | 胡先生</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">胡先生</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%91"><span class="nav-number">1.</span> <span class="nav-text">树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%A0%91"><span class="nav-number">1.1.</span> <span class="nav-text">什么是树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E6%89%BE"><span class="nav-number">1.2.</span> <span class="nav-text">查找</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E6%9F%A5%E6%89%BE"><span class="nav-number">1.2.1.</span> <span class="nav-text">静态查找</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%91%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">1.3.</span> <span class="nav-text">树的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%91%E7%9A%84%E8%A1%A8%E7%A4%BA"><span class="nav-number">1.4.</span> <span class="nav-text">树的表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">1.5.</span> <span class="nav-text">二叉树的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%87%A0%E4%B8%AA%E9%87%8D%E8%A6%81%E6%80%A7%E8%B4%A8"><span class="nav-number">1.6.</span> <span class="nav-text">二叉树的几个重要性质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86"><span class="nav-number">1.7.</span> <span class="nav-text">二叉树的遍历</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">H</p>
+  <div class="site-description" itemprop="description">个人学习笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iosh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iosh"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/iosh/H.git/2018/03/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0%E4%B8%89%E6%A0%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="H">
+      <meta itemprop="description" content="个人学习笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="胡先生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据结构学习三树
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-03-29 21:01:49" itemprop="dateCreated datePublished" datetime="2018-03-29T21:01:49+00:00">2018-03-29</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-14 08:31:47" itemprop="dateModified" datetime="2021-04-14T08:31:47+00:00">2021-04-14</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>学习数据结构笔记</p>
+<span id="more"></span>
+
+<h1 id="树"><a href="#树" class="headerlink" title="树"></a>树</h1><h2 id="什么是树"><a href="#什么是树" class="headerlink" title="什么是树"></a>什么是树</h2><p>树常用来表示客观世界中许多失误存在的层次关系</p>
+<p>分层次组织在管理上具有更高的效率</p>
+<p>数据管理的基本操作之一：查找</p>
+<h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><p>那么如何实现高效率的查找。</p>
+<p>查找：根据某个给定<code>关键字K</code>，从<code>集合R</code>中找出关键字与<code>K</code>相同的记录</p>
+<p>查找又分为静态查找，和动态查找。</p>
+<p>静态查找： 集合中记录是<code>固定</code>的，没有插入和删除操作，只有查找比如字典。</p>
+<p>动态查找： 集合中记录是<code>动态变化</code>的，除了查找，还可能发生插入和删除比如数据库。</p>
+<h3 id="静态查找"><a href="#静态查找" class="headerlink" title="静态查找"></a>静态查找</h3><p>静态查找最普通方式之一：</p>
+<p>静态查找，静态查找顾名思义，就是头到尾，遍历循环查找所有值，当数据量一大那么这个查找是相当费时的。</p>
+<p>二分查找，二分查找有个前提，前提是元素在数组内必须是有序的，而且是连续的，可以从大到小也可以从小到大，连续排列，那么可以使用二分查找法，进行查找，核心思路是先找到数组中间的值，对比是大于还是小于，那么就可以看忽略一边，重复上面的步骤，就可以快速的查找到了。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">BinarySearch</span><span class="params">(List Tbl, ElementType K)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 在表Tbl中查找关键字为K的元素</span></span><br><span class="line">    <span class="keyword">int</span> left, rigth,mid,NoFound=<span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">    left = <span class="number">1</span>; <span class="comment">// 初始左边界</span></span><br><span class="line">    rigth = Tbl-&gt;Length; <span class="comment">// 初始右边界</span></span><br><span class="line">    <span class="keyword">while</span>(left &lt;= right)&#123;</span><br><span class="line">        mid=(left+right)/<span class="number">2</span>; <span class="comment">// 计算元素中间值</span></span><br><span class="line">        <span class="keyword">if</span>(K &lt; Tbl-&gt;Element[mid])&#123;</span><br><span class="line">            right = mid <span class="number">-1</span>; <span class="comment">// 调整左边界</span></span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(K &gt; Tbl-&gt;Element[mid])&#123;</span><br><span class="line">            left = mid + <span class="number">1</span>; <span class="comment">// 调整右边界</span></span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> mid; <span class="comment">// 查找成功返回下标</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> NotFound; <span class="comment">// 查找失败返回 -1;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>二分查找大大的降低了算法复杂度</p>
+<p>那么为什么这么高效呢。</p>
+<p>首先我们对数组进行了有序化，让他按照规律进行排列，使得查找过程中就知道怎么做。</p>
+<h2 id="树的定义"><a href="#树的定义" class="headerlink" title="树的定义"></a>树的定义</h2><p>树：N （N &gt; 0）个节点构成的有限集合，当 N = 0 时， 称为空树，对于任何一棵非空树，他具备一下性质：</p>
+<p>树中有一个称为<code>根</code>的特殊节点，用 R 表示。<br>其余节点可以分为 m(m &gt; 0)个<code>互不相交</code>的有限集，其中每个集合本身又是一棵树，称为原 C 树的<code>子树</code></p>
+<p>关于树的基本术语：</p>
+<ol>
+<li><p>节点的度：节点的子树个数</p>
+</li>
+<li><p>树的度：树的所有节点中最大的度数</p>
+</li>
+<li><p>叶节点：度为 0 的节点</p>
+</li>
+<li><p>父节点：有子树的节点是其子树的根节点的父节点</p>
+</li>
+<li><p>子节点：若 a 节点是 b 节点的父节点，则称 b 节点是 a 节点的子节点，子节点也称作孩子节点</p>
+</li>
+<li><p>兄弟节点：具有同一个父节点的各节点彼此是兄弟节点</p>
+</li>
+<li><p>路径和路径长度：从节点 n1 到 nk 的路径为一个节点序列 n1，n2….nk 是 n1 的父节点，路径所包含边的个数为路径的长度。</p>
+</li>
+<li><p>祖先节点：沿树根到某一节点路径上多有节点都是这个节点的祖先节点</p>
+</li>
+<li><p>子孙节点：某一节点的子树中所有节点是这个节点的子孙</p>
+</li>
+<li><p>节点的层次：规定根节点在 1 层，其他任意节点的层数是其父节点的层数+1</p>
+</li>
+<li><p>树的深度：树中所有节点中最大层次是这棵树的深度</p>
+</li>
+</ol>
+<h2 id="树的表示"><a href="#树的表示" class="headerlink" title="树的表示"></a>树的表示</h2><p>二叉树，每个节点只有两个分支。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">TNode</span> *<span class="title">Position</span>;</span></span><br><span class="line"><span class="keyword">typedef</span> Position BinTree; <span class="comment">// 二叉树类型</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TNode</span>&#123;</span> <span class="comment">// 树结点定义</span></span><br><span class="line">    ElementType Data; <span class="comment">// 结点数据</span></span><br><span class="line">    BinTree Left;     <span class="comment">// 指向左子树</span></span><br><span class="line">    BinTree Right;    <span class="comment">// 指向右子树</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二叉树的定义"><a href="#二叉树的定义" class="headerlink" title="二叉树的定义"></a>二叉树的定义</h2><p>二叉树：一个又穷的节点集合，这个集合可以为空，若不为空，则他是由根节点和称为左子树和右子树的两个不相交的二叉树组成</p>
+<p>斜二叉树。完美二叉树，满二叉树。都学过书上看过</p>
+<h2 id="二叉树的几个重要性质"><a href="#二叉树的几个重要性质" class="headerlink" title="二叉树的几个重要性质"></a>二叉树的几个重要性质</h2><ol>
+<li><p>一个二叉树第 I 层的最大节点数为：2 的 i 次方-1， i &gt;= 1</p>
+</li>
+<li><p>深度为 k 的二叉树有最大节点总数为：2 的 k 次方-1， k &gt;= 1</p>
+</li>
+<li><p>对于任何非空二叉树，若 n0 表示叶节点的个数、n2 是度为 2 的非叶节点个数，那么两者满足关系$$n_0 = n_2 +1$$</p>
+</li>
+</ol>
+<h2 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h2><ol>
+<li>先序遍历</li>
+</ol>
+<p>遍历过程为：访问根节点，先序遍历其左子树，先序遍历其右子树。</p>
+<ol start="2">
+<li>中序遍历</li>
+</ol>
+<p>遍历过程为：中序遍历其左子树，访问跟节点，中序遍历其右子树。</p>
+<ol start="3">
+<li>后序遍历<br>遍历过程为：后序遍历其左子树，后序遍历其右子树，访问根节点。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/03/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0%E4%BA%8C%E7%BA%BF%E6%80%A7%E7%BB%93%E6%9E%84/" rel="prev" title="数据结构学习二线性结构">
+                  <i class="fa fa-chevron-left"></i> 数据结构学习二线性结构
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/03/31/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0%E5%9B%9B%E6%A0%91/" rel="next" title="数据结构学习四树">
+                  数据结构学习四树 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">H</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

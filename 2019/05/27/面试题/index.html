@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.3.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="一些面试题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端面试题">
+<meta property="og:url" content="https://github.com/iosh/H.git/2019/05/27/%E9%9D%A2%E8%AF%95%E9%A2%98/index.html">
+<meta property="og:site_name" content="胡先生">
+<meta property="og:description" content="一些面试题">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-05-27T16:30:46.000Z">
+<meta property="article:modified_time" content="2021-04-14T08:31:47.426Z">
+<meta property="article:author" content="H">
+<meta property="article:tag" content="面试相关">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/iosh/H.git/2019/05/27/%E9%9D%A2%E8%AF%95%E9%A2%98/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>前端面试题 | 胡先生</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">胡先生</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#css-%E9%83%A8%E5%88%86"><span class="nav-number">1.</span> <span class="nav-text">css 部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#css-%E7%9B%92%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">css 盒模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D%E5%92%8C%E7%9B%B8%E5%AF%B9%E5%AE%9A%E4%BD%8D%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.2.</span> <span class="nav-text">绝对定位和相对定位的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B0%B4%E5%B9%B3%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD"><span class="nav-number">1.3.</span> <span class="nav-text">水平垂直居中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0-5px-%E7%9A%84%E7%BA%BF"><span class="nav-number">1.4.</span> <span class="nav-text">0.5px 的线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#flex"><span class="nav-number">1.5.</span> <span class="nav-text">flex</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#javascript"><span class="nav-number">2.</span> <span class="nav-text">javascript</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#call-apply-bind"><span class="nav-number">2.1.</span> <span class="nav-text">call apply bind</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AD%E5%8C%85"><span class="nav-number">2.2.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#this"><span class="nav-number">2.3.</span> <span class="nav-text">this</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#var-let-const"><span class="nav-number">2.4.</span> <span class="nav-text">var let const</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript-%E5%8E%9F%E5%9E%8B-%E5%8E%9F%E5%9E%8B%E9%93%BE"><span class="nav-number">2.5.</span> <span class="nav-text">JavaScript 原型, 原型链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98-%E5%86%92%E6%B3%A1-%E6%8D%95%E8%8E%B7"><span class="nav-number">2.6.</span> <span class="nav-text">事件委托 冒泡 捕获</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript-%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95-async-await-%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">2.7.</span> <span class="nav-text">JavaScript 异步处理方法 async&#x2F;await 的实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.8.</span> <span class="nav-text">防抖和节流的区别是什么</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React"><span class="nav-number">3.</span> <span class="nav-text">React</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#React-%E7%9A%84-key-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">3.1.</span> <span class="nav-text">React 的 key 的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue-React-%E7%9A%84%E5%B7%AE%E5%88%AB"><span class="nav-number">3.2.</span> <span class="nav-text">Vue React 的差别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E6%A0%88"><span class="nav-number">3.2.1.</span> <span class="nav-text">执行栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Event-loop"><span class="nav-number">3.2.2.</span> <span class="nav-text">Event loop</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3"><span class="nav-number">4.</span> <span class="nav-text">浏览器相关</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B5%81%E7%A8%8B"><span class="nav-number">4.1.</span> <span class="nav-text">浏览器渲染流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E7%BB%98-%E5%92%8C-%E9%87%8D%E6%8E%92"><span class="nav-number">4.2.</span> <span class="nav-text">重绘 和 重排</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript-%E5%BC%95%E8%B5%B7%E7%9A%84%E9%87%8D%E7%BB%98%E9%87%8D%E6%8E%92"><span class="nav-number">4.3.</span> <span class="nav-text">JavaScript 引起的重绘重排</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP"><span class="nav-number">4.4.</span> <span class="nav-text">HTTP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%BA%E7%BC%93%E5%AD%98%E5%92%8C%E5%8D%8F%E8%AE%AE%E7%BC%93%E5%AD%98"><span class="nav-number">4.4.1.</span> <span class="nav-text">强缓存和协议缓存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SCRF-%E5%92%8C-XSS"><span class="nav-number">4.5.</span> <span class="nav-text">SCRF 和 XSS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%A8%E5%9F%9F"><span class="nav-number">4.6.</span> <span class="nav-text">跨域</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">H</p>
+  <div class="site-description" itemprop="description">个人学习笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iosh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iosh"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/iosh/H.git/2019/05/27/%E9%9D%A2%E8%AF%95%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="H">
+      <meta itemprop="description" content="个人学习笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="胡先生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端面试题
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-05-27 16:30:46" itemprop="dateCreated datePublished" datetime="2019-05-27T16:30:46+00:00">2019-05-27</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-14 08:31:47" itemprop="dateModified" datetime="2021-04-14T08:31:47+00:00">2021-04-14</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>一些面试题</p>
+<span id="more"></span>
+
+<h1 id="css-部分"><a href="#css-部分" class="headerlink" title="css 部分"></a>css 部分</h1><h2 id="css-盒模型"><a href="#css-盒模型" class="headerlink" title="css 盒模型"></a>css 盒模型</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model0">MDN 文档</a></p>
+</blockquote>
+<p>对一个文档进行布局时候, 浏览器渲染引擎会根据<code>css 基础框盒模型</code> 将所有元素都表示为一个矩形盒子, css 决定了盒子的大小位置以及其他一些属性.</p>
+<p>盒子由四个部分或称区域组成 <code>内容边界</code> <code>内边距边界</code> <code>边框边界</code> <code>外边框边界</code></p>
+<p>通过下面的 css 来改变应该如何计算一个元素的总宽度和总高度</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">box-sizing</span>: content-box;  默认值</span><br><span class="line"><span class="attribute">box-sizing</span>: border-box;</span><br></pre></td></tr></table></figure>
+
+<h2 id="绝对定位和相对定位的区别"><a href="#绝对定位和相对定位的区别" class="headerlink" title="绝对定位和相对定位的区别"></a>绝对定位和相对定位的区别</h2><ul>
+<li>绝对定位相对于元素最近的已定位的祖先元素进行定位</li>
+<li>相对定位是根据元素在文档中的初始位置进行定位</li>
+</ul>
+<h2 id="水平垂直居中"><a href="#水平垂直居中" class="headerlink" title="水平垂直居中"></a>水平垂直居中</h2><ul>
+<li>flex</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">display</span>: flex;</span><br><span class="line"><span class="attribute">justify-content</span>: center;</span><br><span class="line">align-item: center;</span><br></pre></td></tr></table></figure>
+
+<h2 id="0-5px-的线"><a href="#0-5px-的线" class="headerlink" title="0.5px 的线"></a>0.5px 的线</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">height</span>: <span class="number">1px</span>;</span><br><span class="line"><span class="attribute">background</span>: <span class="number">#333</span>;</span><br><span class="line"><span class="attribute">transform</span>: <span class="built_in">scaleX</span>(<span class="number">0.5</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="flex"><a href="#flex" class="headerlink" title="flex"></a>flex</h2><p>是一个简写属性, 规定了 flex-grow flex-shrink flex-basis</p>
+<ul>
+<li>flex-grow 他指定了 flex 容器中剩余的多少空间应该分配给项目</li>
+<li>flex-shrink 制定了 flex 元素的收缩规则, flex 元素仅在默认宽度和大于容器的是才会发生收缩,其收缩的大小一句是 flex-shrink</li>
+<li>flex-basis 指定了 flex 元素在主轴方向上的初始大小, 如果不是用 box-sizing 改变盒模型的话,那么这个属性就决定了 flex 元素的内容盒的尺寸</li>
+</ul>
+<h1 id="javascript"><a href="#javascript" class="headerlink" title="javascript"></a>javascript</h1><h2 id="call-apply-bind"><a href="#call-apply-bind" class="headerlink" title="call apply bind"></a>call apply bind</h2><p>三个函数都是重新指定函数内部的 this</p>
+<ul>
+<li>call 方法接收的是一个包含等多个参数的<code>列表</code></li>
+<li>apply 方法接收的是一个包含税多个参数的 <code>数组</code></li>
+<li>bind 方法和 call 类似,但是 bind 是返回一个新的函数</li>
+</ul>
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Closures">MDN</a></p>
+<p>函数和对其周围状态的引用捆绑在一起构成的闭包, 从而实现让你在可以从内部函数访问外部函数作用域.</p>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Glossary/Scope">作用域 MDN</a></p>
+<h2 id="this"><a href="#this" class="headerlink" title="this"></a>this</h2><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/this">MDN this</a></p>
+<ol>
+<li>无论严格模式还是非严格模式,在全局环境中 this 都指向全局对象</li>
+</ol>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在控制台输入</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">this</span>.a = <span class="number">100</span>;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">global</span>.a);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">this</span> === <span class="built_in">global</span>);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>在函数内执行, 严格模式和非严格模式会有差别</li>
+</ol>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">t1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(t1() === <span class="built_in">global</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">t2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="meta">  &quot;use strict&quot;</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(t2() === <span class="literal">undefined</span>);</span><br></pre></td></tr></table></figure>
+
+<p>在 ES 模块中所有代码运行于严格模式之下</p>
+<ol start="3">
+<li>this 的值取决于函数/对象被调用的方式</li>
+</ol>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = &#123;</span><br><span class="line">  <span class="function"><span class="title">b</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a.b() === a);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> d = &#123;</span><br><span class="line">  e: a.b,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(d.e() === d);</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>bind this</li>
+</ol>
+<p>一般可以使用 函数原型上的 bind 方法来为一个方法指定其中的 this</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> b = &#123; <span class="attr">b</span>: <span class="number">1</span> &#125;;</span><br><span class="line"><span class="keyword">const</span> d = &#123; <span class="attr">d</span>: <span class="number">1</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a() === <span class="built_in">global</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a.bind(b)() === b);</span><br><span class="line"><span class="built_in">console</span>.log(a.bind(d)() === d);</span><br></pre></td></tr></table></figure>
+
+<p>简易实现 bind 方法</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myBind</span>(<span class="params">self, fn, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fn.apply(self, args);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params">arg</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(arg);</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> b = &#123; <span class="attr">b</span>: <span class="number">1</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(myBind(b, a, <span class="string">&quot;arg&quot;</span>)() === b);</span><br></pre></td></tr></table></figure>
+
+<h2 id="var-let-const"><a href="#var-let-const" class="headerlink" title="var let const"></a>var let const</h2><p>var 会有变量提升<br>let const 会有临时性死区</p>
+<p>loop 里面 var 和 let 的差异, var 始终是一个变量, let 每次循环的变量都是新的</p>
+<h2 id="JavaScript-原型-原型链"><a href="#JavaScript-原型-原型链" class="headerlink" title="JavaScript 原型, 原型链"></a>JavaScript 原型, 原型链</h2><p>JavaScript 只有一种结构, 对象, 每个实例对象又有一个私有属性 <code>__proto__</code>, 它指向他的构造函数的原型对象 <code>prototype</code>, 而该原型对象也有一个自己的原型对象 <code>__proto__</code>, 一直层层向上,直到找到 null, 而根据定义 null 没有原型,到此为止.</p>
+<p>而所有的 JavaScript 对象都是位于顶端的 Object 的实例.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.state = <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> b = <span class="keyword">new</span> A();</span><br><span class="line"></span><br><span class="line"><span class="comment">// __proto__ 是非标准的,但是浏览器都实现了它,如果有需要请使用 Object.getPrototypeOf 来获取 prototype</span></span><br><span class="line"><span class="built_in">console</span>.log(b.__proto__);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getPrototypeOf(b) === b.__proto__); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(b <span class="keyword">instanceof</span> A); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(b <span class="keyword">instanceof</span> <span class="built_in">Object</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="事件委托-冒泡-捕获"><a href="#事件委托-冒泡-捕获" class="headerlink" title="事件委托 冒泡 捕获"></a>事件委托 冒泡 捕获</h2><p>对于比较多的元素进行绑定事件,可以不用一个一个的为元素进行绑定,将原本的事件委托绑定给父元素, 让父元素利用事件冒泡的特性从而可以处理, 在事件内可以通过 <code>event.target</code> 可以知道实际发生事件的位置和元素.</p>
+<p>冒泡和捕获</p>
+<p>事件冒泡是由微软提出的, 主张事件应该从目标元素一直向上触发,一直传播到 document 之上 例如</p>
+<p>div -&gt; body -&gt; html -&gt; document</p>
+<p>而事件捕获是由王景公司提出的,主张事件从最外层一直向最内侧进行传播 例如</p>
+<p>document -&gt; html -&gt; body -&gt; div</p>
+<p>之后 w3c 委员会进行了折中处理, 先捕获然后再冒泡</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target.addEventListener(<span class="keyword">type</span>, listener, useCapture);</span><br></pre></td></tr></table></figure>
+
+<p>第三个参数 useCapture 如果是 true 那么就会在捕获阶段触发, 默认是 false</p>
+<h2 id="JavaScript-异步处理方法-async-await-的实现原理"><a href="#JavaScript-异步处理方法-async-await-的实现原理" class="headerlink" title="JavaScript 异步处理方法 async/await 的实现原理"></a>JavaScript 异步处理方法 async/await 的实现原理</h2><p>异步处理方法:</p>
+<ol>
+<li>使用回调函数</li>
+<li>事件监听, 通过创建一个自定义事件, 来监听指定事件,监听到之后就运行代码</li>
+<li>Promise</li>
+</ol>
+<p>async await 是 generator 的语法糖. 内置了执行器.不需要在手动 next()</p>
+<p>简单的说 async/await === Promise + generator + yield</p>
+<h2 id="防抖和节流的区别是什么"><a href="#防抖和节流的区别是什么" class="headerlink" title="防抖和节流的区别是什么"></a>防抖和节流的区别是什么</h2><p>防抖是将多次执行变为指定事件内的最后一次执行, 而节流是变成固定时间只执行一次.</p>
+<h1 id="React"><a href="#React" class="headerlink" title="React"></a>React</h1><h2 id="React-的-key-的作用"><a href="#React-的-key-的作用" class="headerlink" title="React 的 key 的作用"></a>React 的 key 的作用</h2><p>React 更新主要基于下面三种策略:</p>
+<ol>
+<li>如果层级相同的节点 DOM 结构发生了变化 例如从 div 变为了 p 那么直接卸载重新创建</li>
+<li>如果层级相同的节点 DOM 结构没有发生变化, 但是属性变了 例如 <div>1</div> 变成了 <div className='app'>1</div> 那么 React 只会更新这个属性</li>
+<li>所有同一级的子节点,他们都会通过 key 来区分. 如果 key 相同那么他就会更新属性,如果 key 不同, 那么他就 卸载重新创建.</li>
+</ol>
+<h2 id="Vue-React-的差别"><a href="#Vue-React-的差别" class="headerlink" title="Vue React 的差别"></a>Vue React 的差别</h2><p>首先 Vue 是一个渐进式的框架, 你可以只用 Vue 做 View 也可以使用 Vue 全家桶, 而 React 只是一个 View 的库.</p>
+<p>React 基于 jsx 语法, Vue 基于 html 模板. 两者都是 虚拟 dom</p>
+<p>Vue 通过代理 data 可以检测出哪些数据发生了变化从而进行更新, 并且更新时同步的<br>React 通过基于时间的调度器, 对 Fiber 对象链表遍历对比更新.</p>
+<h3 id="执行栈"><a href="#执行栈" class="headerlink" title="执行栈"></a>执行栈</h3><p>执行栈可以理解为储存函数调用的栈结构,单向的(只能从一侧进栈或者出栈)遵循先进后出的原则.<br>运行一个函数就会将函数和相关的变量储存在栈内, 当函数运行完毕之后会从栈中弹出. 栈的大小是有限制的,根据浏览器不同限制也不尽相同.如果超过最大栈深度,那么就会抛出错误.</p>
+<h3 id="Event-loop"><a href="#Event-loop" class="headerlink" title="Event loop"></a>Event loop</h3><p>JavaScript 在执行的过程中会产生执行环境,这些执行环境会被顺序价值入到执行栈中, 如果遇到异步代码,会被挂起并加入到执行队列中, 一旦执行栈为空, Event Loop 就会从 Task 队列中拿出要执行的代码并放入执行栈中进行执行. 所以从本质上来讲 异步也是同步行为.</p>
+<p>不同的任务会被放在不同的<code>队列</code>中, 任务可以分为微任务和宏任务, 在 ES6 规范中, 微任务被称为 jobs, 宏任务被称为 task</p>
+<p>如果当前宏任务执行完毕, 那么会查询当前是否有微任务需要执行, 如果有就执行没有就开始下一轮 Event loop</p>
+<p>举例说明</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">1</span>); <span class="comment">// 执行1</span></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="number">6</span>), <span class="number">0</span>); <span class="comment">// 非同步宏任务放在 task 队列</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 输出2 并且 jobs 队列添加了两个微任务</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">2</span>);</span><br><span class="line">  resolve();</span><br><span class="line">&#125;)</span><br><span class="line">  .then(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="number">4</span>))</span><br><span class="line">  .then(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="number">5</span>));</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">3</span>); <span class="comment">// 执行3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3 执行完成之后执行队列就空了,线程就会去看看有没有需要执行的微任务</span></span><br><span class="line"><span class="comment">// 发现微任务 执行 4, 执行 5,</span></span><br><span class="line"><span class="comment">// 微任务也执行完毕了</span></span><br><span class="line"><span class="comment">// 开启下一轮事件循环拿出 setTimeout 看看到期没有,没到期就放回去继续等,到期了就执行</span></span><br></pre></td></tr></table></figure>
+
+<p>常见微任务:</p>
+<ul>
+<li>process.nextTick</li>
+<li>Promise</li>
+<li>Object.observe</li>
+<li>MutaionObserver</li>
+</ul>
+<p>宏任务:</p>
+<ul>
+<li>JavaScript 同步代码</li>
+<li>setTimeout</li>
+<li>setTnterval</li>
+<li>setImmediate</li>
+<li>I/O</li>
+<li>UI render</li>
+</ul>
+<h1 id="浏览器相关"><a href="#浏览器相关" class="headerlink" title="浏览器相关"></a>浏览器相关</h1><h2 id="浏览器渲染流程"><a href="#浏览器渲染流程" class="headerlink" title="浏览器渲染流程"></a>浏览器渲染流程</h2><ol>
+<li><p>浏览器收到 document 响应之后,会对文本进行解析, 首先解析成 AST ,之后再将语法树解析成实际 Node ,从而构建出一颗 DOM 树</p>
+</li>
+<li><p>浏览器在解析的同时也会一边处理资源,对资源进行加载和运行,遇到 css 就开始请求 css 文件,调用布局引擎开始解析 css,类似也是解析语法,生成树,树生成实际 css Node 树.</p>
+</li>
+</ol>
+<p>在这两者解析的过程也会开始处理布局 js 等. 这也就是为什么 js 会堵塞渲染, 和 js 放在文档末尾比较好.</p>
+<h2 id="重绘-和-重排"><a href="#重绘-和-重排" class="headerlink" title="重绘 和 重排"></a>重绘 和 重排</h2><p>重绘是指当前节点需要更改外观,而不需要更改布局, 比如字体颜色 div 背景颜色之类的.</p>
+<p>重排就是当布局或者几何属性发生变化的时候就称为重排</p>
+<p>重排必定会发生重绘, 重绘则不一定会引发重排, 重排所需要的城北比重绘高很多, 改变父节点内的子节点很可能回调熬制父节点一系列重排.</p>
+<p>所以以下操作会影响性能:</p>
+<ul>
+<li>改变窗口大小</li>
+<li>改变字体</li>
+<li>添加或者删除样式</li>
+<li>改变布局</li>
+</ul>
+<h2 id="JavaScript-引起的重绘重排"><a href="#JavaScript-引起的重绘重排" class="headerlink" title="JavaScript 引起的重绘重排"></a>JavaScript 引起的重绘重排</h2><ul>
+<li><p>JavaScript 在事件循环的时候执行完微任务列表之后,就会判断 document 是否需要更新, 因为浏览器是 60Hz 刷新率,所以每 16.6ms 才会更新一次</p>
+</li>
+<li><p>判断有没有 resize 或者 scroll 事件, 有就执行, 所以这两个事件也是 16.6 ms 以上才会执行一次</p>
+</li>
+<li><p>更新动画</p>
+</li>
+<li><p>判断是否有全屏操作事件</p>
+</li>
+<li><p>执行 requsetAnimationFram 回调</p>
+</li>
+<li><p>执行 IntersectionObserver 回调</p>
+</li>
+<li><p>如果还有剩余时间 执行 requestIdleCallback 回调</p>
+</li>
+</ul>
+<p>同时在 JavaScript 使用一些获取大小位置信息的 api 都会引起强制重绘,以获得最新值 <a target="_blank" rel="noopener" href="https://gist.github.com/paulirish/5d52fb081b3570c81e3a">说明文档</a>, 举例说明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">elementA.className &#x3D; &quot;a&quot;;</span><br><span class="line">const aHeight &#x3D; element.offsetHeight; &#x2F;&#x2F; 此时就会强制重排</span><br><span class="line">elementB.className &#x3D; &quot;b&quot;;</span><br><span class="line">const heightB &#x3D; elementB.offsetHeight; &#x2F;&#x2F; 此时再次强制重排获得最新值</span><br></pre></td></tr></table></figure>
+
+<p>那么可以通过如下修改来避免重复重绘</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">elementA.className &#x3D; &quot;a&quot;;</span><br><span class="line">elementB.className &#x3D; &quot;b&quot;;</span><br><span class="line">const aHeight &#x3D; element.offsetHeight; &#x2F;&#x2F; 强制重排获得最新值</span><br><span class="line">const heightB &#x3D; elementB.offsetHeight; &#x2F;&#x2F; 不会强制重排因为已经是最新值</span><br></pre></td></tr></table></figure>
+
+<h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><h3 id="强缓存和协议缓存"><a href="#强缓存和协议缓存" class="headerlink" title="强缓存和协议缓存"></a>强缓存和协议缓存</h3><ul>
+<li>浏览器会在加载资源时,根据请求头的过期时间以及 cache-control 判断是否命中缓存, 是则直接从缓存读取资源</li>
+<li>如果没有命中缓存,浏览器会发送一个请求到服务器,通过 last-modified 和 etag 验证资源是否命中缓存. 如果命中.服务器将返回这个请求,但是不会反悔资源的数据.</li>
+<li>如果两者都没严明中,则直接从服务器加载资源</li>
+</ul>
+<p>强缓存</p>
+<ul>
+<li><p>expires<br>expores 是一个 HTTP 响应头.标识资源过期时间, 但是 expires 受限于本地时间,如果修改了时间,则可能造成缓存失效</p>
+</li>
+<li><p>cache-control</p>
+</li>
+</ul>
+<p>cache-control 优先级高于 expires 表示的是相对时间.</p>
+<p>协商缓存</p>
+<p>如果某个资源没有命中强缓存, 就会发送一个请求到服务器,验证协商请求是否命中,如果命中协商缓存,请求响应返回的 HTTP 状态为 304,并显示一个 not modified</p>
+<ul>
+<li>last-modified if-modified-since</li>
+</ul>
+<p>last-modified 标识本地文件最后修改日期, 浏览器会在请求头上加上 if-modified-sice (返回上次的 last-modified) 访问服务器在该日期后资源是否有更新,有更新的话就会将新资源发送回来</p>
+<ul>
+<li>Etag if-none-match</li>
+</ul>
+<p>Etag 就像一个指纹,每次资源变化都会导致 etag 变化,和最后修改时间没关系, etag 可以保证每个资源都是唯一的<br>if-none-match 和头会将上次返回的 etag 发送给服务器, 询问该资源的 etag 是否有更新,有变动就发回新的资源回来</p>
+<p>etag 优先级比 last-modified 高</p>
+<ul>
+<li>一些文件也许会周期性的改变,但是他的内容官兵不改变,这个时候并不希望客户端认为这个文件被修改了,而工薪 get</li>
+<li>某些文件修改非常频繁, if modifled since 能检查到的是秒级的而 etag 可以</li>
+<li>某些服务器不能精确的得到文件的最后修改时间</li>
+</ul>
+<p>几种状态码的区别</p>
+<ul>
+<li>200 强缓存 expires cache-control 失效,返回新的资源文件</li>
+<li>200 from cache 强缓存都在,未过期,从本地读取</li>
+<li>304 last modified 和 etag 没有过期,服务端返回 304</li>
+</ul>
+<h2 id="SCRF-和-XSS"><a href="#SCRF-和-XSS" class="headerlink" title="SCRF 和 XSS"></a>SCRF 和 XSS</h2><ul>
+<li><p>XSS 指攻击者对客户端网页注入一些恶意脚本的方式进行攻击.通常是获取用户隐私数据. 防范方式也很简单.转义用户输入,不相信任何用户输入. 设置 cookie 的 HTTPOnly 禁止 JavaScript 访问 cookie</p>
+</li>
+<li><p>SCRF 是指跨站请求伪造, cookie 有个 donmain 属性指定, 如果 cookie 的域和页面的域相同,那么就是第一方 cookie, 如果 cookie 的域和页面不同,则称为第三方域, 页面上包含图片或者其他域上的资源时, 第一方 cookie 也会发送给他们的服务器</p>
+</li>
+</ul>
+<p>http referer 头</p>
+<p>http 会有一个 Referer 头用来表明这个请求是从哪来的.但是网站可以选择不发送任何 referer</p>
+<p>添加 token 头<br>可以要求请求添加一个单独的 token 来防止攻击</p>
+<h2 id="跨域"><a href="#跨域" class="headerlink" title="跨域"></a>跨域</h2><p>跨域是指一个域的脚本请求另一个域的资源或者请求.同源就是 协议 + 域名 + 端口必须一致,否则非同域</p>
+<p>同源限制一下行为:</p>
+<ul>
+<li>cookie loacalstorage 和 indexDB 无法读取</li>
+<li>DOM 和 Js 无法获得</li>
+<li>请求无法发送或者被拦截</li>
+</ul>
+<p>跨域解决方法:</p>
+<ul>
+<li>跨域资源共享 CORS 跨域</li>
+<li>nginx 代理</li>
+<li>JSONP 跨域</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/" rel="tag"># 面试相关</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/05/17/Promise%E7%AC%94%E8%AE%B0/" rel="prev" title="Promise笔记">
+                  <i class="fa fa-chevron-left"></i> Promise笔记
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/08/29/%E4%BD%BF%E7%94%A8GitLab%20CI%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" rel="next" title="用 GitLab CI 进行持续集成">
+                  用 GitLab CI 进行持续集成 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">H</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

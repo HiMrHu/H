@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.3.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="学习 visual studio code">
+<meta property="og:type" content="article">
+<meta property="og:title" content="visual studio code">
+<meta property="og:url" content="https://github.com/iosh/H.git/2019/12/16/visual%20studio%20code/index.html">
+<meta property="og:site_name" content="胡先生">
+<meta property="og:description" content="学习 visual studio code">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://code.visualstudio.com/assets/api/extension-guides/debugger-extension/debug-arch1.png">
+<meta property="og:image" content="https://code.visualstudio.com/assets/api/extension-guides/debugger-extension/debug-arch2.png">
+<meta property="article:published_time" content="2019-12-16T19:02:58.000Z">
+<meta property="article:modified_time" content="2021-04-14T08:31:47.422Z">
+<meta property="article:author" content="H">
+<meta property="article:tag" content="vs code">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://code.visualstudio.com/assets/api/extension-guides/debugger-extension/debug-arch1.png">
+
+
+<link rel="canonical" href="https://github.com/iosh/H.git/2019/12/16/visual%20studio%20code/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>visual studio code | 胡先生</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">胡先生</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%B8%8E%E7%BC%96%E8%AF%91"><span class="nav-number">1.</span> <span class="nav-text">安装与编译</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">目录结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#VS-code-%E5%A6%82%E4%BD%95%E6%9B%B4%E6%96%B0"><span class="nav-number">3.</span> <span class="nav-text">VS code 如何更新</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#UpdateService-%E5%AE%9E%E4%BE%8B%E5%8C%96"><span class="nav-number">3.1.</span> <span class="nav-text">UpdateService 实例化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AbstractUpdateService"><span class="nav-number">3.2.</span> <span class="nav-text">AbstractUpdateService</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#update-ts"><span class="nav-number">3.2.1.</span> <span class="nav-text">update.ts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#checkForUpdates"><span class="nav-number">3.2.2.</span> <span class="nav-text">checkForUpdates</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#win-doCheckForUpdates"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">win doCheckForUpdates</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#doApplyUpdate"><span class="nav-number">3.2.2.1.1.</span> <span class="nav-text">doApplyUpdate</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#linux-doCheckForUpdates"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">linux doCheckForUpdates</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#darwin-macOS"><span class="nav-number">3.2.2.3.</span> <span class="nav-text">darwin(macOS)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#downloadUpdate"><span class="nav-number">3.2.3.</span> <span class="nav-text">downloadUpdate</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#win-doDownloadUpdate"><span class="nav-number">3.2.3.1.</span> <span class="nav-text">win doDownloadUpdate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#linux-doDownloadUpdate"><span class="nav-number">3.2.3.2.</span> <span class="nav-text">linux doDownloadUpdate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#darwin-macOS-1"><span class="nav-number">3.2.3.3.</span> <span class="nav-text">darwin(macOS)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#applyUpdate"><span class="nav-number">3.2.4.</span> <span class="nav-text">applyUpdate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#win-doApplyUpdate"><span class="nav-number">3.2.5.</span> <span class="nav-text">win doApplyUpdate</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#linux-doApplyUpdate"><span class="nav-number">3.2.5.1.</span> <span class="nav-text">linux doApplyUpdate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#darwin-macOS-doApplyUpdate"><span class="nav-number">3.2.5.2.</span> <span class="nav-text">darwin(macOS) doApplyUpdate</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#quitAndInstall"><span class="nav-number">3.2.6.</span> <span class="nav-text">quitAndInstall</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#win-doQuitAndInstall"><span class="nav-number">3.2.6.1.</span> <span class="nav-text">win doQuitAndInstall</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#linux-doQuitAndInstall"><span class="nav-number">3.2.6.2.</span> <span class="nav-text">linux doQuitAndInstall</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#darwin-macOS-2"><span class="nav-number">3.2.7.</span> <span class="nav-text">darwin(macOS)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#isLatestVersion"><span class="nav-number">3.2.8.</span> <span class="nav-text">isLatestVersion</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vs-code-debugger-extension"><span class="nav-number">4.</span> <span class="nav-text">vs code debugger extension</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">H</p>
+  <div class="site-description" itemprop="description">个人学习笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iosh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iosh"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/iosh/H.git/2019/12/16/visual%20studio%20code/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="H">
+      <meta itemprop="description" content="个人学习笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="胡先生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          visual studio code
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-12-16 19:02:58" itemprop="dateCreated datePublished" datetime="2019-12-16T19:02:58+00:00">2019-12-16</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-14 08:31:47" itemprop="dateModified" datetime="2021-04-14T08:31:47+00:00">2021-04-14</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>学习 visual studio code</p>
+<span id="more"></span>
+
+<h1 id="安装与编译"><a href="#安装与编译" class="headerlink" title="安装与编译"></a>安装与编译</h1><ol>
+<li><p>下载源码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/microsoft/vscode</span><br></pre></td></tr></table></figure></li>
+<li><p>安装环境</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> vscode</span><br><span class="line">yarn <span class="comment"># 安装依赖</span></span><br><span class="line"><span class="comment"># 安装c++模块编译环境，会下载 Python2 和 visual studio 2015 tools 比较大比较慢</span></span><br><span class="line">npm install --global --production windows-build-tools  --vs2015</span><br></pre></td></tr></table></figure></li>
+<li><p>运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">yarn watch <span class="comment"># 编译ts</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行 electron</span></span><br><span class="line"><span class="comment"># windows</span></span><br><span class="line">.\scripts\code.bat</span><br><span class="line"></span><br><span class="line"><span class="comment"># macOS and Linux</span></span><br><span class="line">./scripts/code.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h1><figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">E:/vscode</span><br><span class="line">├── azure-pipelines.yml  // ci</span><br><span class="line">├── build // build stript</span><br><span class="line">├── cglicenses.json //  licence</span><br><span class="line">├── cgmanifest.json</span><br><span class="line">├── CONTRIBUTING.md // 贡献说明</span><br><span class="line">├── extensions // vs 内置扩展</span><br><span class="line">├── gulpfile.js  // gulp 脚本</span><br><span class="line">├── LICENSE.txt</span><br><span class="line">├── node_modules</span><br><span class="line">├── out // ts 编译输出</span><br><span class="line">├── package.json</span><br><span class="line">├── product.json</span><br><span class="line">├── README.md</span><br><span class="line">├── remote</span><br><span class="line">├── resources // 一些特定平台的资源</span><br><span class="line">├── scripts  // 运行electron的脚本 和 一些测试运行脚本</span><br><span class="line">├── src  // 源代码</span><br><span class="line">├── test // 测试</span><br><span class="line">├── ThirdPartyNotices.txt</span><br><span class="line">├── tsfmt.json</span><br><span class="line">├── tslint.json</span><br><span class="line">└── yarn.lock</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="VS-code-如何更新"><a href="#VS-code-如何更新" class="headerlink" title="VS code 如何更新"></a>VS code 如何更新</h1><p>通过搜索关键字，可以定位到 <code>src\vs\platform\update\electron-main\abstractUpdateService.ts</code> , 然后会发现这是一个 TS 的 <code>abstract</code> class 同目录下还有 <code>updateServeice.[平台名称].ts</code> 说明具体更新是根据环境不同而基于抽象方法的具体执行，之后可以找到 <code>updateIpc.ts</code> 文件，在通过搜索这个文件名称，就可以找到 Code Application 文件 <code>src\vs\code\electron-main\app.ts</code>.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src\vs\code\electron-main\app.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123; IUpdateService &#125; <span class="keyword">from</span> <span class="string">&quot;vs/platform/update/common/update&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; UpdateChannel &#125; <span class="keyword">from</span> <span class="string">&quot;vs/platform/update/electron-main/updateIpc&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src\vs\code\electron-main\app.ts</span></span><br><span class="line"><span class="comment">// IUpdateService 方法初始化</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">async</span> createServices(machineId: <span class="built_in">string</span>, <span class="attr">trueMachineId</span>: <span class="built_in">string</span> | <span class="literal">undefined</span>, <span class="attr">sharedProcess</span>: SharedProcess, <span class="attr">sharedProcessClient</span>: <span class="built_in">Promise</span>&lt;Client&lt;<span class="built_in">string</span>&gt;&gt;): <span class="built_in">Promise</span>&lt;IInstantiationService&gt; &#123;</span><br><span class="line">      	<span class="comment">// 省略部分代码</span></span><br><span class="line">    <span class="keyword">const</span> services = <span class="keyword">new</span> ServiceCollection();</span><br><span class="line">		<span class="comment">// 省略部分代码</span></span><br><span class="line">		<span class="keyword">switch</span> (process.platform) &#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;win32&#x27;</span>:</span><br><span class="line">				services.set(IUpdateService, <span class="keyword">new</span> SyncDescriptor(Win32UpdateService));</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;linux&#x27;</span>:</span><br><span class="line">				<span class="keyword">if</span> (process.env.SNAP &amp;&amp; process.env.SNAP_REVISION) &#123;</span><br><span class="line">					services.set(IUpdateService, <span class="keyword">new</span> SyncDescriptor(SnapUpdateService, [process.env.SNAP, process.env.SNAP_REVISION]));</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					services.set(IUpdateService, <span class="keyword">new</span> SyncDescriptor(LinuxUpdateService));</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;darwin&#x27;</span>:</span><br><span class="line">				services.set(IUpdateService, <span class="keyword">new</span> SyncDescriptor(DarwinUpdateService));</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 省略部分代码</span></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过函数名称可以看到，这个函数被注册到 VS code 的服务中心， 并根据实际平台来注册了对应的方法。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src\vs\code\electron-main\app.ts</span></span><br><span class="line"><span class="comment">// UpdateChannel 方法初始化</span></span><br><span class="line"><span class="keyword">private</span> openFirstWindow(accessor: ServicesAccessor, <span class="attr">electronIpcServer</span>: ElectronIPCServer, <span class="attr">sharedProcessClient</span>: <span class="built_in">Promise</span>&lt;Client&lt;<span class="built_in">string</span>&gt;&gt;): ICodeWindow[] &#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Register more Main IPC services</span></span><br><span class="line">		<span class="keyword">const</span> launchMainService = accessor.get(ILaunchMainService);</span><br><span class="line">		<span class="keyword">const</span> launchChannel = createChannelReceiver(launchMainService, &#123; <span class="attr">disableMarshalling</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">		<span class="built_in">this</span>.mainIpcServer.registerChannel(<span class="string">&#x27;launch&#x27;</span>, launchChannel);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Register more Electron IPC services</span></span><br><span class="line">		<span class="keyword">const</span> updateService = accessor.get(IUpdateService);</span><br><span class="line">		<span class="keyword">const</span> updateChannel = <span class="keyword">new</span> UpdateChannel(updateService);</span><br><span class="line">		electronIpcServer.registerChannel(<span class="string">&#x27;update&#x27;</span>, updateChannel);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">const</span> issueService = accessor.get(IIssueService);</span><br><span class="line">		<span class="keyword">const</span> issueChannel = createChannelReceiver(issueService);</span><br><span class="line">		electronIpcServer.registerChannel(<span class="string">&#x27;issue&#x27;</span>, issueChannel);</span><br><span class="line">		<span class="comment">// 省略部分代码</span></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过函数名可以得知这是在窗口首次建立的时候所运行的方法（有个好名字真好），函数内注册了一些 IPC （Inter-Process Communication， 进程通信 主进程和渲染进程通信）方法。</p>
+<p>createServices 方法会在 openFirstWindow 方法之前被调用， openFirstWindow 方法内通过 accessor.get(IUpdateService) 获得了 createServices 内注册的方法，然后在通过 electronIpcServer 注册在 渲染进程</p>
+<p>那么核心代码就是 <code>src\vs\platform\update</code> 这个模块了</p>
+<h2 id="UpdateService-实例化"><a href="#UpdateService-实例化" class="headerlink" title="UpdateService 实例化"></a>UpdateService 实例化</h2><p>在<code>app.ts</code> 创建 <code>updateChannel</code></p>
+<p>通过在 <code>createServices</code> 函数内注册</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">services.set(IUpdateService, <span class="keyword">new</span> SyncDescriptor(Win32UpdateService));</span><br></pre></td></tr></table></figure>
+
+<p>之后再 <code>openFirstWindow</code> 函数内</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Register more Electron IPC services</span></span><br><span class="line"><span class="keyword">const</span> updateService = accessor.get(IUpdateService);</span><br><span class="line"><span class="comment">// accessor.get 在内部会调用 _getOrCreateServiceInstance 函数,从名称来看会获得实例,或者创建实例</span></span><br><span class="line"><span class="comment">// 被实例化的 class 使用了参数装饰器 在 class 上标注了需要的参数</span></span><br><span class="line"><span class="comment">// 然后通过 循环一个一个处理并 Cache 结果,然后实例化  services.set(IUpdateService, class) 里面的class</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> updateChannel = <span class="keyword">new</span> UpdateChannel(updateService);</span><br><span class="line"><span class="comment">// 实例化</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 注册通信事件</span></span><br><span class="line">electronIpcServer.registerChannel(<span class="string">&quot;update&quot;</span>, updateChannel);</span><br></pre></td></tr></table></figure>
+
+<p>UpdateChannel 内部听了两个方法 <code>listen</code> <code>call</code> 分别是订阅和通知, 让使用变得更加简单.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">UpdateChannel</span> <span class="title">implements</span> <span class="title">IServerChannel</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 这里传入的service就是上面实例化出来的与平台有关的实现了  abstract class AbstractUpdateService &#123;&#125; 类的方法</span></span><br><span class="line">	<span class="function"><span class="title">constructor</span>(<span class="params"><span class="keyword">private</span> service: IUpdateService</span>)</span> &#123; &#125;</span><br><span class="line"></span><br><span class="line">	listen(_: unknown, <span class="attr">event</span>: <span class="built_in">string</span>): Event&lt;<span class="built_in">any</span>&gt; &#123;</span><br><span class="line">		<span class="keyword">switch</span> (event) &#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;onStateChange&#x27;</span>: <span class="keyword">return</span> <span class="built_in">this</span>.service. ;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">`Event not found: <span class="subst">$&#123;event&#125;</span>`</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	call(_: unknown, <span class="attr">command</span>: <span class="built_in">string</span>, arg?: <span class="built_in">any</span>): <span class="built_in">Promise</span>&lt;<span class="built_in">any</span>&gt; &#123;</span><br><span class="line">		<span class="keyword">switch</span> (command) &#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;checkForUpdates&#x27;</span>: <span class="keyword">return</span> <span class="built_in">this</span>.service.checkForUpdates(arg);</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;downloadUpdate&#x27;</span>: <span class="keyword">return</span> <span class="built_in">this</span>.service.downloadUpdate();</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;applyUpdate&#x27;</span>: <span class="keyword">return</span> <span class="built_in">this</span>.service.applyUpdate();</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;quitAndInstall&#x27;</span>: <span class="keyword">return</span> <span class="built_in">this</span>.service.quitAndInstall();</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;_getInitialState&#x27;</span>: <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve(<span class="built_in">this</span>.service.state);</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;isLatestVersion&#x27;</span>: <span class="keyword">return</span> <span class="built_in">this</span>.service.isLatestVersion();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">`Call not found: <span class="subst">$&#123;command&#125;</span>`</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>UpdateChannel 类作为一个通用接口，在实例化的时候接受的参数，是具体执行方法。而具体的执行方法，会根据平台不同传入不同的参数。</p>
+<h2 id="AbstractUpdateService"><a href="#AbstractUpdateService" class="headerlink" title="AbstractUpdateService"></a>AbstractUpdateService</h2><p>从名字上来看，这是一个 abstract 类，在 TS 中 abstract 类不允许直接 new 得到实例， 而是需要通过继承，这个函数定义 <code>IUpdateService</code> 接口所列出的方法，并定义了一些 abstract 方法需要子类实现。<br>这种方式抹平了平台差异，调用者无需关心细节</p>
+<h3 id="update-ts"><a href="#update-ts" class="headerlink" title="update.ts"></a>update.ts</h3><p><code>AbstractUpdateService</code> 类继承了 <code>IUpdateService</code> 接口，这个接口描述了 <code>AbstractUpdateService</code> 需要实现的方法，也是外部调用所调用的方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//src\vs\platform\update\common\update.ts</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Updates are run as a state machine:</span></span><br><span class="line"><span class="comment"> * Updates 作为一个状态机运行:</span></span><br><span class="line"><span class="comment"> *      Uninitialized // 未初始化</span></span><br><span class="line"><span class="comment"> *           ↓</span></span><br><span class="line"><span class="comment"> *          Idle  // 空闲</span></span><br><span class="line"><span class="comment"> *          ↓  ↑</span></span><br><span class="line"><span class="comment"> *   Checking for Updates  →  Available for Download</span></span><br><span class="line"><span class="comment"> *   检查是否有更新             下载可用更新</span></span><br><span class="line"><span class="comment"> *         ↓</span></span><br><span class="line"><span class="comment"> *     Downloading  →   Ready</span></span><br><span class="line"><span class="comment"> *      下载中			  就绪</span></span><br><span class="line"><span class="comment"> *         ↓               ↑</span></span><br><span class="line"><span class="comment"> *     Downloaded   →  Updating</span></span><br><span class="line"><span class="comment"> *     下载完毕         更新</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Available: There is an update available for download (linux).</span></span><br><span class="line"><span class="comment"> * Available： 有一个可用更新的版本可供下载</span></span><br><span class="line"><span class="comment"> * Ready: Code will be updated as soon as it restarts (win32, darwin).</span></span><br><span class="line"><span class="comment"> * Ready  Code 将在重新启动时立即更新</span></span><br><span class="line"><span class="comment"> * Donwloaded: There is an update ready to be installed in the background (win32).</span></span><br><span class="line"><span class="comment"> * Donwloaded： 有一个就绪的更新在后台安装</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p>从上面的状态机运行上来看，更新在不同系统下行为也是不同的。</p>
+<p><code>IUpdateService</code> 是通过 <code>createDecorator</code> 函数来创建的一个函数</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * A *only* valid way to create a &#123;&#123;ServiceIdentifier&#125;&#125;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">createDecorator</span>&lt;<span class="title">T</span>&gt;(<span class="params">serviceId: <span class="built_in">string</span></span>): <span class="title">ServiceIdentifier</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (_util.serviceIds.has(serviceId)) &#123;</span><br><span class="line">    <span class="keyword">return</span> _util.serviceIds.get(serviceId)!;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> id = &lt;<span class="built_in">any</span>&gt;<span class="function"><span class="keyword">function</span>(<span class="params">target: <span class="built_in">Function</span>, key: <span class="built_in">string</span>, index: <span class="built_in">number</span></span>): <span class="title">any</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">arguments</span>.length !== <span class="number">3</span>) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(</span><br><span class="line">        <span class="string">&quot;@IServiceName-decorator can only be used to decorate a parameter&quot;</span></span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line">    storeServiceDependency(id, target, index, <span class="literal">false</span>);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  id.toString = <span class="function">() =&gt;</span> serviceId;</span><br><span class="line"></span><br><span class="line">  _util.serviceIds.set(serviceId, id);</span><br><span class="line">  <span class="keyword">return</span> id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从代码中看到,它会返回一个函数,而且重写了<code>toString</code>方法<br>从返回的这个方法的签名来看</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> id = &lt;<span class="built_in">any</span>&gt;<span class="function"><span class="keyword">function</span> (<span class="params">target: <span class="built_in">Function</span>, key: <span class="built_in">string</span>, index: <span class="built_in">number</span></span>): <span class="title">any</span></span></span><br></pre></td></tr></table></figure>
+
+<p>第三个参数是 index,那么说明这是一个参数装饰器.用来装饰函数参数或者构造函数参数的.</p>
+<p><code>IUpdateService</code> 接口是</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> IUpdateService &#123;</span><br><span class="line">  _serviceBrand: <span class="literal">undefined</span>; <span class="comment">// 这是一个 vs code的约定  https://github.com/microsoft/vscode/issues/79918 表明这个函数会使用装饰器函数。</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">readonly</span> onStateChange: Event&lt;State&gt;; <span class="comment">// 事件通知</span></span><br><span class="line">  <span class="keyword">readonly</span> state: State; <span class="comment">// 当前状态</span></span><br><span class="line"></span><br><span class="line">  checkForUpdates(context: <span class="built_in">any</span>): <span class="built_in">Promise</span>&lt;<span class="built_in">void</span>&gt;; <span class="comment">// 检查更新事件</span></span><br><span class="line">  downloadUpdate(): <span class="built_in">Promise</span>&lt;<span class="built_in">void</span>&gt;; <span class="comment">// 下载更新</span></span><br><span class="line">  applyUpdate(): <span class="built_in">Promise</span>&lt;<span class="built_in">void</span>&gt;; <span class="comment">// 申请更新</span></span><br><span class="line">  quitAndInstall(): <span class="built_in">Promise</span>&lt;<span class="built_in">void</span>&gt;; <span class="comment">// 退出程序以及安装更新</span></span><br><span class="line"></span><br><span class="line">  isLatestVersion(): <span class="built_in">Promise</span>&lt;<span class="built_in">boolean</span> | <span class="literal">undefined</span>&gt;; <span class="comment">// 检查是否最新版本</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="checkForUpdates"><a href="#checkForUpdates" class="headerlink" title="checkForUpdates"></a>checkForUpdates</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> checkForUpdates(context: <span class="built_in">any</span>): <span class="built_in">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">	<span class="comment">// 日志系统，在构造函数中使用了函数参数装饰器</span></span><br><span class="line">	<span class="comment">// 表明了这个类需要的构造函数参数，在通过server.get 的时候会被收集和赋值</span></span><br><span class="line">	<span class="built_in">this</span>.logService.trace(<span class="string">&#x27;update#checkForUpdates, state = &#x27;</span>, <span class="built_in">this</span>.state.type);</span><br><span class="line">	<span class="comment">// 判断当前状态是否为闲置的</span></span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">this</span>.state.type !== StateType.Idle) <span class="keyword">return</span></span><br><span class="line">	<span class="comment">// 执行 doCheckForUpdates</span></span><br><span class="line">	<span class="built_in">this</span>.doCheckForUpdates(context);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里这个 <code>doCheckForUpdates</code> 是一个 abstract 函数即需要子类继承的</p>
+<h4 id="win-doCheckForUpdates"><a href="#win-doCheckForUpdates" class="headerlink" title="win doCheckForUpdates"></a>win doCheckForUpdates</h4><ol>
+<li>判断 url 是否存在，这个 url 是一个类似于:</li>
+</ol>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://update.code.visualstudio.com/api/update/win32-x64-user/stable/26076a4de974ead31f97692a0d32f90d735645c0</span><br></pre></td></tr></table></figure>
+
+<p>由下面这个函数生成,可以看到由平台,版本,commit 组成.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">createUpdateURL</span>(<span class="params">platform: <span class="built_in">string</span>, quality: <span class="built_in">string</span></span>): <span class="title">string</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;product.updateUrl&#125;</span>/api/update/<span class="subst">$&#123;platform&#125;</span>/<span class="subst">$&#123;quality&#125;</span>/<span class="subst">$&#123;product.commit&#125;</span>`</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>请求这个 url,如果没有新版本就会返回一个 204 ,而且不包含 body,如果有新版本那么就会包含一个类似于下面这样的结果</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;url&quot;</span>: <span class="string">&quot;https://vscode.cdn.azure.cn/stable/26076a4de974ead31f97692a0d32f90d735645c0/VSCodeSetup-ia32-1.41.1.exe&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;1.41.1&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;26076a4de974ead31f97692a0d32f90d735645c0&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;productVersion&quot;</span>: <span class="string">&quot;1.41.1&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;hash&quot;</span>: <span class="string">&quot;089b1c71b884ef42a74e0dc0a5eb107eaa19d608&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;timestamp&quot;</span>: <span class="number">1576680705440</span>,</span><br><span class="line">  <span class="attr">&quot;sha256hash&quot;</span>: <span class="string">&quot;d72dfa1e4644e0bbe7ebe7243a2ac59f51b2d2ca261bb24936f2879ad1d6aac3&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;supportsFastUpdate&quot;</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>修改当前状态为的 <code>checking for updates</code></li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">this</span>.setState(State.CheckingForUpdates(context));</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>请求上面那个地址</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">this</span>.requestService.request(&#123; <span class="attr">url</span>: <span class="built_in">this</span>.url &#125;, CancellationToken.None)</span><br><span class="line"><span class="string">``</span></span><br><span class="line"></span><br><span class="line"><span class="number">1.</span> 如果没有更新修改状态值为 <span class="string">`Idle`</span> 然后结束</span><br><span class="line"><span class="number">2.</span> 这里还会根据程序目录有没有 <span class="string">`unins000.exe`</span> 这个程序来决定是否进行下载</span><br><span class="line"><span class="number">3.</span> 如果没有 <span class="string">`unins000.exe`</span> 标记状态为 <span class="string">`available for download`</span></span><br><span class="line"><span class="number">4.</span> 如果有那么先清理系统中可能存在的临时文件,之后判断有本地有没有下载好的安装程序,有就终止下载,没有就下载安装包</span><br><span class="line"><span class="number">5.</span> 下载完成之后会判断包是否支持快速更新,以及用户是否允许后台更新.如果都允许那么进行更新,并且会判断当前 product.target 的值是否为 user product.target 的值取决于安装包的版本,官网提供了 user 安装 system 安装</span><br><span class="line"><span class="number">6.</span> 如果是 user 就调用 <span class="string">`doApplyUpdate`</span> 函数进行更新否则修改状态值为 <span class="string">`downloaded`</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="doApplyUpdate"><a href="#doApplyUpdate" class="headerlink" title="doApplyUpdate"></a>doApplyUpdate</h5><p>这个函数是 win 下才有的</p>
+<ol>
+<li>判断状态不等于 <code>downloaded</code> 和 <code>downloaded</code></li>
+<li>判断本地安装包存在</li>
+<li>然后调用 child_process.spawn 执行静默安装</li>
+<li>安装完毕之后将状态修改为 Idle</li>
+</ol>
+<h4 id="linux-doCheckForUpdates"><a href="#linux-doCheckForUpdates" class="headerlink" title="linux doCheckForUpdates"></a>linux doCheckForUpdates</h4><ol>
+<li>和 win 一样</li>
+<li>和 win 一样</li>
+<li>请求更新地址<ol>
+<li>和 win 一样</li>
+<li>如果有更新就将状态标记为 <code>available for download</code></li>
+</ol>
+</li>
+</ol>
+<h4 id="darwin-macOS"><a href="#darwin-macOS" class="headerlink" title="darwin(macOS)"></a>darwin(macOS)</h4><ol>
+<li>修改状态为<br>vs code 在 macOS 下直接使用 electron.autoUpdater.checkForUpdate</li>
+</ol>
+<h3 id="downloadUpdate"><a href="#downloadUpdate" class="headerlink" title="downloadUpdate"></a>downloadUpdate</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">async</span> downloadUpdate(): <span class="built_in">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">	<span class="built_in">this</span>.logService.trace(<span class="string">&#x27;update#downloadUpdate, state = &#x27;</span>, <span class="built_in">this</span>.state.type);</span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">this</span>.state.type !== StateType.AvailableForDownload) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">await</span> <span class="built_in">this</span>.doDownloadUpdate(<span class="built_in">this</span>.state);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里会判断状态是否等于 <code>AvailableForDownload</code> 这个状态只在 Linux 下存在. 所以这是一个 Linux 下的更新方法</p>
+<h4 id="win-doDownloadUpdate"><a href="#win-doDownloadUpdate" class="headerlink" title="win doDownloadUpdate"></a>win doDownloadUpdate</h4><p>在上面的 doCheckForUpdates 方法中,会判断程序所在目录是否存在 <code>unins000.exe</code> 如果不存在那么就将状态置为 <code>AvailableForDownload</code></p>
+<p>所以 win 的 doDownloadUpdate 方法很简单,就是直接调用浏览器打开下载链接.<br>然后把状态设置为 Idle</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">async</span> doDownloadUpdate(state: AvailableForDownload): <span class="built_in">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">	<span class="keyword">if</span> (state.update.url) &#123;</span><br><span class="line">		shell.openExternal(state.update.url);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">this</span>.setState(State.Idle(getUpdateType()));</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="linux-doDownloadUpdate"><a href="#linux-doDownloadUpdate" class="headerlink" title="linux doDownloadUpdate"></a>linux doDownloadUpdate</h4><p>也是打开链接下载安装包</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">async</span> doDownloadUpdate(state: AvailableForDownload): <span class="built_in">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">	<span class="comment">// Use the download URL if available as we don&#x27;t currently detect the package type that was</span></span><br><span class="line">	<span class="comment">// installed and the website download page is more useful than the tarball generally.</span></span><br><span class="line">	<span class="keyword">if</span> (product.downloadUrl &amp;&amp; product.downloadUrl.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">		shell.openExternal(product.downloadUrl);</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (state.update.url) &#123;</span><br><span class="line">		shell.openExternal(state.update.url);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">this</span>.setState(State.Idle(UpdateType.Archive));</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="darwin-macOS-1"><a href="#darwin-macOS-1" class="headerlink" title="darwin(macOS)"></a>darwin(macOS)</h4><p>macOS 无此方法</p>
+<h3 id="applyUpdate"><a href="#applyUpdate" class="headerlink" title="applyUpdate"></a>applyUpdate</h3><p>看代码会判断 状态 是否为 <code>Downloaded</code> , 这是一个 win 平台下更新的方法. 并且写了一个空的 doApplyUpdate 方法防止报错.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">async</span> applyUpdate(): <span class="built_in">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">	<span class="built_in">this</span>.logService.trace(<span class="string">&#x27;update#applyUpdate, state = &#x27;</span>, <span class="built_in">this</span>.state.type);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">this</span>.state.type !== StateType.Downloaded) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">await</span> <span class="built_in">this</span>.doApplyUpdate();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">async</span> doApplyUpdate(): <span class="built_in">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">	<span class="comment">// noop</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="win-doApplyUpdate"><a href="#win-doApplyUpdate" class="headerlink" title="win doApplyUpdate"></a>win doApplyUpdate</h3><p>doApplyUpdate 方法是 win 平台更新包的方法.主要做了以下事情:</p>
+<ol>
+<li>判断当前状态是否为 Downloaded</li>
+<li>判断 availableUpdate 是否为空 (doCheckForUpdates 方法会为其赋值)</li>
+<li>之后想临时目录写入一个 <code>CodeSetup-$&#123;quality&#125;-$&#123;version&#125;.flag</code> 的一个文件,文件内容就是一个字符串<code>flag</code></li>
+<li>调用 child_process.spawn 执行安装包,进行静默安装, 并且添加启动参数, 安装参数区别于 下面的 doQuitAndInstall</li>
+<li>坚挺 spawn 结束事件, 结束后做变量清理和状态设定为 Idle 工作</li>
+<li>之后调用了 windows-mutex api 来判断,更新进程是否存在如果存在 while 循环 过 1 秒再看,如果更新进程不存在了设置状态值为 Ready</li>
+</ol>
+<h4 id="linux-doApplyUpdate"><a href="#linux-doApplyUpdate" class="headerlink" title="linux doApplyUpdate"></a>linux doApplyUpdate</h4><p>linux 无此函数</p>
+<h4 id="darwin-macOS-doApplyUpdate"><a href="#darwin-macOS-doApplyUpdate" class="headerlink" title="darwin(macOS) doApplyUpdate"></a>darwin(macOS) doApplyUpdate</h4><p>macOS 无此函数</p>
+<h3 id="quitAndInstall"><a href="#quitAndInstall" class="headerlink" title="quitAndInstall"></a>quitAndInstall</h3><p>这里会判断 状态 是否为 Ready<br>之后会告诉主进程要退出然后调用 doQuitAndInstall</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">quitAndInstall(): <span class="built_in">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">	<span class="built_in">this</span>.logService.trace(<span class="string">&#x27;update#quitAndInstall, state = &#x27;</span>, <span class="built_in">this</span>.state.type);</span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">this</span>.state.type !== StateType.Ready) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">Promise</span>.resolve(<span class="literal">undefined</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">this</span>.logService.trace(<span class="string">&#x27;update#quitAndInstall(): before lifecycle quit()&#x27;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">this</span>.lifecycleMainService.quit(<span class="literal">true</span> <span class="comment">/* from update */</span>).then(<span class="function"><span class="params">vetod</span> =&gt;</span> &#123;</span><br><span class="line">		<span class="built_in">this</span>.logService.trace(<span class="string">`update#quitAndInstall(): after lifecycle quit() with veto: <span class="subst">$&#123;vetod&#125;</span>`</span>);</span><br><span class="line">		<span class="keyword">if</span> (vetod) &#123;</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">this</span>.logService.trace(<span class="string">&#x27;update#quitAndInstall(): running raw#quitAndInstall()&#x27;</span>);</span><br><span class="line">		<span class="built_in">this</span>.doQuitAndInstall();</span><br><span class="line">	&#125;);</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">Promise</span>.resolve(<span class="literal">undefined</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="win-doQuitAndInstall"><a href="#win-doQuitAndInstall" class="headerlink" title="win doQuitAndInstall"></a>win doQuitAndInstall</h4><ol>
+<li>判断状态是否符合</li>
+<li>判断 doApplyUpdate 函数内创建的 flag 文件是否存在, 如果存在那么删除这个文件</li>
+<li>如果这个 flag 文件不存在那么执行静默安装 这里静默安装的参数和 doApplyUpdate 不太相同</li>
+</ol>
+<h4 id="linux-doQuitAndInstall"><a href="#linux-doQuitAndInstall" class="headerlink" title="linux doQuitAndInstall"></a>linux doQuitAndInstall</h4><p>linux 无此函数</p>
+<h3 id="darwin-macOS-2"><a href="#darwin-macOS-2" class="headerlink" title="darwin(macOS)"></a>darwin(macOS)</h3><p><a target="_blank" rel="noopener" href="https://electronjs.org/docs/api/auto-updater#autoupdaterquitandinstall">electron 更新函数</a></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">protected</span> doQuitAndInstall(): <span class="built_in">void</span> &#123;</span><br><span class="line">	<span class="built_in">this</span>.logService.trace(<span class="string">&#x27;update#quitAndInstall(): running raw#quitAndInstall()&#x27;</span>);</span><br><span class="line">	electron.autoUpdater.quitAndInstall();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="isLatestVersion"><a href="#isLatestVersion" class="headerlink" title="isLatestVersion"></a>isLatestVersion</h3><p>这个函数用来检查是否为最新版本就是一个请求判断响应值是否为 204,如果是那么就代表没有更新,反之则有</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">isLatestVersion(): <span class="built_in">Promise</span>&lt;<span class="built_in">boolean</span> | <span class="literal">undefined</span>&gt; &#123;</span><br><span class="line">	<span class="keyword">if</span> (!<span class="built_in">this</span>.url) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">Promise</span>.resolve(<span class="literal">undefined</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">this</span>.requestService.request(&#123; <span class="attr">url</span>: <span class="built_in">this</span>.url &#125;, CancellationToken.None).then(<span class="function"><span class="params">context</span> =&gt;</span> &#123;</span><br><span class="line">		<span class="comment">// The update server replies with 204 (No Content) when no</span></span><br><span class="line">		<span class="comment">// update is available - that&#x27;s all we want to know.</span></span><br><span class="line">		<span class="keyword">if</span> (context.res.statusCode === <span class="number">204</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="vs-code-debugger-extension"><a href="#vs-code-debugger-extension" class="headerlink" title="vs code debugger extension"></a>vs code debugger extension</h1><p><a target="_blank" rel="noopener" href="https://code.visualstudio.com/api/extension-guides/debugger-extension">vs code debugger extension 文档</a></p>
+<p>看文档 vs code 通过适配器进行 UI 和 Debugger 进行联动，下面是构架图。</p>
+<p><img src="https://code.visualstudio.com/assets/api/extension-guides/debugger-extension/debug-arch1.png" alt="debugging archiecture of vs code"></p>
+<p>这里调试界面是固定的，Debugger 是固定的，这里就使用了 Debug Adapter 简称 DA ，在 DA 和 vs code 之间的抽象协议为适配器协议（debug adapter Protocol）， 适配器协议时独立于 VS code 的， 微软定义了一套<a target="_blank" rel="noopener" href="https://microsoft.github.io/debug-adapter-protocol/">规范</a>，用于脱离具体环境（不耦合与 vs code），可以被用于其他开发工具中</p>
+<p>vs code 提供了一套机制，用于控制调试器，当用户启动这个类型的调试会话时，vs code 就会启动一斤刚注册的 DA。</p>
+<p>因此 debugger extension 就是适配器的包装</p>
+<p><img src="https://code.visualstudio.com/assets/api/extension-guides/debugger-extension/debug-arch2.png" alt="示意图"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vs-code/" rel="tag"># vs code</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/11/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="prev" title="计算机网络">
+                  <i class="fa fa-chevron-left"></i> 计算机网络
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/12/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="next" title="数据结构与算法">
+                  数据结构与算法 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">H</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

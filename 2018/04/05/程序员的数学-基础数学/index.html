@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.3.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="买了本程序员的数学，记录一下笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="程序员的数学-基础数学">
+<meta property="og:url" content="https://github.com/iosh/H.git/2018/04/05/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E6%95%B0%E5%AD%A6-%E5%9F%BA%E7%A1%80%E6%95%B0%E5%AD%A6/index.html">
+<meta property="og:site_name" content="胡先生">
+<meta property="og:description" content="买了本程序员的数学，记录一下笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-04-05T19:21:56.000Z">
+<meta property="article:modified_time" content="2021-04-14T08:31:47.426Z">
+<meta property="article:author" content="H">
+<meta property="article:tag" content="基础数学">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/iosh/H.git/2018/04/05/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E6%95%B0%E5%AD%A6-%E5%9F%BA%E7%A1%80%E6%95%B0%E5%AD%A6/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>程序员的数学-基础数学 | 胡先生</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">胡先生</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0-%E7%9A%84%E6%95%85%E4%BA%8B"><span class="nav-number">1.</span> <span class="nav-text">0 的故事</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E8%BF%9B%E5%88%B6%E8%AE%A1%E6%95%B0%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">十进制计数法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%AE%A1%E6%95%B0%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">二进制计数法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%95%B0%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.2.1.</span> <span class="nav-text">基数转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8-2-%E8%BF%9B%E5%88%B6%E8%AE%A1%E6%95%B0%E6%B3%95"><span class="nav-number">1.2.2.</span> <span class="nav-text">计算机为什么使用 2 进制计数法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%89%E4%BD%8D%E8%AE%A1%E6%95%B0%E6%B3%95"><span class="nav-number">1.2.3.</span> <span class="nav-text">按位计数法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E6%B3%95%E5%88%99"><span class="nav-number">1.2.4.</span> <span class="nav-text">指数法则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-%E7%9A%84-1-%E6%AC%A1%E6%96%B9%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.2.5.</span> <span class="nav-text">10 的-1 次方是什么</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">1.3.</span> <span class="nav-text">0 的作用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%A0%E4%BD%8D"><span class="nav-number">1.3.1.</span> <span class="nav-text">占位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%9F%E4%B8%80%E6%A0%87%E5%87%86%EF%BC%8C%E7%AE%80%E5%8C%96%E8%A7%84%E5%88%99"><span class="nav-number">1.3.2.</span> <span class="nav-text">统一标准，简化规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%BA%E7%B1%BB%E7%9A%84%E6%9E%81%E9%99%90%E5%92%8C%E6%9E%84%E9%80%A0%E7%9A%84%E5%8F%91%E7%8E%B0"><span class="nav-number">1.4.</span> <span class="nav-text">人类的极限和构造的发现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%BB%E8%BE%91"><span class="nav-number">2.</span> <span class="nav-text">逻辑</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BD%95%E9%80%BB%E8%BE%91%E5%A6%82%E6%AD%A4%E9%87%8D%E8%A6%81"><span class="nav-number">2.1.</span> <span class="nav-text">为何逻辑如此重要</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E6%98%AF%E6%B6%88%E9%99%A4%E6%AD%A7%E4%B9%89%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="nav-number">2.1.1.</span> <span class="nav-text">逻辑是消除歧义的工具</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%BC%E9%A1%BE%E5%AE%8C%E6%95%B4%E6%80%A7%E5%92%8C%E6%8E%92%E4%BB%96%E6%80%A7"><span class="nav-number">2.2.</span> <span class="nav-text">兼顾完整性和排他性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%A6%E8%B4%B9%E8%A7%84%E5%88%99"><span class="nav-number">2.2.1.</span> <span class="nav-text">车费规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E9%A2%98%E5%8F%8A%E7%9C%9F%E5%81%87"><span class="nav-number">2.2.2.</span> <span class="nav-text">命题及真假</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E6%B2%A1%E6%9C%89%E9%81%97%E6%BC%8F"><span class="nav-number">2.2.3.</span> <span class="nav-text">有没有遗漏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E6%B2%A1%E6%9C%89%E9%87%8D%E5%A4%8D"><span class="nav-number">2.2.4.</span> <span class="nav-text">有没有重复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%BB%E4%B8%80%E4%B8%AA%E6%A0%B9%E6%95%B0%E8%BD%B4%E8%BE%85%E5%8A%A9%E6%80%9D%E8%80%83"><span class="nav-number">2.2.5.</span> <span class="nav-text">画一个根数轴辅助思考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E8%BE%B9%E7%95%8C%E5%80%BC"><span class="nav-number">2.2.6.</span> <span class="nav-text">注意边界值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-if-%E8%AF%AD%E5%8F%A5%E5%88%86%E8%A7%A3%E9%97%AE%E9%A2%98"><span class="nav-number">2.2.7.</span> <span class="nav-text">使用 if 语句分解问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E5%A4%8D%E6%9D%82%E5%91%BD%E9%A2%98"><span class="nav-number">2.3.</span> <span class="nav-text">建立复杂命题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E9%9D%9E"><span class="nav-number">2.3.1.</span> <span class="nav-text">逻辑非</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E4%B8%8E"><span class="nav-number">2.3.2.</span> <span class="nav-text">逻辑与</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E6%88%96"><span class="nav-number">2.3.3.</span> <span class="nav-text">逻辑或</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%88%96"><span class="nav-number">2.3.4.</span> <span class="nav-text">异或</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E7%AD%89"><span class="nav-number">2.3.5.</span> <span class="nav-text">相等</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8B%A5-A-%E5%88%99-B"><span class="nav-number">2.3.6.</span> <span class="nav-text">若 A 则 B</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%99%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">余数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%9F%E6%9C%9F%E6%95%B0%E7%9A%84%E6%80%9D%E8%80%83"><span class="nav-number">3.1.</span> <span class="nav-text">星期数的思考</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%80%83%E7%AD%94%E6%A1%88"><span class="nav-number">3.1.1.</span> <span class="nav-text">思考答案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E7%94%A8%E4%BD%99%E6%95%B0%E6%80%9D%E8%80%83"><span class="nav-number">3.1.2.</span> <span class="nav-text">运用余数思考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%99%E6%95%B0%E7%9A%84%E5%8A%9B%E9%87%8F-%E5%B0%86%E8%BE%83%E5%A4%A7%E7%9A%84%E6%95%B0%E5%AD%97%E9%99%A4%E4%B8%80%E6%AC%A1%E5%B0%B1%E8%83%BD%E5%88%86%E7%BB%84"><span class="nav-number">3.1.3.</span> <span class="nav-text">余数的力量-将较大的数字除一次就能分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%91%E7%8E%B0%E8%A7%84%E5%BE%8B"><span class="nav-number">3.1.4.</span> <span class="nav-text">发现规律</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E5%BD%92%E7%BA%B3%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">数学归纳法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E6%96%AF%E6%B1%82%E5%92%8C"><span class="nav-number">4.1.</span> <span class="nav-text">高斯求和</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%92%E7%BA%B3"><span class="nav-number">4.2.</span> <span class="nav-text">归纳</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E5%BD%92%E7%BA%B3%E5%8F%91-%E5%A6%82%E4%BD%95%E6%94%BF%E5%BA%9C%E6%97%A0%E7%A9%B7%E6%95%B0%E5%88%97"><span class="nav-number">4.3.</span> <span class="nav-text">数学归纳发-如何政府无穷数列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0-%E4%BB%A5%E4%B8%8A%E7%9A%84%E6%95%B4%E6%95%B0%E7%9A%84%E6%96%AD%E8%A8%80"><span class="nav-number">4.3.1.</span> <span class="nav-text">0 以上的整数的断言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E6%96%AF%E7%9A%84%E6%96%AD%E8%A8%80"><span class="nav-number">4.3.2.</span> <span class="nav-text">高斯的断言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E5%AD%A6%E5%BD%92%E7%BA%B3%E6%B3%95"><span class="nav-number">4.3.3.</span> <span class="nav-text">什么是数学归纳法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B1%82%E5%87%BA%E5%A5%87%E6%95%B0%E4%B9%8B%E5%92%8C"><span class="nav-number">4.4.</span> <span class="nav-text">求出奇数之和</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A5%87%E6%95%B0%E4%B9%8B%E5%92%8C"><span class="nav-number">4.4.1.</span> <span class="nav-text">奇数之和</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E7%A8%8B%E5%92%8C%E6%95%B0%E5%AD%A6%E5%BD%92%E7%BA%B3%E6%B3%95"><span class="nav-number">4.5.</span> <span class="nav-text">编程和数学归纳法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%BE%AA%E7%8E%AF%E8%A1%A8%E7%A4%BA%E6%95%B0%E5%AD%A6%E5%BD%92%E7%BA%B3%E6%B3%95"><span class="nav-number">4.5.1.</span> <span class="nav-text">通过循环表示数学归纳法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%92%E5%88%97%E7%BB%84%E5%90%88"><span class="nav-number">5.</span> <span class="nav-text">排列组合</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E6%95%B0"><span class="nav-number">5.1.</span> <span class="nav-text">计数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E6%B3%95%E6%B3%95%E5%88%99"><span class="nav-number">5.1.1.</span> <span class="nav-text">加法法则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B9%98%E6%B3%95%E6%B3%95%E5%88%99"><span class="nav-number">5.1.2.</span> <span class="nav-text">乘法法则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%AE%E6%8D%A2"><span class="nav-number">5.1.3.</span> <span class="nav-text">置换</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%92%E5%BD%92"><span class="nav-number">6.</span> <span class="nav-text">递归</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E7%88%86%E7%82%B8"><span class="nav-number">7.</span> <span class="nav-text">指数爆炸</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE"><span class="nav-number">7.1.</span> <span class="nav-text">二分查找</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E6%95%B0"><span class="nav-number">7.2.</span> <span class="nav-text">对数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E4%BA%8B%E5%AF%B9%E6%95%B0"><span class="nav-number">7.2.1.</span> <span class="nav-text">什么事对数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A5-2-%E4%B8%BA%E5%BA%95%E6%95%B0"><span class="nav-number">7.2.2.</span> <span class="nav-text">以 2 为底数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E6%B3%95%E5%88%99%E5%92%8C%E5%AF%B9%E6%95%B0"><span class="nav-number">7.2.3.</span> <span class="nav-text">指数法则和对数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%86%E7%A0%81"><span class="nav-number">7.2.4.</span> <span class="nav-text">密码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E6%8C%87%E6%95%B0%E7%88%86%E7%82%B8"><span class="nav-number">7.3.</span> <span class="nav-text">如何处理指数爆炸</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%90%86%E8%A7%A3%E7%A9%BA%E9%97%B4%E7%9A%84%E5%A4%A7%E5%B0%8F"><span class="nav-number">7.3.1.</span> <span class="nav-text">理解空间的大小</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">H</p>
+  <div class="site-description" itemprop="description">个人学习笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iosh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iosh"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/iosh/H.git/2018/04/05/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E6%95%B0%E5%AD%A6-%E5%9F%BA%E7%A1%80%E6%95%B0%E5%AD%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="H">
+      <meta itemprop="description" content="个人学习笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="胡先生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          程序员的数学-基础数学
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-04-05 19:21:56" itemprop="dateCreated datePublished" datetime="2018-04-05T19:21:56+00:00">2018-04-05</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-14 08:31:47" itemprop="dateModified" datetime="2021-04-14T08:31:47+00:00">2021-04-14</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>买了本程序员的数学，记录一下笔记</p>
+<span id="more"></span>
+
+<p>前言</p>
+<blockquote>
+<p>编程的基础是计算机科学，而计算机科学的基础是数学，学习数学有助于巩固编程的基础，写出健壮的程序</p>
+</blockquote>
+<h1 id="0-的故事"><a href="#0-的故事" class="headerlink" title="0 的故事"></a>0 的故事</h1><p>人类使用的是 10 进制，而计算机使用的是 2 进制(为什么使用二进制，这是一个比较有意思的事情)，一起思考 0 的作用，实际上 0 具有创建模式、简化并总结规则的重要作用</p>
+<h2 id="十进制计数法"><a href="#十进制计数法" class="headerlink" title="十进制计数法"></a>十进制计数法</h2><p>十进制计数：<br>使用的数字右 0、1、2、3、4、 5、 6、 7、 8、 9 共计十种<br>数位有一定意义，从右向左分别表示个位、十位、百位、千位….</p>
+<p>例如数字 2503 实际上可以使用下面的方法表示</p>
+<p>$$2×1000+5×100+0×10+3$$</p>
+<p>换成指数方法</p>
+<p>$$2×10^3+5×10^2+0×10+3×1$$</p>
+<h2 id="二进制计数法"><a href="#二进制计数法" class="headerlink" title="二进制计数法"></a>二进制计数法</h2><p>计算机在处理数据时候使用的是 2 进制计数法，从十进制计数法类推，可以比较快的掌握其中的规则</p>
+<p>二进制计数法使用的数字只有 0、 1 两种<br>从右向左分别表示 1 位(0)、2 位(10)、4 位(100)、8 位(1000)</p>
+<p>使用二进制计数法数数首先是 0，然后是 1，接下来不是 2，是 10，然后是 11，然后是 100,101</p>
+<p>分解二进制 1100<br>和 10 进制计数法一样，并排的数字，各个数位都有不同的意义 1100 从左向右依次为：<br>1 表示 8 的位数<br>1 表示 4 的个数<br>0 表示 2 的个数<br>0 表示 1 的个数<br>也就是说二进制的 1100 表示如下意思</p>
+<p>$$1<em>2^3+1</em>2^2+0<em>2^1+0</em>2^0$$</p>
+<h3 id="基数转换"><a href="#基数转换" class="headerlink" title="基数转换"></a>基数转换</h3><p>接下来试着将 10 进制的 12 转换为 2 进制，这需要反复将 12 除以 2。<br>12/2 商为 6，6/2 商为 3…，并且换茬余数是 1 还是 0，余数 0 表示除完了随后再讲每步所得的余数列逆向排列，由此得到 2 进制</p>
+<p>12/2 余 0<br>6/2 余 0<br>3/2 余 1<br>1/2 余 1</p>
+<p>逆向组合就是 1100</p>
+<h3 id="计算机为什么使用-2-进制计数法"><a href="#计算机为什么使用-2-进制计数法" class="headerlink" title="计算机为什么使用 2 进制计数法"></a>计算机为什么使用 2 进制计数法</h3><p>计算机采用二进制计数法的时候会采用以下两种状态：<br>开关切断状态<br>开关连通状态<br>ps 以前的计算机使用二极管，通电为 1 断电为 0，现代的机械磁盘也是正负极表示 1 和 0</p>
+<p>因为计算机速度非常快，2 进制位数再多也没关系，而且计算机不会像人类一样计算错误，所以对于计算机而言，处理的数字种类少计算规则简单最好不过。</p>
+<h3 id="按位计数法"><a href="#按位计数法" class="headerlink" title="按位计数法"></a>按位计数法</h3><p>十进制二进制这种计数方法也称作按位计数法，除了 10 进制和 2 进制之外还有：<br>8 进制计数法：<br>使用数字有 0、 1、 2、 3、 4、 5、 6、 7、 8<br>从右向左表示 8 的 0 次方 8 的 1 次方 8 的 2 次方…</p>
+<p>16 进制计数法<br>使用数字右 0、 1、 2、 3、 4、 5、 6、 7、 8、 9、 A、 B、 C、 D、 E、 F 十六种<br>从右向左表示 16 的 0 次方 16 的 1 次方</p>
+<h3 id="指数法则"><a href="#指数法则" class="headerlink" title="指数法则"></a>指数法则</h3><p>在十进制说明中$$10^0 = 1$$</p>
+<p>一般会想 10 的 0 次方不是 0 个 10 相乘应该等于 0 吗。</p>
+<p>从目前掌握的知识来看看如何定义 10 的 0 次方比较妥当</p>
+<p>$$10^3 = 1000, 10^2 = 100, 10^1 = 10, 10^0 = ?$$</p>
+<p>从上述等式可以看出，数字的指数每减去 1，数字就变成原来的十分之一，因此 10 的 0 次方就是 1，在定义 10 的 n 次方的值时可以遵循一下规则</p>
+<p><code>指数每减去一，数字就变成为原来的十分之一</code></p>
+<h3 id="10-的-1-次方是什么"><a href="#10-的-1-次方是什么" class="headerlink" title="10 的-1 次方是什么"></a>10 的-1 次方是什么</h3><p>使用上方的规则可以很明确的推导出一下等式</p>
+<p>$$ 10^0 = 1, 10^{-1} = \frac{1}{10}, 10^{-2} = \frac{1}{100}$$</p>
+<p>到这里给前面的规则取名为<code>指数法则</code>表达式为：</p>
+<p>$$N^a*N^b = N^{a+b}$$</p>
+<p>但是 N≠0</p>
+<h2 id="0-的作用"><a href="#0-的作用" class="headerlink" title="0 的作用"></a>0 的作用</h2><h3 id="占位"><a href="#占位" class="headerlink" title="占位"></a>占位</h3><p>例如使用 10 进制的 2503 中的 0 起到什么作用。2503 的 0 表示十位中没有数，没有但不能省略省略就变成了 253 称为另外一个数</p>
+<p>所以在按位计数法中，位数具有很重要的意义，即使十位中的数没有，也不能不谢数字，这个时候就需要 0 出场，即 0 的作用就是占位，换而言之，0 占着一个位置以保证数位高于他的数字不会产生错位。</p>
+<h3 id="统一标准，简化规则"><a href="#统一标准，简化规则" class="headerlink" title="统一标准，简化规则"></a>统一标准，简化规则</h3><p>在按位计数中提到了 10 的 0 次方是 1，使用 0，能够将按位计数法中的各个数位对应的大小统一表示成<br>$$10^n$$<br>否则就必须单独处理 1 这个数字，0 在这里起到了标准化的作用。</p>
+<h2 id="人类的极限和构造的发现"><a href="#人类的极限和构造的发现" class="headerlink" title="人类的极限和构造的发现"></a>人类的极限和构造的发现</h2><p>时至今日十进制已融入生活，二漫长的文明中数学表示法有很长的历史：</p>
+<p>古埃及人使用五进制和十进制混合的计数法，他们的计数不是按位计数所以不存在 0</p>
+<p>巴比伦人在黏土板上使用记号表示计数，使用 1 和 10 两种菱形记号来表示 1 到 59，并通过记号位置来表示 60 的 n 次方的数位，一小时为 60 分钟的时间换算就来源于巴比伦的 60 进制计数法。</p>
+<p>古希腊人不仅仅将数字当做工具，更融入生活的角落</p>
+<p>玛雅人数数从 0 开始，使用 20 进制计数法</p>
+<p>罗马人使用 5 进制和 10 进制混用的罗马数字。</p>
+<p>印度人再引入巴比伦的按位计数法同时意识到 0 也是数字，而且他们采用的是 10 进制计数法，现在我们使用的 0123456789 被称为阿拉伯数字而不是印度数字，也许是因为将印度数字传入西欧的是阿拉伯学者的缘故。</p>
+<h1 id="逻辑"><a href="#逻辑" class="headerlink" title="逻辑"></a>逻辑</h1><p>本章讲解为什么逻辑对于程序员很重要。</p>
+<h2 id="为何逻辑如此重要"><a href="#为何逻辑如此重要" class="headerlink" title="为何逻辑如此重要"></a>为何逻辑如此重要</h2><h3 id="逻辑是消除歧义的工具"><a href="#逻辑是消除歧义的工具" class="headerlink" title="逻辑是消除歧义的工具"></a>逻辑是消除歧义的工具</h3><p>在使用自然语言时，是很容易产生歧义，然而，规格说明书，记述如何编写程序的文件一般都是使用自然语言藐视，因此程序员必须走出自言语言歧义的迷宫，谨慎读懂规格说明书，确定其正确的意义。</p>
+<p>很多人觉得<code>逻辑冰冷且机械死板</code>，的确但正因如此，他们才有用，人类容易被感情左右，计算机不同，正是因为如此，计算机才会一直稳定运行，为我们所用。</p>
+<p>接下来看一些具体问题</p>
+<h2 id="兼顾完整性和排他性"><a href="#兼顾完整性和排他性" class="headerlink" title="兼顾完整性和排他性"></a>兼顾完整性和排他性</h2><p>下面以巴士车费为例，学习基本的逻辑思路：兼顾完整性和排他性</p>
+<h3 id="车费规则"><a href="#车费规则" class="headerlink" title="车费规则"></a>车费规则</h3><p>费用规则一：</p>
+<p>6 岁以上乘客车费 100 元<br>6 岁一下乘客车费 0 元</p>
+<p>那么根据这个规则判断乘客需不需要付费只需要判断乘客年龄即可。没有什么难点</p>
+<h3 id="命题及真假"><a href="#命题及真假" class="headerlink" title="命题及真假"></a>命题及真假</h3><p>为了便于理解，先解释几个术语：</p>
+<p>在规则中查询车费时候，应先判断乘客的年龄是否超过 6 岁，能够<code>判断对错陈述句的叫做命题</code>。</p>
+<p>命题正确时，称该命题为<code>真</code>，反之为<code>假</code>，对应 true 和 false</p>
+<h3 id="有没有遗漏"><a href="#有没有遗漏" class="headerlink" title="有没有遗漏"></a>有没有遗漏</h3><p>在阅读上面的付费规则时候，需要确定一个重要问题，有没有<code>遗漏</code>。</p>
+<h3 id="有没有重复"><a href="#有没有重复" class="headerlink" title="有没有重复"></a>有没有重复</h3><p>在确定规则中没有遗漏的同时还需要一个童谣中的问题有没有<code>重复</code></p>
+<h3 id="画一个根数轴辅助思考"><a href="#画一个根数轴辅助思考" class="headerlink" title="画一个根数轴辅助思考"></a>画一个根数轴辅助思考</h3><p>确定没有遗漏和重复相当重要，在阅读前面的规则文字时候最好画一个数轴，并在数轴中检测是否有遗漏或者重复。</p>
+<h3 id="注意边界值"><a href="#注意边界值" class="headerlink" title="注意边界值"></a>注意边界值</h3><p>在数轴中，可以看到边界值是需要注意的，一般规格说明书错误或者程序员的错误，往往发生在边界上，因此在画数轴思考问题的时候，必须清除的明确的指出包含不包含边界值。</p>
+<h3 id="使用-if-语句分解问题"><a href="#使用-if-语句分解问题" class="headerlink" title="使用 if 语句分解问题"></a>使用 if 语句分解问题</h3><p>实际上根据这种命题的真假来分解问题，就是程序中常用的 if 语句</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (乘客年龄在 &gt;= <span class="number">6</span>) &#123;</span><br><span class="line">    付费<span class="number">100</span>元</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    无需付费</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="建立复杂命题"><a href="#建立复杂命题" class="headerlink" title="建立复杂命题"></a>建立复杂命题</h2><p>并不是所有命题都是纯粹二简单的，有时候为了便是更为复杂的情况，需要建立复杂的命题。</p>
+<p>例如：乘客的年龄不到 6 岁，并且乘车日期不是周末</p>
+<p>这个命题是由<code>乘客年龄不到6岁</code>和<code>乘车日期不是周末</code>两个命题组成的，两个命题的正确与否是可以判定的，因此它确实可以称作命题。</p>
+<h3 id="逻辑非"><a href="#逻辑非" class="headerlink" title="逻辑非"></a>逻辑非</h3><p>以<code>乘车日期是星期日</code>这个命题作为基础，可以建立<code>乘车日期不是星期日</code>建立这种<code>不是。。。</code>的命题的运算称作非。英语中使用 not 表示</p>
+<pre><code>!乘车日期是周末
+</code></pre>
+<p>双重否定等于肯定</p>
+<pre><code>!!乘车日期是周末
+</code></pre>
+<h3 id="逻辑与"><a href="#逻辑与" class="headerlink" title="逻辑与"></a>逻辑与</h3><p>通过组合年龄 6 岁以上和乘车日期是星期日这两个命题，可以得到年龄 6 岁以上<code>并且</code>乘车日期是星期日这一新命题，这种 A 并且 B 的命题运算称作逻辑与英语中 and 表示</p>
+<pre><code>A &amp; B 表示A和B都为true时候这个命题才为true
+</code></pre>
+<h3 id="逻辑或"><a href="#逻辑或" class="headerlink" title="逻辑或"></a>逻辑或</h3><p>假设超市对<code>持有礼券A或持有礼券B</code>的顾客实行打折优惠，同时持有礼券 A 和 B 没关系，持有礼券 A<code>或</code>持有礼券 B，是由<code>持有礼券A</code>和<code>持有礼券B</code>这两个命题组成的，将这种命题运算称为<code>逻辑或</code>。在英语中用 or</p>
+<pre><code>A || B A和B有一个为true时候这个命题就为true
+</code></pre>
+<h3 id="异或"><a href="#异或" class="headerlink" title="异或"></a>异或</h3><p>现在将假设命题<code>他现在在东京</code>和命题<code>他现在在大阪</code>醋和起来形成命题<code>他现在在东京或者他现在在大阪</code>，这里的或者和前面讲的逻辑或不同，因为他只能在大阪或者东京的<code>其中一处</code>，不可能同时在两地出现</p>
+<pre><code>A &amp;&amp; B
+</code></pre>
+<h3 id="相等"><a href="#相等" class="headerlink" title="相等"></a>相等</h3><pre><code>A = B
+</code></pre>
+<h3 id="若-A-则-B"><a href="#若-A-则-B" class="headerlink" title="若 A 则 B"></a>若 A 则 B</h3><p>A 命题<code>乘客的年龄10岁以上</code>，B 命题为<code>乘客的年龄6岁以上</code>，那么<code>若A则B</code>的命题成立原因在于满足命题 A 的乘客必定满足 B</p>
+<pre><code>A=&gt;B
+</code></pre>
+<h1 id="余数"><a href="#余数" class="headerlink" title="余数"></a>余数</h1><blockquote>
+<p>周期性和分组</p>
+</blockquote>
+<p>余数就是作除法运算时的剩下的数，不过余数只在学习除法运算时略见其影，然而无论在数学，还是在编程中，余数都起着非常重要的作用。</p>
+<h2 id="星期数的思考"><a href="#星期数的思考" class="headerlink" title="星期数的思考"></a>星期数的思考</h2><p>思考题：<br>如果今天是周末，那么 100 天之后是星期几</p>
+<h3 id="思考答案"><a href="#思考答案" class="headerlink" title="思考答案"></a>思考答案</h3><p>一周七天，七天一个循环</p>
+<h3 id="运用余数思考"><a href="#运用余数思考" class="headerlink" title="运用余数思考"></a>运用余数思考</h3><pre><code>100/7 = 14 余 2
+</code></pre>
+<p>得到一百天之后是星期二</p>
+<h3 id="余数的力量-将较大的数字除一次就能分组"><a href="#余数的力量-将较大的数字除一次就能分组" class="headerlink" title="余数的力量-将较大的数字除一次就能分组"></a>余数的力量-将较大的数字除一次就能分组</h3><p>100 天之后是星期二，靠数数就能数过来，如果问题改为<code>一亿天之后是星期几</code>，那么靠数数就解决不了问题了。即使一秒一下的数也要数三年。<br>如果运用余数的话，一亿天之后的星期数很快就能算出来</p>
+<pre><code>100000000/7 = 14285714 余 2
+</code></pre>
+<h3 id="发现规律"><a href="#发现规律" class="headerlink" title="发现规律"></a>发现规律</h3><p>在星期数的问题中利用星期数的周期为 7，可以推断除 100 天后的星期树，利用任意天数除以 7 得到的余数就是星期几。</p>
+<p>所以只要着眼于 0 的个数，处理超大的数字也会变得更为轻松，这个对数的概念也有密切的关系。</p>
+<h1 id="数学归纳法"><a href="#数学归纳法" class="headerlink" title="数学归纳法"></a>数学归纳法</h1><blockquote>
+<p>如何征服无穷数列</p>
+</blockquote>
+<p>数学归纳法是证明耨断言对于 0 以上的所有整数都成立的方法，整数右无穷个，若使用数学归纳法，只需要几个步骤，就能证明有关无穷的命题</p>
+<h2 id="高斯求和"><a href="#高斯求和" class="headerlink" title="高斯求和"></a>高斯求和</h2><p>有一个储钱罐从第一天开始，存入一元第二天两元第三天三元依次类推，那么 100 天以后储钱罐里面右多少钱</p>
+<p>当年高斯大佬是如何解答的想必都知道。</p>
+<p>高斯大佬的解答方案绝妙非凡<br>利用首尾相加等于 101 的规律得出了 5050 元</p>
+<h2 id="归纳"><a href="#归纳" class="headerlink" title="归纳"></a>归纳</h2><p>高斯运用了一下的等式</p>
+<p>$$1+2+3+4+…+100 = \frac{(100+1)*100}{2}$$</p>
+<p>这里使用变量 n 将 1 到 100 归纳到 1 到 n 这样上面的等式就变成了</p>
+<p>$$ 0+1+2+3….+n = \frac{(n+1)*n}{2}$$</p>
+<p>数学归纳法是证明<code>断言对于0以上所有的整数n都成立的方法</code></p>
+<h2 id="数学归纳发-如何政府无穷数列"><a href="#数学归纳发-如何政府无穷数列" class="headerlink" title="数学归纳发-如何政府无穷数列"></a>数学归纳发-如何政府无穷数列</h2><p>首先从 0 以上的整数的断言开始学，然后使用数学归纳法来证明高斯的断言</p>
+<h3 id="0-以上的整数的断言"><a href="#0-以上的整数的断言" class="headerlink" title="0 以上的整数的断言"></a>0 以上的整数的断言</h3><p><code>0以上的整数n的断言</code>，就是能够判定 0,1,2,3…等个整数为真或者假的断言</p>
+<p>例如断言</p>
+<pre><code>n × 2 为偶数
+</code></pre>
+<p>又如断言</p>
+<pre><code>n × 3 为奇数
+</code></pre>
+<h3 id="高斯的断言"><a href="#高斯的断言" class="headerlink" title="高斯的断言"></a>高斯的断言</h3><p>在讨论了 0 以上的整数 n 的断言之后，返回看高斯的断言</p>
+<p>断言 G(n)：0 到 n 的整数之和为：$$\frac{n×(n+1)}{2}$$</p>
+<h3 id="什么是数学归纳法"><a href="#什么是数学归纳法" class="headerlink" title="什么是数学归纳法"></a>什么是数学归纳法</h3><p>数学归纳法是证明有关整数的断言对于 0 以上的所有整数是否成立时候所使用的方法</p>
+<p>数学归纳法要经过一下两个步骤进行证明，这是本章核心内容</p>
+<p>步骤:</p>
+<ol>
+<li><p>证明<code>P(0)成立</code></p>
+</li>
+<li><p>证明不论 K 为 0 以上的哪个整数，<code>若P(k)成立，则P(K+1)也成立</code></p>
+</li>
+</ol>
+<p>在步骤 1 中，要证明 k 为 0 是断言 P(0)成立，我们将步骤 1 称为基底<br>在步骤 2 中，要证明无论 k 为 0 以上的哪个整数<code>若P(K)成立，则P(K+1)也成立</code><br>我们将步骤 2 称为<code>归纳</code>，该步骤证明断言若对于 0 以上的某个整数成立，则对于下一个整数也成立</p>
+<h2 id="求出奇数之和"><a href="#求出奇数之和" class="headerlink" title="求出奇数之和"></a>求出奇数之和</h2><p>使用数学归纳法来证明另一个断言</p>
+<h3 id="奇数之和"><a href="#奇数之和" class="headerlink" title="奇数之和"></a>奇数之和</h3><p>请证明以下断言 Q(n)对于 1 以上所有整数 n 都成立</p>
+<p>断言 Q(n):</p>
+<p>$$1+2+3+4…+(2×n-1) = n^2$$</p>
+<p>按从小到大的顺序将 n 个奇数相加，得到 n²，在证明之前，先通过比较小的数 n = 1、 2、 3、 4、 5 判断 Q(n)的真假</p>
+<p>断言 Q(1): 1 = 1²<br>断言 Q(2): 1 + 3 = 2²<br>断言 Q(3): 1 + 3 + 5 = 3²<br>断言 Q(4)：1 + 3 + 5 + 7 = 4²<br>断言 Q(5)：1 + 3 + 5 + 7 = 5²</p>
+<p>通过以上计算发现断言确实是成立的</p>
+<h2 id="编程和数学归纳法"><a href="#编程和数学归纳法" class="headerlink" title="编程和数学归纳法"></a>编程和数学归纳法</h2><h3 id="通过循环表示数学归纳法"><a href="#通过循环表示数学归纳法" class="headerlink" title="通过循环表示数学归纳法"></a>通过循环表示数学归纳法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">prove</span> (<span class="params">n</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> k</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;现在开始证明&quot;</span>+n+<span class="string">&quot;成立&quot;</span>)</span><br><span class="line">    k = <span class="number">0</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;根据步骤1得出&quot;</span>+k+<span class="string">&quot;成立&quot;</span>)</span><br><span class="line">    <span class="keyword">while</span> (k &lt; n) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`根据步骤2可以说若<span class="subst">$&#123;k&#125;</span>成立则<span class="subst">$&#123;k+<span class="number">1</span>&#125;</span>也成立`</span>)</span><br><span class="line">        k = k + <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;证明结束&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line">prove(<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">现在开始证明10成立</span></span><br><span class="line"><span class="comment">根据步骤1得出0成立</span></span><br><span class="line"><span class="comment">根据步骤2可以说若0成立则1也成立</span></span><br><span class="line"><span class="comment">根据步骤2可以说若1成立则2也成立</span></span><br><span class="line"><span class="comment">根据步骤2可以说若2成立则3也成立</span></span><br><span class="line"><span class="comment">根据步骤2可以说若3成立则4也成立</span></span><br><span class="line"><span class="comment">根据步骤2可以说若4成立则5也成立</span></span><br><span class="line"><span class="comment">根据步骤2可以说若5成立则6也成立</span></span><br><span class="line"><span class="comment">根据步骤2可以说若6成立则7也成立</span></span><br><span class="line"><span class="comment">根据步骤2可以说若7成立则8也成立</span></span><br><span class="line"><span class="comment">根据步骤2可以说若8成立则9也成立</span></span><br><span class="line"><span class="comment">根据步骤2可以说若9成立则10也成立</span></span><br><span class="line"><span class="comment">证明结束</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="排列组合"><a href="#排列组合" class="headerlink" title="排列组合"></a>排列组合</h1><blockquote>
+<p>解决计数问题的方法</p>
+</blockquote>
+<p>无论在生活中还是编程中，准确无误计数都非常要，首先学习<code>数数</code>，与整数的对应关系</p>
+<h2 id="计数"><a href="#计数" class="headerlink" title="计数"></a>计数</h2><p>数数对我们来说是家常便饭，然而数数是究竟是什么样的行为，例如要输出摆放的牌数时，便依次进行下述操作。</p>
+<ol>
+<li><p>选出一张牌说 1</p>
+</li>
+<li><p>选出一张牌说 2</p>
+</li>
+<li><p>选出一张牌说 3</p>
+</li>
+<li><p>选出一张牌说….</p>
+</li>
+</ol>
+<p>重复上述动作，直到所有牌数完为止最后所报之数就是牌数。这是一个将计数对象与整数对应起来的过程，只要与整数正确的对应，计数的结果就是正确的。</p>
+<h3 id="加法法则"><a href="#加法法则" class="headerlink" title="加法法则"></a>加法法则</h3><p>要数出分为两个集合的事物时，可以使用加法法则</p>
+<p>加法法则就是将无重复元素的几个 A、B 相加得到 A+B 的元素数</p>
+<h3 id="乘法法则"><a href="#乘法法则" class="headerlink" title="乘法法则"></a>乘法法则</h3><pre><code>A × B
+</code></pre>
+<h3 id="置换"><a href="#置换" class="headerlink" title="置换"></a>置换</h3><p>将 n 个事物按照顺序进行排列称为<code>置换</code></p>
+<h1 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h1><blockquote>
+<p>自己定义自己</p>
+</blockquote>
+<p>递归是一种奇妙的思考方法，它<code>使用自己来定义自己</code>无论是数学还是编程都经常使用递归</p>
+<p>几个例子不知道怎么怎么记，而且递归并不复杂，只要找出问题中隐含的<code>递归结构</code>就能由此到处递归定义和递归递推公式，以递归形式来描述具有递归结构的事物，一来显得比较自然，二来能够简洁的描述复杂的结构</p>
+<h1 id="指数爆炸"><a href="#指数爆炸" class="headerlink" title="指数爆炸"></a>指数爆炸</h1><blockquote>
+<p>如何解决复杂的问题</p>
+</blockquote>
+<p>指数是指数字呈爆炸式增长，一旦处理不好，该问题可能会膨胀到难以收拾的底部，相反，若能巧妙利用指数爆炸，它将称为解决问题的有力武器</p>
+<p>假设有一张厚度为 1mm 的纸，非常柔软可以对折无数次，每对折一次厚度翻倍，已知地球距离月球 39 万公里，请问对折多少次之后能超过地球到月球距离</p>
+<p>答案是 39 次</p>
+<p>仅仅对折 39 次就让 1mm 纸的厚度达到了地球到月球的距离，仅仅反复折纸，数字不断翻倍，很快就得到了一个非常庞大的数字，我们把这种数字称为指数爆炸。</p>
+<h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><p>二分查找也很简单。书上都是图，不好描述</p>
+<h2 id="对数"><a href="#对数" class="headerlink" title="对数"></a>对数</h2><p>一旦发生指数爆炸，数字就会变得非常庞大，处理这种庞大数字的工具就是–对数</p>
+<h3 id="什么事对数"><a href="#什么事对数" class="headerlink" title="什么事对数"></a>什么事对数</h3><p>求数字 100000 中 0 的个数 5，就称作求 100000 的对数，也称取对数、计算对数。</p>
+<p>再庞大的数，其对数也会相对比较小，因为对对数使用 0 的个数来表示数字，1000 的对数是 3 的表示更正确的写法是<code>以10为底，1000的对数3</code>这里说的<code>底</code>相当于<code>什么的3次方为1000</code>的什么底叶称为基数</p>
+<p>$$10^5 = 100000$$<br>$$log_{10^{100000}} = 5$$</p>
+<h3 id="以-2-为底数"><a href="#以-2-为底数" class="headerlink" title="以 2 为底数"></a>以 2 为底数</h3><p>$$2^3=8$$<br>$$log_{2^8} = 3$$</p>
+<h3 id="指数法则和对数"><a href="#指数法则和对数" class="headerlink" title="指数法则和对数"></a>指数法则和对数</h3><p>$$10^2+10^3 = 10^{2+3}$$</p>
+<p>可以得到</p>
+<p>$$10^a+10^b = 10^{a+b}$$</p>
+<p>而对应的指数运算法则如下</p>
+<p>$$log_10(A×B) = log_{10^A}+log_{10^B}$$</p>
+<h3 id="密码"><a href="#密码" class="headerlink" title="密码"></a>密码</h3><p>利用指数爆炸加密</p>
+<p>暴力破解法</p>
+<p>现在使用的密码，是用俗称<code>秘钥</code>的随机字节流来加密的，只有知道这个<code>秘钥</code>的人才能将密文还原为原来的消息</p>
+<p>如果加密算法没有弱点，那就只能穷举的实验秘钥，即做出和秘钥长度相同的字节流，尝试破解密文，这种密码破解方法称为暴力破解法</p>
+<p>字长和安全性的关系</p>
+<p>被用作秘钥的字节流长度越长，暴力破解就越费时。<br>如果密码只有三位，那么正确的秘钥必然是下列八种之一</p>
+<pre><code>000 001 010 011 100 101 110 111
+</code></pre>
+<p>如果是四位，那么就有十六种情况，依次类推，尝试的次数是成倍增加的，现实中常用的秘钥都在 128 位以上</p>
+<p>如果只考虑是否可以破解，那么几乎所有的密码都是可以使用暴力破解方法来破解的，但是<code>可以破解</code>和<code>可以在现实时间内破解</code>是两回事，一个 512 位的密码，是目前人类的时间和能力远远无法处理的</p>
+<h2 id="如何处理指数爆炸"><a href="#如何处理指数爆炸" class="headerlink" title="如何处理指数爆炸"></a>如何处理指数爆炸</h2><h3 id="理解空间的大小"><a href="#理解空间的大小" class="headerlink" title="理解空间的大小"></a>理解空间的大小</h3><p>比如在书架上找一本书，如果书架上的书没有规律那么查找起来就很复杂了<br>但是如果书是右规律的那么就很快就能找到，遇到任何问题，只要具备<code>判断是否已有成功破解的方法</code>和<code>按顺序试解的步骤</code>就可以使用暴力破解法。这种方法被称为解密原理</p>
+<p>有四中处理方法</p>
+<p>对于设计指数爆炸的问题，大体上右四中处理方法</p>
+<ol>
+<li>极力求解</li>
+</ol>
+<p>第一种方法是直到方法后极力求解，即增强计算机性能方法，但是问题规模稍微扩大之后就应付不了了，这就变成了规模和计算机性能之间的赛跑。</p>
+<ol start="2">
+<li>变相求解</li>
+</ol>
+<p>第二种方法是转换成简单问题来解决，即寻找更好的解法和算法。但是遗憾的是，对于指数爆炸的问题，并非总能找到一个比一个不漏的反复实验更好的方法，这是一项极具难度的工作</p>
+<ol start="3">
+<li>近似求解</li>
+</ol>
+<p>第三种方法是<code>不求完全解答，而是找出近似解</code>这是通过估算或者使用模拟器等求解的方法，虽然得出的结果在数学层面不够严谨，但是有助于实际应用</p>
+<ol start="4">
+<li>概率求解</li>
+</ol>
+<p>第四种方法是<code>概率求解</code>这是求解时使用随机数的方法，好比掷筛子得到的数，靠运气，运气好就能解出来，运气差就。。不过在实际运用中确是非常重要的方法</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%9F%BA%E7%A1%80%E6%95%B0%E5%AD%A6/" rel="tag"># 基础数学</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/03/31/%E5%AD%A6%E4%B9%A0JavaScript%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="prev" title="学习JavaScript数据结构和算法书笔记">
+                  <i class="fa fa-chevron-left"></i> 学习JavaScript数据结构和算法书笔记
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/04/11/ReactNactive%E4%B8%AD%E4%BD%BF%E7%94%A8iconFont%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9B%BE%E6%A0%87/" rel="next" title="ReactNactive中使用iconFont自定义图标">
+                  ReactNactive中使用iconFont自定义图标 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">H</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

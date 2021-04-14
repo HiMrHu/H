@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.3.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="React-router 源码学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React-router源码分析">
+<meta property="og:url" content="https://github.com/iosh/H.git/2019/05/11/React-router%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="胡先生">
+<meta property="og:description" content="React-router 源码学习">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-05-11T13:53:25.000Z">
+<meta property="article:modified_time" content="2021-04-14T08:31:47.422Z">
+<meta property="article:author" content="H">
+<meta property="article:tag" content="React">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/iosh/H.git/2019/05/11/React-router%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>React-router源码分析 | 胡先生</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">胡先生</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E7%AF%87"><span class="nav-number">1.</span> <span class="nav-text">开篇</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BrowserRouter"><span class="nav-number">2.</span> <span class="nav-text">BrowserRouter</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Router"><span class="nav-number">3.</span> <span class="nav-text">Router</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Switch"><span class="nav-number">4.</span> <span class="nav-text">Switch</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Route"><span class="nav-number">5.</span> <span class="nav-text">Route</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Link"><span class="nav-number">6.</span> <span class="nav-text">Link</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#withRouter"><span class="nav-number">7.</span> <span class="nav-text">withRouter</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%96%91%E9%97%AE"><span class="nav-number">8.</span> <span class="nav-text">常见疑问</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#BrowserRouter-%E5%92%8C-HashRouter-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">8.1.</span> <span class="nav-text">BrowserRouter 和 HashRouter 的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React-router-dom-%E5%92%8C-React-router-%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB"><span class="nav-number">8.2.</span> <span class="nav-text">React-router-dom 和 React-router 的区别和联系</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">H</p>
+  <div class="site-description" itemprop="description">个人学习笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iosh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iosh"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/iosh/H.git/2019/05/11/React-router%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="H">
+      <meta itemprop="description" content="个人学习笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="胡先生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          React-router源码分析
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-05-11 13:53:25" itemprop="dateCreated datePublished" datetime="2019-05-11T13:53:25+00:00">2019-05-11</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-14 08:31:47" itemprop="dateModified" datetime="2021-04-14T08:31:47+00:00">2021-04-14</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>React-router 源码学习</p>
+<span id="more"></span>
+
+<h1 id="开篇"><a href="#开篇" class="headerlink" title="开篇"></a>开篇</h1><p>开篇通过一个最简单的 React-Router 的 demo 来进行学习</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">&quot;react-dom&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; BrowserRouter <span class="keyword">as</span> Router, Route, Link &#125; <span class="keyword">from</span> <span class="string">&quot;react-router-dom&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Index</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">About</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>About<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Users</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>Users<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">AppRouter</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;Router&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;nav&gt;</span><br><span class="line">          &lt;ul&gt;</span><br><span class="line">            &lt;li&gt;</span><br><span class="line">              &lt;Link to=<span class="string">&quot;/&quot;</span>&gt;Home&lt;/Link&gt;</span><br><span class="line">            &lt;/li&gt;</span><br><span class="line">            &lt;li&gt;</span><br><span class="line">              &lt;Link to=<span class="string">&quot;/about/&quot;</span>&gt;About&lt;/Link&gt;</span><br><span class="line">            &lt;/li&gt;</span><br><span class="line">            &lt;li&gt;</span><br><span class="line">              &lt;Link to=<span class="string">&quot;/users/&quot;</span>&gt;Users&lt;/Link&gt;</span><br><span class="line">            &lt;/li&gt;</span><br><span class="line">          &lt;/ul&gt;</span><br><span class="line">        &lt;/nav&gt;</span><br><span class="line"></span><br><span class="line">        &lt;Route path=<span class="string">&quot;/&quot;</span> exact component=&#123;Index&#125; /&gt;</span><br><span class="line">        &lt;Route path=<span class="string">&quot;/about/&quot;</span> component=&#123;About&#125; /&gt;</span><br><span class="line">        &lt;Route path=<span class="string">&quot;/users/&quot;</span> component=&#123;Users&#125; /&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/Router&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> rootElement = <span class="built_in">document</span>.getElementById(<span class="string">&quot;root&quot;</span>);</span><br><span class="line">ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">AppRouter</span> /&gt;</span></span>, rootElement);</span><br></pre></td></tr></table></figure>
+
+<p>这个来自官网的 demo,其中有四个组件分别讲解一下</p>
+<ol>
+<li><code>BrowserRouter</code></li>
+<li><code>Router</code></li>
+<li><code>Route</code></li>
+<li><code>Link</code></li>
+</ol>
+<h1 id="BrowserRouter"><a href="#BrowserRouter" class="headerlink" title="BrowserRouter"></a>BrowserRouter</h1><p>BrowserRouter 作为最外层的组件,它需要是所有的 Route 的父组件.</p>
+<p>BrowserRouter 源码比较短下面直接展示一下</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Router &#125; <span class="keyword">from</span> <span class="string">&quot;react-router&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; createBrowserHistory <span class="keyword">as</span> createHistory &#125; <span class="keyword">from</span> <span class="string">&quot;history&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> PropTypes <span class="keyword">from</span> <span class="string">&quot;prop-types&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> warning <span class="keyword">from</span> <span class="string">&quot;tiny-warning&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The public API for a &lt;Router&gt; that uses HTML5 history.</span></span><br><span class="line"><span class="comment"> * 公开一个基于 HTML5 history 的 api &lt;Router&gt;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BrowserRouter</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  history = createHistory(<span class="built_in">this</span>.props);</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Router</span> <span class="attr">history</span>=<span class="string">&#123;this.history&#125;</span> <span class="attr">children</span>=<span class="string">&#123;this.props.children&#125;</span> /&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">  BrowserRouter.propTypes = &#123;</span><br><span class="line">    basename: PropTypes.string,</span><br><span class="line">    children: PropTypes.node,</span><br><span class="line">    forceRefresh: PropTypes.bool,</span><br><span class="line">    getUserConfirmation: PropTypes.func,</span><br><span class="line">    keyLength: PropTypes.number</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  BrowserRouter.prototype.componentDidMount = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    warning(</span><br><span class="line">      !<span class="built_in">this</span>.props.history,</span><br><span class="line">      <span class="string">&quot;&lt;BrowserRouter&gt; ignores the history prop. To use a custom history, &quot;</span> +</span><br><span class="line">        <span class="string">&quot;use `import &#123; Router &#125;` instead of `import &#123; BrowserRouter as Router &#125;`.&quot;</span></span><br><span class="line">    );</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> BrowserRouter;</span><br></pre></td></tr></table></figure>
+
+<p>这个组件,非常简单,通过引入和初始化 <code>history</code> 包来获得一个 history 对象, 然后在 componentDidMount 生命周期中添加了一个检查, 这个检查是判断 props 中是否有 history 属性,如果存在的话,那么就弹出一个警告, 如果要使用自定义 history 对象那么就需要使用 import {Router} from ‘react-router-dom’来使用. 最后这个组件返回了 <code>react-router</code> 包中的 <code>Router</code> 组件.</p>
+<h1 id="Router"><a href="#Router" class="headerlink" title="Router"></a>Router</h1><p>Router 组件篇幅比较长, 我会忽略一些样板代码,通常是一些 import 和 if(<strong>DEV</strong>), <strong>DEV</strong> 是作者设定的一个全局变量,这个变量等于 <code>&#39;production&#39; === process.env.NODE_ENV</code> 是用来判断当前是否处于开发环境.</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// Router 组件中使用的 context 并不是 React自带的,因为React16版本的context不支持React15,因为React-router需要兼容React15所以使用了一个第三方实现的context,而这个第三方实现的context使用的是React15 的旧版本 context.</span></span><br><span class="line"><span class="keyword">import</span> RouterContext <span class="keyword">from</span> <span class="string">&quot;./RouterContext&quot;</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The public API for putting history on context.</span></span><br><span class="line"><span class="comment"> * 通过 context 向下传播 history</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Router</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line"><span class="comment">// 这个静态方法用用户生成 match对象</span></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">static</span> <span class="function"><span class="title">computeRootMatch</span>(<span class="params">pathname</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; <span class="attr">path</span>: <span class="string">&quot;/&quot;</span>, <span class="attr">url</span>: <span class="string">&quot;/&quot;</span>, <span class="attr">params</span>: &#123;&#125;, <span class="attr">isExact</span>: pathname === <span class="string">&quot;/&quot;</span> &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">props</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>(props);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这里使用state储存props传递下来的history的location(主要是用于通过setState更改location来触发重新渲染,因为BrowserRouter仅仅是初始化和传递了history对象)</span></span><br><span class="line">    <span class="built_in">this</span>.state = &#123;</span><br><span class="line">      location: props.history.location</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// This is a bit of a hack. We have to start listening for location</span></span><br><span class="line">    <span class="comment">// changes here in the constructor in case there are any &lt;Redirect&gt;s</span></span><br><span class="line">    <span class="comment">// on the initial render. If there are, they will replace/push when</span></span><br><span class="line">    <span class="comment">// they mount and since cDM fires in children before parents, we may</span></span><br><span class="line">    <span class="comment">// get a new location before the &lt;Router&gt; is mounted.</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 开始通过history对象提供的监听方法,添加监听事件,</span></span><br><span class="line">    <span class="comment">// 如果有在构造函数还在执行的时候location发生了任何变化,需要记录下来.</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">this</span>._isMounted = <span class="literal">false</span>; <span class="comment">// 用于监听组件是否加载,这个变量会在didMount周期内赋值为true</span></span><br><span class="line">    <span class="built_in">this</span>._pendingLocation = <span class="literal">null</span>; <span class="comment">// 用于储存最新的location</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!props.staticContext) &#123; <span class="comment">// 如果 staticContext 对象不存在,那么执行方法 staticContext 对象是在服务端渲染存在且必须的</span></span><br><span class="line">      <span class="built_in">this</span>.unlisten = props.history.listen(<span class="function"><span class="params">location</span> =&gt;</span> &#123; <span class="comment">// 添加监听事件</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>._isMounted) &#123; <span class="comment">// 如果组件已经加载,不过理论上还在执行构造函数组件不肯能已经加载</span></span><br><span class="line">          <span class="built_in">this</span>.setState(&#123; location &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;<span class="comment">// 否则使用变量来记录location</span></span><br><span class="line">          <span class="built_in">this</span>._pendingLocation = location;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">componentDidMount</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>._isMounted = <span class="literal">true</span>; <span class="comment">// 组件已经加载 赋值为 true</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span>._pendingLocation) &#123;<span class="comment">// 如果不是服务端渲染那么_pendingLocation是存在值得更新到state内</span></span><br><span class="line">      <span class="built_in">this</span>.setState(&#123; <span class="attr">location</span>: <span class="built_in">this</span>._pendingLocation &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">componentWillUnmount</span>(<span class="params"></span>)</span> &#123; <span class="comment">// 清理工作处理</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span>.unlisten) <span class="built_in">this</span>.unlisten();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> ( <span class="comment">// 返回一个 context 组件</span></span><br><span class="line">      &lt;RouterContext.Provider</span><br><span class="line">        children=&#123;<span class="built_in">this</span>.props.children || <span class="literal">null</span>&#125; <span class="comment">// 传递children</span></span><br><span class="line">        value=&#123;&#123; <span class="comment">// 传递 context 的值</span></span><br><span class="line">          history: <span class="built_in">this</span>.props.history, <span class="comment">// history</span></span><br><span class="line">          location: <span class="built_in">this</span>.state.location,<span class="comment">// location</span></span><br><span class="line">          match: Router.computeRootMatch(<span class="built_in">this</span>.state.location.pathname), <span class="comment">// match对象</span></span><br><span class="line">          staticContext: <span class="built_in">this</span>.props.staticContext <span class="comment">// 这个服务端渲染才会存在</span></span><br><span class="line">        &#125;&#125;</span><br><span class="line">      /&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  Router.prototype.componentDidUpdate = <span class="function"><span class="keyword">function</span>(<span class="params">prevProps</span>) </span>&#123; <span class="comment">// 检查</span></span><br><span class="line">    warning(</span><br><span class="line">      prevProps.history === <span class="built_in">this</span>.props.history,</span><br><span class="line">      <span class="string">&quot;You cannot change &lt;Router history&gt;&quot;</span></span><br><span class="line">    );</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Router;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Switch"><a href="#Switch" class="headerlink" title="Switch"></a>Switch</h1><p>这里先介绍一个 Switch 组件, 看过文档的应该知道 Switch 组件的作用是只匹配一个完全符合 location 的 Router 组件,怎么理解呢举个例子</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">AppRouter</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;Router&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;nav&gt;</span><br><span class="line">          &lt;ul&gt;</span><br><span class="line">            &lt;li&gt;</span><br><span class="line">              &lt;Link to=<span class="string">&quot;/&quot;</span>&gt;Home&lt;/Link&gt;</span><br><span class="line">            &lt;/li&gt;</span><br><span class="line">            &lt;li&gt;</span><br><span class="line">              &lt;Link to=<span class="string">&quot;/about/&quot;</span>&gt;About&lt;/Link&gt;</span><br><span class="line">            &lt;/li&gt;</span><br><span class="line">            &lt;li&gt;</span><br><span class="line">              &lt;Link to=<span class="string">&quot;/users/&quot;</span>&gt;Users&lt;/Link&gt;</span><br><span class="line">            &lt;/li&gt;</span><br><span class="line">          &lt;/ul&gt;</span><br><span class="line">        &lt;/nav&gt;</span><br><span class="line"></span><br><span class="line">        &lt;Route path=<span class="string">&quot;/&quot;</span> component=&#123;Index&#125; /&gt;</span><br><span class="line">        &lt;Route path=<span class="string">&quot;/users&quot;</span> component=&#123;Users&#125; /&gt;</span><br><span class="line">        &lt;Route path=<span class="string">&quot;/about/&quot;</span> component=&#123;About&#125; /&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/Router&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上组件如果不带没有 switch 组件包裹那么当导航到<code>/about</code> 和 <code>/users</code>‘的时候其他两个也会被渲染,因为<code>/about</code> 和 <code>/users</code> 中都包含了 <code>/</code></p>
+<p>那么加上<code>Switch</code>之后就会避免这种情况,会进行精准匹配.</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;Switch&gt;</span><br><span class="line">  &lt;Route path=<span class="string">&quot;/&quot;</span> component=&#123;Index&#125; /&gt;</span><br><span class="line">  &lt;Route path=<span class="string">&quot;/users&quot;</span> component=&#123;Users&#125; /&gt;</span><br><span class="line">  &lt;Route path=<span class="string">&quot;/about/&quot;</span> component=&#123;About&#125; /&gt;</span><br><span class="line">&lt;/Switch&gt;</span><br></pre></td></tr></table></figure>
+
+<p>源码如下</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> RouterContext <span class="keyword">from</span> <span class="string">&quot;./RouterContext&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> matchPath <span class="keyword">from</span> <span class="string">&quot;./matchPath&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The public API for rendering the first &lt;Route&gt; that matches.</span></span><br><span class="line"><span class="comment"> * Switch 组件渲染第一个符合条件的 Route 组件</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Switch</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;RouterContext.Consumer&gt;</span><br><span class="line">        &#123;<span class="string">&quot; &quot;</span>&#125;</span><br><span class="line">        <span class="comment">// 订阅 context</span></span><br><span class="line">        &#123;<span class="function"><span class="params">context</span> =&gt;</span> &#123;</span><br><span class="line">          invariant(context, <span class="string">&quot;You should not use &lt;Switch&gt; outside a &lt;Router&gt;&quot;</span>); <span class="comment">// 检查context是否存在</span></span><br><span class="line"></span><br><span class="line">          <span class="keyword">const</span> location = <span class="built_in">this</span>.props.location || context.location;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">let</span> element, match;</span><br><span class="line"></span><br><span class="line">          <span class="comment">// We use React.Children.forEach instead of React.Children.toArray().find()</span></span><br><span class="line">          <span class="comment">// here because toArray adds keys to all child elements and we do not want</span></span><br><span class="line">          <span class="comment">// to trigger an unmount/remount for two &lt;Route&gt;s that render the same</span></span><br><span class="line">          <span class="comment">// component at different URLs.</span></span><br><span class="line">          <span class="comment">// 通过React 提供的children的方法遍历children,</span></span><br><span class="line">          React.Children.forEach(<span class="built_in">this</span>.props.children, <span class="function"><span class="params">child</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (match == <span class="literal">null</span> &amp;&amp; React.isValidElement(child)) &#123;</span><br><span class="line">              <span class="comment">// 如果 match 为空而且 child是react组件</span></span><br><span class="line">              element = child;</span><br><span class="line"></span><br><span class="line">              <span class="keyword">const</span> path = child.props.path || child.props.from; <span class="comment">// Router的path参数</span></span><br><span class="line"></span><br><span class="line">              match = path</span><br><span class="line">                ? matchPath(location.pathname, &#123; ...child.props, path &#125;) <span class="comment">// 解析参数和生成match对象</span></span><br><span class="line">                : context.match;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;);</span><br><span class="line"></span><br><span class="line">          <span class="keyword">return</span> match</span><br><span class="line">            ? React.cloneElement(element, &#123; location, <span class="attr">computedMatch</span>: match &#125;) <span class="comment">// 返回一个克隆的组件并添加location和 computedMatch 对象</span></span><br><span class="line">            : <span class="literal">null</span>;</span><br><span class="line">        &#125;&#125;</span><br><span class="line">      &lt;/RouterContext.Consumer&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Route"><a href="#Route" class="headerlink" title="Route"></a>Route</h1><p>Route 是 BrowserRouter 或者 Switch 的子组件,主要是根据 path 和 location 进行匹配渲染.<br>代码删掉了警告和开发验证.</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> RouterContext <span class="keyword">from</span> <span class="string">&quot;./RouterContext&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> matchPath <span class="keyword">from</span> <span class="string">&quot;./matchPath&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isEmptyChildren</span>(<span class="params">children</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> React.Children.count(children) === <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The public API for matching a single path and rendering.</span></span><br><span class="line"><span class="comment"> * Route 组件, 根据path进行渲染</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Route</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;RouterContext.Consumer&gt;</span><br><span class="line">        &#123;<span class="string">&quot; &quot;</span>&#125;</span><br><span class="line">        <span class="comment">// context</span></span><br><span class="line">        &#123;<span class="function"><span class="params">context</span> =&gt;</span> &#123;</span><br><span class="line">          invariant(context, <span class="string">&quot;You should not use &lt;Route&gt; outside a &lt;Router&gt;&quot;</span>); <span class="comment">// 判断顶级是否存在 Router 组件,如果不存在进行报错,</span></span><br><span class="line"></span><br><span class="line">          <span class="keyword">const</span> location = <span class="built_in">this</span>.props.location || context.location; <span class="comment">//获得location</span></span><br><span class="line">          <span class="keyword">const</span> match = <span class="built_in">this</span>.props.computedMatch <span class="comment">// 判断 是否存在 computedMatch 对象, computedMatch对象是Switch组件传递下来的, 如果存在就使用如果不存在那么自己解析</span></span><br><span class="line">            ? <span class="built_in">this</span>.props.computedMatch <span class="comment">// &lt;Switch&gt; already computed the match for us</span></span><br><span class="line">            : <span class="built_in">this</span>.props.path</span><br><span class="line">            ? matchPath(location.pathname, <span class="built_in">this</span>.props)</span><br><span class="line">            : context.match;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">const</span> props = &#123; ...context, location, match &#125;;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">let</span> &#123; children, component, render &#125; = <span class="built_in">this</span>.props;</span><br><span class="line"></span><br><span class="line">          <span class="comment">// Preact uses an empty array as children by</span></span><br><span class="line">          <span class="comment">// default, so use null if that&#x27;s the case.</span></span><br><span class="line">          <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(children) &amp;&amp; children.length === <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 判断children是否为一个数组 ,api要求是一个函数</span></span><br><span class="line">            children = <span class="literal">null</span>;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">if</span> (<span class="keyword">typeof</span> children === <span class="string">&quot;function&quot;</span>) &#123;</span><br><span class="line">            <span class="comment">// 判断children是否是一个函数</span></span><br><span class="line">            children = children(props); <span class="comment">//如果是就将props传递给它 然后由children函数自己决定渲染</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (children === <span class="literal">undefined</span>) &#123;</span><br><span class="line">              <span class="comment">// 如果children不存在</span></span><br><span class="line"></span><br><span class="line">              children = <span class="literal">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">return</span> (</span><br><span class="line">            &lt;RouterContext.Provider value=&#123;props&#125;&gt;</span><br><span class="line">              &#123;children &amp;&amp; !isEmptyChildren(children) <span class="comment">//如果children属性存在,且是空的</span></span><br><span class="line">                ? children <span class="comment">// 返回空的children</span></span><br><span class="line">                : props.match <span class="comment">// 判断match 是否匹配</span></span><br><span class="line">                ? component <span class="comment">// 如果 component 存在</span></span><br><span class="line">                  ? React.createElement(component, props) <span class="comment">// 渲染component</span></span><br><span class="line">                  : render <span class="comment">// 如果component不存在render存在</span></span><br><span class="line">                  ? render(props) <span class="comment">// 调用render</span></span><br><span class="line">                  : <span class="literal">null</span> <span class="comment">// 不存在返回空</span></span><br><span class="line">                : <span class="literal">null</span>&#125;&#123;<span class="string">&quot; &quot;</span>&#125;</span><br><span class="line">              <span class="comment">// match不匹配返回空</span></span><br><span class="line">            &lt;/RouterContext.Provider&gt;</span><br><span class="line">          );</span><br><span class="line">        &#125;&#125;</span><br><span class="line">      &lt;/RouterContext.Consumer&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Route 主要做几件事情, 从顶级的 Router 组件中接受 location 属性 (也可以是 Route 组件的 location 属性), 判断用户是使用 children 还是 component 还是 render 进行渲染, 根据 location 进行匹配渲染,如果符合就返回,如果不符合就返回 null, 如果 Switch 存在那么 Switch 会传递一个 computedMatch 属性, Route 则会根据它进行渲染.</p>
+<h1 id="Link"><a href="#Link" class="headerlink" title="Link"></a>Link</h1><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isModifiedEvent</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The public API for rendering a history-aware &lt;a&gt;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Link</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">handleClick</span>(<span class="params">event, history</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="built_in">this</span>.props.onClick) <span class="built_in">this</span>.props.onClick(event);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (ex) &#123;</span><br><span class="line">      event.preventDefault();</span><br><span class="line">      <span class="keyword">throw</span> ex;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">      !event.defaultPrevented &amp;&amp; <span class="comment">// onClick prevented default</span></span><br><span class="line">      event.button === <span class="number">0</span> &amp;&amp; <span class="comment">// ignore everything but left clicks</span></span><br><span class="line">      (!<span class="built_in">this</span>.props.target || <span class="built_in">this</span>.props.target === <span class="string">&quot;_self&quot;</span>) &amp;&amp; <span class="comment">// let browser handle &quot;target=_blank&quot; etc.</span></span><br><span class="line">      !isModifiedEvent(event) <span class="comment">// ignore clicks with modifier keys</span></span><br><span class="line">    ) &#123;</span><br><span class="line">      event.preventDefault();</span><br><span class="line"></span><br><span class="line">      <span class="keyword">const</span> method = <span class="built_in">this</span>.props.replace ? history.replace : history.push;</span><br><span class="line"></span><br><span class="line">      method(<span class="built_in">this</span>.props.to);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; innerRef, replace, to, ...rest &#125; = <span class="built_in">this</span>.props; <span class="comment">// eslint-disable-line no-unused-vars</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;RouterContext.Consumer&gt;</span><br><span class="line">        &#123;<span class="string">&quot; &quot;</span>&#125;</span><br><span class="line">        <span class="comment">// 从context中读取context</span></span><br><span class="line">        &#123;<span class="function"><span class="params">context</span> =&gt;</span> &#123;</span><br><span class="line">          invariant(context, <span class="string">&quot;You should not use &lt;Link&gt; outside a &lt;Router&gt;&quot;</span>); <span class="comment">// 如果不存在则报错</span></span><br><span class="line"></span><br><span class="line">          <span class="keyword">const</span> location =</span><br><span class="line">            <span class="keyword">typeof</span> to === <span class="string">&quot;string&quot;</span></span><br><span class="line">              ? createLocation(to, <span class="literal">null</span>, <span class="literal">null</span>, context.location)</span><br><span class="line">              : to;</span><br><span class="line">          <span class="keyword">const</span> href = location ? context.history.createHref(location) : <span class="string">&quot;&quot;</span>; <span class="comment">// 调用函数,根据模式生成对应的url</span></span><br><span class="line"></span><br><span class="line">          <span class="keyword">return</span> (</span><br><span class="line">            &lt;a</span><br><span class="line">              &#123;...rest&#125;</span><br><span class="line">              onClick=&#123;<span class="function"><span class="params">event</span> =&gt;</span> <span class="built_in">this</span>.handleClick(event, context.history)&#125;</span><br><span class="line">              href=&#123;href&#125;</span><br><span class="line">              ref=&#123;innerRef&#125;</span><br><span class="line">            /&gt;</span><br><span class="line">          );</span><br><span class="line">        &#125;&#125;</span><br><span class="line">      &lt;/RouterContext.Consumer&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Like 看代码就非常简单了, 它主要会根据 Router 的 basename 属性(如果有), 和当前模式(如果是 hash 模式那么会加上#号), 然后处理 Click 事件.</p>
+<h1 id="withRouter"><a href="#withRouter" class="headerlink" title="withRouter"></a>withRouter</h1><p>withRouter 组件主要是给任意组件添加 <code>history</code> <code>location</code> <code>match</code> <code>staticContext(服务端渲染属性)</code>,其核心就是通过 context 得到上述属性,然后传递给指定的组件.</p>
+<p>代码没什么好讲解的就是一个 HOC 高阶组件.</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * A public higher-order component to access the imperative API</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">withRouter</span>(<span class="params">Component</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> displayName = <span class="string">`withRouter(<span class="subst">$&#123;Component.displayName || Component.name&#125;</span>)`</span>;</span><br><span class="line">  <span class="keyword">const</span> C = <span class="function"><span class="params">props</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; wrappedComponentRef, ...remainingProps &#125; = props;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;RouterContext.Consumer&gt;</span><br><span class="line">        &#123;<span class="function"><span class="params">context</span> =&gt;</span> &#123;</span><br><span class="line">          invariant(</span><br><span class="line">            context,</span><br><span class="line">            <span class="string">`You should not use &lt;<span class="subst">$&#123;displayName&#125;</span> /&gt; outside a &lt;Router&gt;`</span></span><br><span class="line">          );</span><br><span class="line">          <span class="keyword">return</span> (</span><br><span class="line">            &lt;Component</span><br><span class="line">              &#123;...remainingProps&#125;</span><br><span class="line">              &#123;...context&#125;</span><br><span class="line">              ref=&#123;wrappedComponentRef&#125;</span><br><span class="line">            /&gt;</span><br><span class="line">          );</span><br><span class="line">        &#125;&#125;</span><br><span class="line">      &lt;/RouterContext.Consumer&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  C.displayName = displayName;</span><br><span class="line">  C.WrappedComponent = Component;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">    C.propTypes = &#123;</span><br><span class="line">      wrappedComponentRef: PropTypes.func</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> hoistStatics(C, Component);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="常见疑问"><a href="#常见疑问" class="headerlink" title="常见疑问"></a>常见疑问</h1><h2 id="BrowserRouter-和-HashRouter-的区别"><a href="#BrowserRouter-和-HashRouter-的区别" class="headerlink" title="BrowserRouter 和 HashRouter 的区别"></a>BrowserRouter 和 HashRouter 的区别</h2><p>BrowserRouter 使用 HTML5 的 history 属性来进行管理,<a target="_blank" rel="noopener" href="https://caniuse.com/#search=history">兼容查询</a><br>HashRouter 使用锚点来进行管理,浏览器在 hash 发生变化的时候回触发事件,从而触发重新渲染,用于兼容低版本浏览器.</p>
+<p>上述两个还有两个组件还有一个区别,就是 BrowserRouter 使用的 HTML5 history 产生的 url 是一个真实的 url, 每个地址都会向后端发送一个请求,那么需要后端正确的处理这个请求的响应,否则就会 404,至于后端如何解决这个问题,最简单的就是让后端在 NGINX 配置里面将所有的访问都响应返回<code>index.html</code></p>
+<p>而 HashRouter 实际上是使用的锚点 hash 值作为记录,不管 hash 值如何发生变化实际上 url 都没有发生变化,不会向后端发送请求,也不需要后端进行处理.</p>
+<h2 id="React-router-dom-和-React-router-的区别和联系"><a href="#React-router-dom-和-React-router-的区别和联系" class="headerlink" title="React-router-dom 和 React-router 的区别和联系"></a>React-router-dom 和 React-router 的区别和联系</h2><p>先说区别<code>React-router-dom</code> 提供了 <code>BrowserRouter</code> <code>HashRouter</code> <code>Link</code> <code>NavLink</code> 四个独有的组件,这四个组件是 React-router 中不存在的,也就是说你要使用这四个 api 你就必须安装和使用 React-router-dom.</p>
+<p>他们两者有什么联系, 通过分析源码发现 <code>BrowserRouter</code> <code>HashRouter</code> 两个组件实际上都是调用的 React-router 的 <code>Router</code> 组件, 但是 <code>BrowserRouter</code> <code>HashRouter</code> 组件在内部调用了 history 包,添加了监听事件,生成了 history 属性.</p>
+<p>简单了说 React-router 是一个更为基础的包, React-router-dom 基于它提供了一些组件和方法,可以直接就用.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/React/" rel="tag"># React</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/04/01/%E5%9C%A8React-native%20%E4%B8%AD%E4%BD%BF%E7%94%A8SVG/" rel="prev" title="在 React-native 中使用SVG">
+                  <i class="fa fa-chevron-left"></i> 在 React-native 中使用SVG
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/05/17/Promise%E7%AC%94%E8%AE%B0/" rel="next" title="Promise笔记">
+                  Promise笔记 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">H</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

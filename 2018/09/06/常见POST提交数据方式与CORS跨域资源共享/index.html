@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.3.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="学习一点新知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见 POST 提交数据方式与 CORS 跨域资源共享">
+<meta property="og:url" content="https://github.com/iosh/H.git/2018/09/06/%E5%B8%B8%E8%A7%81POST%E6%8F%90%E4%BA%A4%E6%95%B0%E6%8D%AE%E6%96%B9%E5%BC%8F%E4%B8%8ECORS%E8%B7%A8%E5%9F%9F%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/index.html">
+<meta property="og:site_name" content="胡先生">
+<meta property="og:description" content="学习一点新知识">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-09-06T18:36:03.000Z">
+<meta property="article:modified_time" content="2021-04-14T08:31:47.426Z">
+<meta property="article:author" content="H">
+<meta property="article:tag" content="HTTP">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/iosh/H.git/2018/09/06/%E5%B8%B8%E8%A7%81POST%E6%8F%90%E4%BA%A4%E6%95%B0%E6%8D%AE%E6%96%B9%E5%BC%8F%E4%B8%8ECORS%E8%B7%A8%E5%9F%9F%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>常见 POST 提交数据方式与 CORS 跨域资源共享 | 胡先生</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">胡先生</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#POST-%E6%8F%90%E4%BB%B7%E6%95%B0%E6%8D%AE%E6%96%B9%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">POST 提价数据方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#application-x-www-form-urlencoded"><span class="nav-number">1.1.</span> <span class="nav-text">application&#x2F;x-www-form-urlencoded</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multipart-form-data"><span class="nav-number">1.2.</span> <span class="nav-text">multipart&#x2F;form-data</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#application-json"><span class="nav-number">1.3.</span> <span class="nav-text">application&#x2F;json</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CORS-%E8%B7%A8%E5%9F%9F%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB"><span class="nav-number">2.</span> <span class="nav-text">CORS 跨域资源共享</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E8%AF%B7%E6%B1%82"><span class="nav-number">2.1.</span> <span class="nav-text">简单请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%84%E6%A3%80%E8%AF%B7%E6%B1%82"><span class="nav-number">2.2.</span> <span class="nav-text">预检请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%B8%A6%E8%BA%AB%E4%BB%BD%E5%87%AD%E8%AF%81%E7%9A%84%E8%AF%B7%E6%B1%82"><span class="nav-number">2.3.</span> <span class="nav-text">附带身份凭证的请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-%E5%93%8D%E5%BA%94%E9%A6%96%E9%83%A8%E5%AD%97%E6%AE%B5"><span class="nav-number">2.4.</span> <span class="nav-text">HTTP 响应首部字段</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">H</p>
+  <div class="site-description" itemprop="description">个人学习笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iosh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iosh"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/iosh/H.git/2018/09/06/%E5%B8%B8%E8%A7%81POST%E6%8F%90%E4%BA%A4%E6%95%B0%E6%8D%AE%E6%96%B9%E5%BC%8F%E4%B8%8ECORS%E8%B7%A8%E5%9F%9F%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="H">
+      <meta itemprop="description" content="个人学习笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="胡先生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          常见 POST 提交数据方式与 CORS 跨域资源共享
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-09-06 18:36:03" itemprop="dateCreated datePublished" datetime="2018-09-06T18:36:03+00:00">2018-09-06</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-14 08:31:47" itemprop="dateModified" datetime="2021-04-14T08:31:47+00:00">2021-04-14</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>学习一点新知识</p>
+<span id="more"></span>
+
+<h1 id="POST-提价数据方式"><a href="#POST-提价数据方式" class="headerlink" title="POST 提价数据方式"></a>POST 提价数据方式</h1><p>HTTP 请求定义了多种请求方式，其中 POST 多用于更新和发送数据，是极为常用的一种请求方式，HTTP 协议是建立在 TCP/IP 协议之上的应用层规范，规范将 HTTP 请求分为三个从步骤：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 来自MDN文档</span><br><span class="line"></span><br><span class="line">&lt;method&gt;&lt;request-URL&gt;&lt;version&gt;</span><br><span class="line">&lt;headers&gt;</span><br><span class="line">&lt;entity-body&gt;</span><br><span class="line"></span><br><span class="line">&lt;请求方法&gt;&lt;请求路径&gt;&lt;协议版本&gt;</span><br><span class="line">&lt;请求头&gt;</span><br><span class="line">&lt;请求体&gt;</span><br><span class="line"></span><br><span class="line">例如：</span><br><span class="line"></span><br><span class="line">POST &#x2F;user&#x2F;login HTTP&#x2F;1.1</span><br><span class="line">Host: example.org</span><br><span class="line">Content-Type: application&#x2F;x-www-form-urlencoded</span><br><span class="line">Content-Length: 13</span><br><span class="line"></span><br><span class="line">say&#x3D;Hi&amp;to&#x3D;Mom</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其中 Content-Type: application/x-www-form-urlencoded</p>
+<p>定义了请求体中的数据格式，用于告知服务端该次请求请求体中数据所使用的格式</p>
+<p>常见格式有四种:</p>
+<h2 id="application-x-www-form-urlencoded"><a href="#application-x-www-form-urlencoded" class="headerlink" title="application/x-www-form-urlencoded"></a>application/x-www-form-urlencoded</h2><p><code>application/x-www-form-urlencoded</code> 数据被编码为以<code>&amp;</code>分隔的键-值对，同时以<code>=</code>分隔键值对，非字母或数字会被转换，这种数据类型是不支持二进制数据传输的<br>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 来自MDN文档</span><br><span class="line">POST &#x2F; HTTP&#x2F;1.1</span><br><span class="line">Host: foo.com</span><br><span class="line">Content-Type: application&#x2F;x-www-form-urlencoded</span><br><span class="line">Content-Length: 13</span><br><span class="line"></span><br><span class="line">say&#x3D;Hi&amp;to&#x3D;Mom</span><br><span class="line"></span><br><span class="line">上面的数据转换成对象就是</span><br><span class="line">&#123;</span><br><span class="line">  say: &#39;Hi&#39;,</span><br><span class="line">  to:&#39;Mom</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种书传输是非常常见的格式，例如 JQuery 中的 Ajax 默认使用的就是这种格式，服务端处理起来也比较简单</p>
+<h2 id="multipart-form-data"><a href="#multipart-form-data" class="headerlink" title="multipart/form-data"></a>multipart/form-data</h2><p>这种数据格式<code>multipart/form-data</code>和上面的<code>application/x-www-form-urlencoded</code>，都是浏览器原生支持的，例如使用原生的 <code>&lt;from&gt;</code> 表单提交数据（通过指定 enctype 属性类型）例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 来自MDN</span><br><span class="line">POST &#x2F;test.html HTTP&#x2F;1.1</span><br><span class="line">Host: example.org</span><br><span class="line">Content-Type: multipart&#x2F;form-data;boundary&#x3D;&quot;boundary&quot;</span><br><span class="line"></span><br><span class="line">--boundary</span><br><span class="line">Content-Disposition: form-data; name&#x3D;&quot;field1&quot;</span><br><span class="line"></span><br><span class="line">value1</span><br><span class="line">--boundary</span><br><span class="line">Content-Disposition: form-data; name&#x3D;&quot;field2&quot;; filename&#x3D;&quot;example.txt&quot;</span><br><span class="line"></span><br><span class="line">value2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>首先生成了一个 <code>boundary</code> 用于分隔不同的字段，一般情况下都比较长为了和正文进行分隔<br>例如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">--boundary</span><br><span class="line">Content-Disposition: form-data; name&#x3D;&quot;field1&quot;</span><br><span class="line"></span><br><span class="line">使用 boundary 进行分隔</span><br><span class="line">内容描述信息： Content-Disposition: form-data; 如果是传输文件那么Content-Disposition: form-data;之后还会有文件类型信息例如</span><br><span class="line"></span><br><span class="line">Content-Disposition: form-data; name&#x3D;&quot;userAvatar&quot;; filename&#x3D;&quot;cat.png&quot;</span><br><span class="line">Content-Type: image&#x2F;png</span><br><span class="line"></span><br><span class="line">上面表明是一张图片，图片名称为cat.png，回车之后是表明文件类型</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>一般情况下这种格式可以用来上传图片</p>
+<h2 id="application-json"><a href="#application-json" class="headerlink" title="application/json"></a>application/json</h2><p>JSON 格式应该都不陌生</p>
+<pre><code>JSON 是一种和语言无关的数据格式，来源于 JavaScript， 许多编程语言都包含了生成和解析 JSON 格式数据的代码 --- wiki
+</code></pre>
+<p>例如在 Axios 请求库中，默认使用的就是 JSON 字符串</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&quot;axios&quot;</span>;</span><br><span class="line"></span><br><span class="line">axios.post(<span class="string">&quot;/&quot;</span>, &#123; <span class="attr">name</span>: <span class="string">&quot;bob&quot;</span>, <span class="attr">age</span>: <span class="number">30</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<h1 id="CORS-跨域资源共享"><a href="#CORS-跨域资源共享" class="headerlink" title="CORS 跨域资源共享"></a>CORS 跨域资源共享</h1><pre><code>CORS 跨域资源共享机制允许 Web 应用服务器进行跨域访问控制，从而使跨域数据传输得以安全进行，浏览器支持在 API 容器中使用 CORS ，以降低跨域 HTTP 请求带来的风险。 --- MDN
+</code></pre>
+<p>跨域资源共享标准允许在下列场景中使用跨域 HTTP 请求：</p>
+<ul>
+<li>通过请求发起的跨域 HTTP 请求</li>
+<li>Web 字体(css 中通过 <code>@font-face</code> 使用跨域字体资源）</li>
+<li>WebGL 贴图</li>
+<li>使用 drawImage 将 images/video 画面绘制到 canvas</li>
+<li>样式表</li>
+<li>Scripts(未处理异常)</li>
+</ul>
+<p>规范要求，对那些可能对服务器数据产生副作用的 HTTP 方法，浏览器必须使用 <code>OPTIONS</code> 方法发起一个预检请求，从而获知服务器是否允许该跨域请求，服务器允许之后，才发起实际的 HTTP 请求，在预检请求返回中，服务器端也可以通知客户端，是否需要携带身份凭证</p>
+<h2 id="简单请求"><a href="#简单请求" class="headerlink" title="简单请求"></a>简单请求</h2><p>某些请求不会触发 CORS 预检请求，这样的请求被称为<code>简单请求</code>，若请求满足所有下述条件，则该请求可以被视为<code>简单请求</code>.</p>
+<ul>
+<li><p>使用下列方法之一</p>
+<ul>
+<li>GET</li>
+<li>HEAD</li>
+<li>POST</li>
+</ul>
+</li>
+<li><p>Fetch 规范定义了<a target="_blank" rel="noopener" href="https://fetch.spec.whatwg.org/#cors-safelisted-request-header">对 CORS 安全的首部字段集合</a>,不得人为设置该集合之外的其他首部字段，该集合为</p>
+<ul>
+<li>ACCEPT（用于告知客户端可以处理的内容类型）</li>
+<li>Accept-Language（用于告知客户端可以处理的自然语言）</li>
+<li>Content-Language（用于说明访问者希望采用的语言或语言组合）</li>
+<li>Content-Type (请求体的类型说明，并且该字段有额外限制）</li>
+<li>DPR（用于告知客户端当前设备的像素比率）</li>
+<li>Save-Data</li>
+<li>Viewport-Width</li>
+<li>Width</li>
+</ul>
+</li>
+<li><p>Content-Type 的值被限定为以下三种之一</p>
+<ul>
+<li>text/plain（普通文本）</li>
+<li>multipart/form-data</li>
+<li>application/x-www-form-urlencoded</li>
+</ul>
+</li>
+</ul>
+<p>满足上述条件的都被视为<code>简单请求</code></p>
+<h2 id="预检请求"><a href="#预检请求" class="headerlink" title="预检请求"></a>预检请求</h2><p>当不满足简单请求的条件时，浏览器就会使用 <code>OPTIONS</code> 方法发起一个预检请求到服务器，并且根据服务器响应来确定服务器是否允许 CORS 跨域</p>
+<p>当满足以下述任一条件时，就会首先发送预检请求：</p>
+<ul>
+<li>当请求方法为以下任一 HTTP 方法<ul>
+<li>PUT</li>
+<li>DELETE</li>
+<li>CONNECT</li>
+<li>OPTIONS</li>
+<li>TRACE</li>
+<li>PATCH</li>
+</ul>
+</li>
+<li>设置了简单请求上面列出的其他不在范围内的首部字段</li>
+<li>Content-Type 的值不属于下列之一:<ul>
+<li>application/x-www-form-urlencoded</li>
+<li>multipart/form-data</li>
+<li>text/plain</li>
+</ul>
+</li>
+</ul>
+<h2 id="附带身份凭证的请求"><a href="#附带身份凭证的请求" class="headerlink" title="附带身份凭证的请求"></a>附带身份凭证的请求</h2><p>Fetch 与 CORS 的一个特性是，可以基于 HTTP cookies 和 HTTP 认证信息发送身份凭证，一般而言对于跨域请求，浏览器都不会发送身份凭证信息，如果要发送凭证信息，需要进行设置</p>
+<p>例如 Axios 需要设置： withCredentials: true</p>
+<p>对于附带身份凭证的请求，服务器不得设置 Access-Control-Allow-Origin 的值为“*”</p>
+<p>这是因为请求中携带了 cookie 信息，如果设置了 Access-Control-Allow-Origin 的值为“*”，请求会失败，另外响应首部中也懈怠了 Set-Cookie 字段，尝试对 Cookie 进行修改，如果操作失败，将会跑出异常</p>
+<h2 id="HTTP-响应首部字段"><a href="#HTTP-响应首部字段" class="headerlink" title="HTTP 响应首部字段"></a>HTTP 响应首部字段</h2><ul>
+<li>Access-Control-Allow-Origin</li>
+</ul>
+<p>响应首部中可以携带一个 Access-Control-Allow-Origin 字段</p>
+<p>其值制定了允许访问该资源的外域 URL ，对于不需要携带身份凭证的请求，服务器可以指定该字段的值为通配符，表示允许来自所有域的请求</p>
+<p>例如，下面的字段值将允许来自 <a target="_blank" rel="noopener" href="http://mozilla.com/">http://mozilla.com</a> 的请求：</p>
+<p>Access-Control-Allow-Origin: <a target="_blank" rel="noopener" href="http://mozilla.com/">http://mozilla.com</a></p>
+<ul>
+<li>Access-Control-Expose-Headers</li>
+</ul>
+<p>Access-Control-Expose-Headers 响应头让服务器把允许浏览器访问的头放入白名单例如：</p>
+<p>Access-Control-Expose-Headers: POST, GET, PUT, DELETE</p>
+<ul>
+<li><p>Access-Control-Max-Age</p>
+<p>Access-Control-Max-Age 头制定了 prefight 请求的结果能够被缓存多久</p>
+<p>Access-Control-Max-Age: 600<br>单位是秒，表明预检请求可以被缓存 600 秒</p>
+</li>
+<li><p>Access-Control-Allow-Credentials</p>
+<p>响应头部表示是否可以将对请求的响应暴露给页面，返回 true 则可以，其他值均不可以</p>
+</li>
+</ul>
+<ul>
+<li><p>Access-Control-Allow-Methods</p>
+<p>Access-Control-Allow-Methods 首部字段用于预检请求的响应，其指明了实际请求所允许使用的 HTTP 方法</p>
+</li>
+</ul>
+<ul>
+<li><p>Access-Control-Allow-Headers</p>
+<p>Access-Control-Allow-Headers 首部字段用于检测预检请求的响应，其指明了实际请求中允许携带的首部字段</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/HTTP/" rel="tag"># HTTP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/08/20/JavaScript%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="prev" title="JavaScript 算法与数据结构">
+                  <i class="fa fa-chevron-left"></i> JavaScript 算法与数据结构
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/09/11/Redux%20%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/" rel="next" title="Redux 源码学习">
+                  Redux 源码学习 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">H</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

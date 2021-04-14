@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.3.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="上周使用了 Immer 帮助我更新 redux state 对于萌新的我来说非常好用,粗略的看了一下源码,感觉很简单,尝试进行学习一下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Immer源码学习">
+<meta property="og:url" content="https://github.com/iosh/H.git/2018/07/22/Immer%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="胡先生">
+<meta property="og:description" content="上周使用了 Immer 帮助我更新 redux state 对于萌新的我来说非常好用,粗略的看了一下源码,感觉很简单,尝试进行学习一下">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-07-22T12:27:24.000Z">
+<meta property="article:modified_time" content="2021-04-14T08:31:47.418Z">
+<meta property="article:author" content="H">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/iosh/H.git/2018/07/22/Immer%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>Immer源码学习 | 胡先生</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">胡先生</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Immer-%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">Immer 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9F%AF%E9%87%8C%E5%8C%96%E5%87%86%E5%A4%87%E5%92%8C%E5%8F%82%E6%95%B0%E5%88%A4%E6%96%AD"><span class="nav-number">2.</span> <span class="nav-text">柯里化准备和参数判断</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Proxy-%E6%96%B9%E6%A1%88%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">Proxy 方案实现</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">H</p>
+  <div class="site-description" itemprop="description">个人学习笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iosh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iosh"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/iosh/H.git/2018/07/22/Immer%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="H">
+      <meta itemprop="description" content="个人学习笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="胡先生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Immer源码学习
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-07-22 12:27:24" itemprop="dateCreated datePublished" datetime="2018-07-22T12:27:24+00:00">2018-07-22</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-14 08:31:47" itemprop="dateModified" datetime="2021-04-14T08:31:47+00:00">2021-04-14</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>上周使用了 Immer 帮助我更新 redux state 对于萌新的我来说非常好用,粗略的看了一下源码,感觉很简单,尝试进行学习一下</p>
+<span id="more"></span>
+
+<h1 id="Immer-简介"><a href="#Immer-简介" class="headerlink" title="Immer 简介"></a>Immer 简介</h1><p>Immer 说明文件中,简介明了的说明了自己的用处:</p>
+<blockquote>
+<p>通过简单的修改当前的状态树来创建下一个不可变的状态树</p>
+</blockquote>
+<p>Immer 暴露了一个可以完成所有工作的默认函数,函数签名如下:</p>
+<p><code>produce(currentState, producer: (draftState) =&gt; void): nextState</code></p>
+<p>同时它还有一个柯里化后的重载</p>
+<p>这个库用起来非常简单</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> produce <span class="keyword">from</span> <span class="string">&quot;immer&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> baseState = [</span><br><span class="line">  &#123;</span><br><span class="line">    todo: <span class="string">&quot;Learn typescript&quot;</span>,</span><br><span class="line">    done: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    todo: <span class="string">&quot;Try immer&quot;</span>,</span><br><span class="line">    done: <span class="literal">false</span></span><br><span class="line">  &#125;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> nextState = produce(baseState, <span class="function"><span class="params">draftState</span> =&gt;</span> &#123;</span><br><span class="line">  draftState.push(&#123; <span class="attr">todo</span>: <span class="string">&quot;Tweet about it&quot;</span> &#125;);</span><br><span class="line">  draftState[<span class="number">1</span>].done = <span class="literal">true</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>函数 produce 接收两个参数, 第一个参数是当前的状态树,第二个参数是一个函数,函数接受一个参数,可以对这个参数进行修改,直接赋值即可,最后 produce 函数返回的就是一个新的状态树(不需要 return)</p>
+<p>从 Immer 库中开始看</p>
+<h1 id="柯里化准备和参数判断"><a href="#柯里化准备和参数判断" class="headerlink" title="柯里化准备和参数判断"></a>柯里化准备和参数判断</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123;setAutoFreeze, setUseProxies&#125; <span class="keyword">from</span> <span class="string">&quot;./common&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123;isProxyable, getUseProxies&#125; <span class="keyword">from</span> <span class="string">&quot;./common&quot;</span></span><br><span class="line"><span class="keyword">import</span> &#123;produceProxy&#125; <span class="keyword">from</span> <span class="string">&quot;./proxy&quot;</span></span><br><span class="line"><span class="keyword">import</span> &#123;produceEs5&#125; <span class="keyword">from</span> <span class="string">&quot;./es5&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * produce 得到一个 state, 并且针对它运行一个函数.</span></span><br><span class="line"><span class="comment"> * 这个函数可以自由的改变这个 state, 因为它基于 copies-on-write(写入时赋值)的机制.</span></span><br><span class="line"><span class="comment"> * 这意味着原始状态将保持不变,一旦函数运行完毕,它将返回修改后的状态</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@export</span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;any&#125;</span> <span class="variable">baseState</span></span> - 原始的 state</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;Function&#125;</span> <span class="variable">producer</span></span> - 一个函数接受一个基本 state 代理并且可以自由修改它的函数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns <span class="type">&#123;any&#125;</span> </span>新的 state, 如果没有修改 state 的话就返回 baseState</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">produce</span>(<span class="params">baseState, producer</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 检查函数参数,预期得到1个或者两个参数,如果不是一个或者两个则抛出错误</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">arguments</span>.length !== <span class="number">1</span> &amp;&amp; <span class="built_in">arguments</span>.length !== <span class="number">2</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&quot;produce expects 1 or 2 arguments, got &quot;</span> + <span class="built_in">arguments</span>.length)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// curried invocation 判断第一个函数是否为函数,如果是函数那么就是柯里化调用</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> baseState === <span class="string">&quot;function&quot;</span>) &#123;</span><br><span class="line">        <span class="comment">// prettier-ignore 如果第一个参数是一个函数,那么就是柯里化调用,则第二个函数必定不能为函数(如果第一个参数为函数,第二个参数可以为数组或者对象,作为初始化状态)</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> producer === <span class="string">&quot;function&quot;</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&quot;if first argument is a function (curried invocation), the second argument to produce cannot be a function&quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> initialState = producer <span class="comment">// 储存柯里化调用的初始化状态</span></span><br><span class="line">        <span class="keyword">const</span> recipe = baseState <span class="comment">// 储存函数</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="comment">// 返回一个匿名函数</span></span><br><span class="line">            <span class="keyword">const</span> args = <span class="built_in">arguments</span> <span class="comment">// 声明一个变量储存参数</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">const</span> currentState = <span class="comment">// 三元表达判断一下是否传入了第一个参数和第二个参数</span></span><br><span class="line">                args[<span class="number">0</span>] === <span class="literal">undefined</span> &amp;&amp; initialState !== <span class="literal">undefined</span></span><br><span class="line">                    ? initialState <span class="comment">// 如果第一个参数为未定义,第二个参数存在则返回第二个参数(即初始化状态)</span></span><br><span class="line">                    : args[<span class="number">0</span>] <span class="comment">// 否则就返回第一个参数(上面已经判断了至少要有一个参数)</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> produce(currentState, <span class="function"><span class="params">draft</span> =&gt;</span> &#123; <span class="comment">// 上面收集到相关数据了,这里就进行调用</span></span><br><span class="line">            <span class="comment">// 转变为普通调用 produce(当前state, 可以修改的state)</span></span><br><span class="line">                args[<span class="number">0</span>] = draft <span class="comment">// blegh!</span></span><br><span class="line">                <span class="keyword">return</span> recipe.apply(draft, args)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// prettier-ignore</span></span><br><span class="line">    <span class="comment">// 如果第一个参数不是函数,那么就不是柯里化,第二个参数必然是函数</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> producer !== <span class="string">&quot;function&quot;</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&quot;if first argument is not a function, the second argument to produce should be a function&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// if state is a primitive, don&#x27;t bother proxying at all</span></span><br><span class="line">    <span class="comment">// 如果 原始数据不是数组或者对象,或者为空就不需要代理了</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> baseState !== <span class="string">&quot;object&quot;</span> || baseState === <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> returnValue = producer(baseState)</span><br><span class="line">        <span class="keyword">return</span> returnValue === <span class="literal">undefined</span> ? baseState : returnValue</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这里调用函数判断原始对象是否为代理对象(就判断他是否为原始JavaScript数组和对象)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * isProxyable 接收一个接受一个值作为参数 判断值是否为原始数据类型</span></span><br><span class="line"><span class="comment">     * 其中判断了值是否为空</span></span><br><span class="line"><span class="comment">     * 调用typeof判断值是否为 &#x27;object&#x27; (原始数据类型)</span></span><br><span class="line"><span class="comment">     * 调用isArray 判断是否为数组</span></span><br><span class="line"><span class="comment">     * 调用 Object.getPrototypeOf 判断值的原型 是否为空 和 是否等于 object的原型(判断是否为原始对象,数组上面判断过了)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!isProxyable(baseState)) <span class="comment">// 如果不是原始对象那么就抛出错误</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(</span><br><span class="line">            <span class="string">`the first argument to an immer producer should be a primitive, plain object or array, got <span class="subst">$&#123;<span class="keyword">typeof</span> baseState&#125;</span>: &quot;<span class="subst">$&#123;baseState&#125;</span>&quot;`</span></span><br><span class="line">        )</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * `getUseProxies 函数判断当前环境是否存在 Proxy 如果存在就使用 Proxy 如果不存在就使用es5方案</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">    <span class="keyword">return</span> getUseProxies()</span><br><span class="line">        ? produceProxy(baseState, producer)</span><br><span class="line">        : produceEs5(baseState, producer)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>阅读文档说明得知 Immer 支持比较旧的 JavaScript 环境, 在比较新的环境下使用性能好的 Proxy ,在比较旧的环境下使用另一种方案先看看 Proxy 方案</p>
+<h1 id="Proxy-方案实现"><a href="#Proxy-方案实现" class="headerlink" title="Proxy 方案实现"></a>Proxy 方案实现</h1><p>代码如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">produceProxy</span>(<span class="params">baseState, producer</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   *  isProxy 判断 baseState 是否为空如果不为空</span></span><br><span class="line"><span class="comment">   *  判断 baseState中是否存在  __$immer_state(symbol不存在) 属性</span></span><br><span class="line"><span class="comment">   *  如果本身已经被代理过了那么直接运行</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">    <span class="keyword">if</span> (isProxy(baseState)) &#123;</span><br><span class="line">        <span class="comment">// See #100, don&#x27;t nest producers</span></span><br><span class="line">        <span class="comment">// 详见 #100  不要嵌套 producers</span></span><br><span class="line">        <span class="keyword">const</span> returnValue = producer.call(baseState, baseState) <span class="comment">// 调用回调函数,并且将this指向 baseState 本身</span></span><br><span class="line">        <span class="keyword">return</span> returnValue === <span class="literal">undefined</span> ? baseState : returnValue</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> previousProxies = proxies <span class="comment">// proxies = null</span></span><br><span class="line">    proxies = []</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// create proxy for root</span></span><br><span class="line">        <span class="comment">// 为 root 创造一个 Proxy</span></span><br><span class="line">        <span class="comment">// createProxy 接收两个参数, 创建一个 proxy代理对象</span></span><br><span class="line">        <span class="keyword">const</span> rootProxy = createProxy(<span class="literal">undefined</span>, baseState)</span><br><span class="line">        <span class="comment">// execute the thunk</span></span><br><span class="line">        <span class="comment">// 执行这个被包装过的对象</span></span><br><span class="line">        <span class="keyword">const</span> returnValue = producer.call(rootProxy, rootProxy)</span><br><span class="line">        <span class="comment">// and finalize the modified proxy</span></span><br><span class="line">        <span class="comment">// 并最终确认修改后的 proxy</span></span><br><span class="line">        <span class="keyword">let</span> result</span><br><span class="line">        <span class="comment">// check whether the draft was modified and/or a value was returned</span></span><br><span class="line">        <span class="comment">// 用于检查 draft 是否已经修改或者返回值</span></span><br><span class="line">        <span class="keyword">if</span> (returnValue !== <span class="literal">undefined</span> &amp;&amp; returnValue !== rootProxy) &#123;</span><br><span class="line">            <span class="comment">// something was returned, and it wasn&#x27;t the proxy itself</span></span><br><span class="line">            <span class="comment">// 确定返回了一些东西,而不是 proxy 本身</span></span><br><span class="line">            <span class="keyword">if</span> (rootProxy[PROXY_STATE].modified)</span><br><span class="line">            <span class="comment">// 如果没有修改或者没有返回抛出错误</span></span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(RETURNED_AND_MODIFIED_ERROR)</span><br><span class="line"></span><br><span class="line">            <span class="comment">// See #117</span></span><br><span class="line">            <span class="comment">// Should we just throw when returning a proxy which is not the root, but a subset of the original state?</span></span><br><span class="line">            <span class="comment">// Looks like a wrongly modeled reducer</span></span><br><span class="line">            result = finalize(returnValue)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            result = finalize(rootProxy)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// revoke all proxies</span></span><br><span class="line">        <span class="comment">// 完成之后撤销 Proxy</span></span><br><span class="line">        each(proxies, <span class="function">(<span class="params">_, p</span>) =&gt;</span> p.revoke())</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        proxies = previousProxies</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>简单的看了一下,发现还是很难,唉还是继续看书吧.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/04/22/React%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/" rel="prev" title="React详细介绍">
+                  <i class="fa fa-chevron-left"></i> React详细介绍
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/08/12/python%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="next" title="python正则表达式">
+                  python正则表达式 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">H</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

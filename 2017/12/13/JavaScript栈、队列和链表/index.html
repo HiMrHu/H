@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.3.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="队列队列是一种先进先出 的数据结构，类似于排队点餐，排在第一个的就可以第一个点餐，而后面的只能按照队列顺序等待执行。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript栈、队列和链表">
+<meta property="og:url" content="https://github.com/iosh/H.git/2017/12/13/JavaScript%E6%A0%88%E3%80%81%E9%98%9F%E5%88%97%E5%92%8C%E9%93%BE%E8%A1%A8/index.html">
+<meta property="og:site_name" content="胡先生">
+<meta property="og:description" content="队列队列是一种先进先出 的数据结构，类似于排队点餐，排在第一个的就可以第一个点餐，而后面的只能按照队列顺序等待执行。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-12-13T20:34:00.000Z">
+<meta property="article:modified_time" content="2021-04-14T08:31:47.418Z">
+<meta property="article:author" content="H">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/iosh/H.git/2017/12/13/JavaScript%E6%A0%88%E3%80%81%E9%98%9F%E5%88%97%E5%92%8C%E9%93%BE%E8%A1%A8/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>JavaScript栈、队列和链表 | 胡先生</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">胡先生</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%9F%E5%88%97"><span class="nav-number">1.</span> <span class="nav-text">队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%88"><span class="nav-number">2.</span> <span class="nav-text">栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%93%BE%E8%A1%A8"><span class="nav-number">3.</span> <span class="nav-text">链表</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">H</p>
+  <div class="site-description" itemprop="description">个人学习笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iosh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iosh"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/iosh/H.git/2017/12/13/JavaScript%E6%A0%88%E3%80%81%E9%98%9F%E5%88%97%E5%92%8C%E9%93%BE%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="H">
+      <meta itemprop="description" content="个人学习笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="胡先生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JavaScript栈、队列和链表
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-12-13 20:34:00" itemprop="dateCreated datePublished" datetime="2017-12-13T20:34:00+00:00">2017-12-13</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-14 08:31:47" itemprop="dateModified" datetime="2021-04-14T08:31:47+00:00">2021-04-14</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><p>队列是一种<em>先进先出</em> 的数据结构，类似于排队点餐，排在第一个的就可以第一个点餐，而后面的只能按照队列顺序等待执行。</p>
+<span id="more"></span>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Queue</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> items = [];</span><br><span class="line">  <span class="built_in">this</span>.enqueue = <span class="function"><span class="keyword">function</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// enqueue方法向队列添加一个或者多个元素</span></span><br><span class="line">    items.push(element);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.dequeue = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// dequeue 方法移除队列的第一个元素并返回移除的值</span></span><br><span class="line">    <span class="keyword">return</span> items.shift();</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.front = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// front 方法返回列队第一个元素，队列不做更改</span></span><br><span class="line">    <span class="keyword">return</span> items[<span class="number">0</span>];</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">this</span>.clear = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// clear 方法移除队列所有的元素</span></span><br><span class="line">    items = [];</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">this</span>.isEmpty = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//如果队列内没有任何元素就返回true，否则返回false</span></span><br><span class="line">    <span class="keyword">return</span> items.length == <span class="number">0</span>;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">this</span>.size = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// size方法返回队列里的元素个数</span></span><br><span class="line">    <span class="keyword">return</span> items.length;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.print = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// print方法打印</span></span><br><span class="line">    <span class="built_in">console</span>.log(items);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> queue = <span class="keyword">new</span> Queue();</span><br><span class="line">queue.enqueue(<span class="number">2</span>); <span class="comment">// 添加一个元素</span></span><br><span class="line">queue.print(); <span class="comment">// [2] 打印列队</span></span><br><span class="line">queue.size(); <span class="comment">// 1 队列长度</span></span><br></pre></td></tr></table></figure>
+
+<p>简单的实现了一个列队构造函数</p>
+<p>简单的运用一下</p>
+<blockquote>
+<p>优先队列</p>
+</blockquote>
+<pre><code>队列的添加和移除都是基于优先级，实现一个优先队列，有两种选项，设置优先级，然后再正确的位置添加元素，或者用入队操作添加元素，然后按照优先级移除。
+</code></pre>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">PriorityQueue</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> items = []; <span class="comment">// 声明一个数组</span></span><br><span class="line">  <span class="comment">// 声明一个构造函数，接受两个参数，普通和优先</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">QueueElement</span>(<span class="params">element, priority</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.element = element;</span><br><span class="line">    <span class="built_in">this</span>.priority = priority;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 声明一个构造函数方法接受两个参数同上</span></span><br><span class="line">  <span class="built_in">this</span>.enqueue = <span class="function"><span class="keyword">function</span>(<span class="params">element, priority</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 声明一个变量实例化QueueElement</span></span><br><span class="line">    <span class="keyword">const</span> queueElement = <span class="keyword">new</span> QueueElement(element, priority);</span><br><span class="line">    <span class="comment">// 判断items是否为空，如果是空直接插入无需排队</span></span><br><span class="line">    <span class="keyword">if</span> (items.length === <span class="number">0</span>) &#123;</span><br><span class="line">      items.push(queueElement);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 如果items不为空则循环判断</span></span><br><span class="line">      <span class="keyword">let</span> added = <span class="literal">false</span>;</span><br><span class="line">      <span class="comment">// 循环items的每一项</span></span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; items.length; i++) &#123;</span><br><span class="line">        <span class="comment">// 判断当前的优先是否大于已有列队的优先数字</span></span><br><span class="line">        <span class="keyword">if</span> (queueElement.priority &lt; items[i].priority) &#123;</span><br><span class="line">          <span class="comment">// 如果找到当前优先大于列队优先则在这里插入</span></span><br><span class="line">          items.splice(i, <span class="number">0</span>, queueElement);</span><br><span class="line">          added = <span class="literal">true</span>;</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 如果优先度不如列队里面的则加到最后一个</span></span><br><span class="line">    <span class="keyword">if</span> (!added) &#123;</span><br><span class="line">      items.push(queueElement);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">// 出队方法</span></span><br><span class="line">  <span class="built_in">this</span>.dequeue = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> items.shift();</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">// 查询第一个</span></span><br><span class="line">  <span class="built_in">this</span>.front = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> items[<span class="number">0</span>];</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">// 判断列队是否为空</span></span><br><span class="line">  <span class="built_in">this</span>.isEmpty = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> items.length == <span class="number">0</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">// 判断长度</span></span><br><span class="line">  <span class="built_in">this</span>.size = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> items.length;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">// 打印</span></span><br><span class="line">  <span class="built_in">this</span>.print = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; items.length; i++) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(items[i].element + <span class="string">&quot; - &quot;</span> + items[i].priority);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>循环列队<br>击鼓传花<br>击鼓传花游戏，在这个游戏中，孩子们围成一个圆圈，把花尽快的传递给旁边的人。某一时刻传花停止，这个时候花落在谁手里，谁就退出圆圈结束游戏。重复这个过程，直到只剩下一个孩子</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 声明一个函数 接受两个参数名称列表和总数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hotPotato</span>(<span class="params">namelist, num</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 声明一个变量实例化Queue</span></span><br><span class="line">  <span class="keyword">var</span> queue = <span class="keyword">new</span> Queue();</span><br><span class="line">  <span class="comment">// 循环玩家名称，然后添加到列队里面</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; namelist.length; i++) &#123;</span><br><span class="line">    queue.enqueue(namelist[i]);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">var</span> eliminated = <span class="string">&quot;&quot;</span>;</span><br><span class="line">  <span class="comment">// 判断列队是否大于1即玩家是否大于两位</span></span><br><span class="line">  <span class="keyword">while</span> (queue.size() &gt; <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; num; i++) &#123;</span><br><span class="line">      <span class="comment">// 删除第一个</span></span><br><span class="line">      queue.enqueue(queue.dequeue());</span><br><span class="line">    &#125;</span><br><span class="line">    eliminated = queue.dequeue();</span><br><span class="line">    <span class="built_in">console</span>.log(eliminated + <span class="string">&quot;在游戏中淘汰了。&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> queue.dequeue();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> names = [<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>, <span class="string">&quot;e&quot;</span>];</span><br><span class="line"><span class="keyword">var</span> winner = hotPotato(names, <span class="number">7</span>);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;胜利者&quot;</span> + winner);</span><br><span class="line"><span class="comment">//c在游戏中淘汰了。</span></span><br><span class="line"><span class="comment">//b在游戏中淘汰了。</span></span><br><span class="line"><span class="comment">//e在游戏中淘汰了。</span></span><br><span class="line"><span class="comment">//d在游戏中淘汰了。</span></span><br><span class="line"><span class="comment">//胜利者a</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><p>栈，是一种先进后出的有序集合，新添加或待删除的元素都保存在栈的末位，称作栈顶，另一端成为栈底，新元素都靠近栈顶，就元素都接近栈底。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">function Stack() &#123;</span><br><span class="line"></span><br><span class="line">  &#x2F;**</span><br><span class="line">   * 用数组来模拟栈</span><br><span class="line">   *&#x2F;</span><br><span class="line">  var items &#x3D; [];</span><br><span class="line"></span><br><span class="line">  &#x2F;**</span><br><span class="line">   * 将元素送入栈，放置于数组的最后一位</span><br><span class="line">   *&#x2F;</span><br><span class="line">  this.push &#x3D; function(element) &#123;</span><br><span class="line">    items.push(element);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  &#x2F;**</span><br><span class="line">   * 弹出栈顶元素</span><br><span class="line">   *&#x2F;</span><br><span class="line">  this.pop &#x3D; function() &#123;</span><br><span class="line">    return items.pop();</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  &#x2F;**</span><br><span class="line">   * 查看栈顶元素</span><br><span class="line">   *&#x2F;</span><br><span class="line">  this.peek &#x3D; function() &#123;</span><br><span class="line">    return items[items.length - 1];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;**</span><br><span class="line">   * 确定栈是否为空</span><br><span class="line">   * @return &#123;Boolean&#125; 若栈为空则返回true,不为空则返回false</span><br><span class="line">   *&#x2F;</span><br><span class="line">  this.isAmpty &#x3D; function() &#123;</span><br><span class="line">    return items.length &#x3D;&#x3D;&#x3D; 0</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  &#x2F;**</span><br><span class="line">   * 清空栈中所有内容</span><br><span class="line">   *&#x2F;</span><br><span class="line">  this.clear &#x3D; function() &#123;</span><br><span class="line">    items &#x3D; [];</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  &#x2F;**</span><br><span class="line">   * 返回栈的长度</span><br><span class="line">   * @return &#123;Number&#125; 栈的长度</span><br><span class="line">   *&#x2F;</span><br><span class="line">  this.size &#x3D; function() &#123;</span><br><span class="line">    return items.length;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  &#x2F;**</span><br><span class="line">   * 以字符串显示栈中所有内容</span><br><span class="line">   *&#x2F;</span><br><span class="line">  this.print &#x3D; function() &#123;</span><br><span class="line">    console.log(items.toString());</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>十进制转任何进制代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * decNumber 要转换的十进制数字</span><br><span class="line"> * base      目标进制基数</span><br><span class="line"> *&#x2F;</span><br><span class="line">function baseConverter(decNumber, base) &#123;</span><br><span class="line">  var remStack &#x3D; new Stack(),</span><br><span class="line">      rem,</span><br><span class="line">      baseString &#x3D; &#39;&#39;,</span><br><span class="line">      digits &#x3D; &#39;0123456789ABCDEF&#39;;</span><br><span class="line">  white (decNumber &gt; 0) &#123;</span><br><span class="line">      rem &#x3D; Math.floor(decNumber % base);</span><br><span class="line">      remStack.push(rem);</span><br><span class="line">      decNumber &#x3D; Math.floor(decNumber &#x2F; base);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  white(!remStack.isEmpty()) &#123;</span><br><span class="line">      baseString +&#x3D; digits[remStack.pop()];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return baseString;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><p>链表存储有序的元素集合，但不同于数组，链表中的元素在内存中并不是连续放置的。每个元素由一个存储元素本事的节点和一个指向下一个元素的引用组成。相对于传统的数组，链表的一个好处在于，添加或者删除元素的时候不需要移动其他元素。然而，链表需要使用指针，因此实现链表时需要额外注意。</p>
+<blockquote>
+<p>数组和链表的一个不同在于数组可以直接访问任何位置的元素，而想要访问链表中的一个元素，需要从起点开始迭代列表。</p>
+</blockquote>
+<blockquote>
+<p>单向链表</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">LinkedList</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> Node = <span class="function"><span class="keyword">function</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.element = element;</span><br><span class="line">    <span class="built_in">this</span>.next = <span class="literal">null</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">var</span> length = <span class="number">0</span>; <span class="comment">//链表长度</span></span><br><span class="line">  <span class="keyword">var</span> head = <span class="literal">null</span>; <span class="comment">//第一个节点</span></span><br><span class="line">  <span class="built_in">this</span>.append = <span class="function"><span class="keyword">function</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> node = <span class="keyword">new</span> Node(element),</span><br><span class="line">      current;</span><br><span class="line">    <span class="keyword">if</span> (head === <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="comment">//列表为空</span></span><br><span class="line">      head = node;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">//列表不为空</span></span><br><span class="line">      current = head; <span class="comment">//现在只知道第一项head</span></span><br><span class="line">      <span class="keyword">while</span> (current.next) &#123;</span><br><span class="line">        <span class="comment">//找到列表的最后一项</span></span><br><span class="line">        current = current.next;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//建立链接</span></span><br><span class="line">      current.next = node;</span><br><span class="line">    &#125;</span><br><span class="line">    length++; <span class="comment">//更新列表长度</span></span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.insert = <span class="function"><span class="keyword">function</span>(<span class="params">position, element</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//检查越界值</span></span><br><span class="line">    <span class="keyword">if</span> (position &gt;= <span class="number">0</span> &amp;&amp; position &lt;= length) &#123;</span><br><span class="line">      <span class="keyword">var</span> node = <span class="keyword">new</span> Node(element),</span><br><span class="line">        current = head,</span><br><span class="line">        previous,</span><br><span class="line">        index = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">if</span> (position === <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">//在第一个位置添加</span></span><br><span class="line">        node.next = current;</span><br><span class="line">        head = node;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//在中间或者尾部添加</span></span><br><span class="line">        <span class="keyword">while</span> (index++ &lt; position) &#123;</span><br><span class="line">          previous = current;</span><br><span class="line">          current = current.next;</span><br><span class="line">        &#125;</span><br><span class="line">        node.next = current; <span class="comment">//先连上添加的节点</span></span><br><span class="line">        previous.next = node; <span class="comment">//再断开之前的连接</span></span><br><span class="line">      &#125;</span><br><span class="line">      length++;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.removeAt = <span class="function"><span class="keyword">function</span>(<span class="params">position</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (position &gt; -<span class="number">1</span> &amp;&amp; position &lt; length) &#123;</span><br><span class="line">      <span class="keyword">var</span> current = head,</span><br><span class="line">        previous,</span><br><span class="line">        index = <span class="number">0</span>; <span class="comment">//用来迭代列表，直到到达目标位置</span></span><br><span class="line">      <span class="keyword">if</span> (position === <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">//移除第一项</span></span><br><span class="line">        head = current.next;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//移除中间或者尾部最后一项</span></span><br><span class="line">        <span class="keyword">while</span> (index++ &lt; position) &#123;</span><br><span class="line">          previous = current;</span><br><span class="line">          current = current.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//连接前一项和后一项，跳过当前的项，相当于移除了当前项</span></span><br><span class="line">        previous.next = current.next;</span><br><span class="line">      &#125;</span><br><span class="line">      length--;</span><br><span class="line">      <span class="keyword">return</span> current.element;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.remove = <span class="function"><span class="keyword">function</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> index = <span class="built_in">this</span>.indexOf(element);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.removeAt(index);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.indexOf = <span class="function"><span class="keyword">function</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> current = head,</span><br><span class="line">      index = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (current) &#123;</span><br><span class="line">      <span class="keyword">if</span> (element === current.element) &#123;</span><br><span class="line">        <span class="keyword">return</span> index;</span><br><span class="line">      &#125;</span><br><span class="line">      index++; <span class="comment">//记录位置</span></span><br><span class="line">      current = current.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.isEmpty = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> length === <span class="number">0</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.size = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> length;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.getHead = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> head;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.toString = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> current = head,</span><br><span class="line">      string = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">while</span> (current) &#123;</span><br><span class="line">      string += current.element; <span class="comment">//拼接</span></span><br><span class="line">      current = current.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> string;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.print = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.toString());</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>双向链表</p>
+</blockquote>
+<p>双向链表和单向链表的区别在于，在单向链表中，一个节点只有链向下一个节点的链接。而在双向链表中，链接是双向的：一个链向下一个元素，另一个链向前一个元素</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">DoublyLinkedList</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> Node = <span class="function"><span class="keyword">function</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.element = element;</span><br><span class="line">    <span class="built_in">this</span>.next = <span class="literal">null</span>;</span><br><span class="line">    <span class="built_in">this</span>.prev = <span class="literal">null</span>; <span class="comment">//新添加的</span></span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">var</span> length = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">var</span> head = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">var</span> tail = <span class="literal">null</span>; <span class="comment">//新添加的</span></span><br><span class="line">  <span class="built_in">this</span>.append = <span class="function"><span class="keyword">function</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> node = <span class="keyword">new</span> Node(element),</span><br><span class="line">      current;</span><br><span class="line">    <span class="keyword">if</span> (head === <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="comment">//列表为空</span></span><br><span class="line">      head = node;</span><br><span class="line">      tail = node;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      tail.next = node;</span><br><span class="line">      node.prev = tail;</span><br><span class="line">      tail = node;</span><br><span class="line">    &#125;</span><br><span class="line">    length++;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.insert = <span class="function"><span class="keyword">function</span>(<span class="params">position, element</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (position &gt;= <span class="number">0</span> &amp;&amp; position &lt;= length) &#123;</span><br><span class="line">      <span class="keyword">var</span> node = <span class="keyword">new</span> Node(element),</span><br><span class="line">        current = head,</span><br><span class="line">        previous,</span><br><span class="line">        index = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">if</span> (position === <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">//在第一个位置</span></span><br><span class="line">        <span class="keyword">if</span> (!head) &#123;</span><br><span class="line">          <span class="comment">//列表为空</span></span><br><span class="line">          head = node;</span><br><span class="line">          tail = node;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="comment">//列表不为空</span></span><br><span class="line">          node.next = current;</span><br><span class="line">          current.prev = node;</span><br><span class="line">          head = node;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (position === length) &#123;</span><br><span class="line">        <span class="comment">//最后一项</span></span><br><span class="line">        current = tail;</span><br><span class="line">        current.next = node;</span><br><span class="line">        node.prev = current;</span><br><span class="line">        tail = node;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (index++ &lt; position) &#123;</span><br><span class="line">          previous = current;</span><br><span class="line">          current = current.next;</span><br><span class="line">        &#125;</span><br><span class="line">        node.next = current;</span><br><span class="line">        previous.next = node; <span class="comment">//把node节点连接进去前一个节点和后一个节点</span></span><br><span class="line"></span><br><span class="line">        current.prev = node; <span class="comment">//断掉之前previous和current的连接</span></span><br><span class="line">        node.prev = previous; <span class="comment">//prev同样需要连接</span></span><br><span class="line">      &#125;</span><br><span class="line">      length++;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.removeAt = <span class="function"><span class="keyword">function</span>(<span class="params">position</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (position &gt; -<span class="number">1</span> &amp;&amp; position &lt; length) &#123;</span><br><span class="line">      <span class="keyword">var</span> current = head,</span><br><span class="line">        previous,</span><br><span class="line">        index = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">if</span> (position === <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">//移除第一项</span></span><br><span class="line">        head = current.next;</span><br><span class="line">        <span class="keyword">if</span> (length === <span class="number">1</span>) &#123;</span><br><span class="line">          <span class="comment">// 列表只有一项</span></span><br><span class="line">          tail = <span class="literal">null</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          head.prev = <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (position === length - <span class="number">1</span>) &#123;</span><br><span class="line">        移除最后一项;</span><br><span class="line">        current = tail; <span class="comment">// &#123;4&#125;</span></span><br><span class="line">        tail = current.prev;</span><br><span class="line">        tail.next = <span class="literal">null</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (index++ &lt; position) &#123;</span><br><span class="line">          previous = current;</span><br><span class="line">          current = current.next;</span><br><span class="line">        &#125;</span><br><span class="line">        previous.next = current.next; <span class="comment">// 链接前一项和后一项，跳过当前项</span></span><br><span class="line">        current.next.prev = previous; <span class="comment">//修复prev</span></span><br><span class="line">      &#125;</span><br><span class="line">      length--;</span><br><span class="line">      <span class="keyword">return</span> current.element;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.remove = <span class="function"><span class="keyword">function</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> index = <span class="built_in">this</span>.indexOf(element);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.removeAt(index);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.indexOf = <span class="function"><span class="keyword">function</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> current = head,</span><br><span class="line">      index = -<span class="number">1</span>;</span><br><span class="line">    <span class="comment">//检查第一项</span></span><br><span class="line">    <span class="keyword">if</span> (element == current.element) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    index++;</span><br><span class="line">    <span class="comment">//检查中间项</span></span><br><span class="line">    <span class="keyword">while</span> (current.next) &#123;</span><br><span class="line">      <span class="keyword">if</span> (element == current.element) &#123;</span><br><span class="line">        <span class="keyword">return</span> index;</span><br><span class="line">      &#125;</span><br><span class="line">      current = current.next;</span><br><span class="line">      index++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//检查最后一项</span></span><br><span class="line">    <span class="keyword">if</span> (element == current.element) &#123;</span><br><span class="line">      <span class="keyword">return</span> index;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.isEmpty = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> length === <span class="number">0</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.size = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> length;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.toString = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> current = head,</span><br><span class="line">      s = current ? current.element : <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">while</span> (current &amp;&amp; current.next) &#123;</span><br><span class="line">      current = current.next;</span><br><span class="line">      s += <span class="string">&quot;, &quot;</span> + current.element;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> s;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.inverseToString = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> current = tail,</span><br><span class="line">      s = current ? current.element : <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">while</span> (current &amp;&amp; current.prev) &#123;</span><br><span class="line">      current = current.prev;</span><br><span class="line">      s += <span class="string">&quot;, &quot;</span> + current.element;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> s;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.print = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.toString());</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.printInverse = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.inverseToString());</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.getHead = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> head;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">this</span>.getTail = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> tail;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>循环链表</p>
+</blockquote>
+<p>循环链表可以像单向链表那样只有单向引用，也可以像双向链表那样有双向引用。循环链表和其他链表的区别在于最后一个元素指向下一个元素的引用不是 null，而是指向第一个元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line">function CircularLinkedList() &#123;</span><br><span class="line">    var Node &#x3D; function(element)&#123;</span><br><span class="line">        this.element &#x3D; element;</span><br><span class="line">        this.next &#x3D; null;</span><br><span class="line">    &#125;;</span><br><span class="line">    var length &#x3D; 0;</span><br><span class="line">    var head &#x3D; null;</span><br><span class="line">    this.append &#x3D; function(element)&#123;</span><br><span class="line">        var node &#x3D; new Node(element),</span><br><span class="line">            current;</span><br><span class="line">        if (head &#x3D;&#x3D;&#x3D; null)&#123; &#x2F;&#x2F;列表为空</span><br><span class="line">            head &#x3D; node;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            current &#x3D; head;</span><br><span class="line">            while(current.next !&#x3D;&#x3D; head)&#123; &#x2F;&#x2F;最后一个元素将是head，而不是null</span><br><span class="line">                current &#x3D; current.next;</span><br><span class="line">            &#125;</span><br><span class="line">            current.next &#x3D; node; &#x2F;&#x2F;建立连接</span><br><span class="line">        &#125;</span><br><span class="line">        node.next &#x3D; head; &#x2F;&#x2F;首尾相连起来变成一个环列表</span><br><span class="line">        length++;</span><br><span class="line">    &#125;;</span><br><span class="line">    this.insert &#x3D; function(position, element)&#123;</span><br><span class="line">        if (position &gt;&#x3D; 0 &amp;&amp; position &lt;&#x3D; length)&#123;</span><br><span class="line">            var node &#x3D; new Node(element),</span><br><span class="line">                current &#x3D; head,</span><br><span class="line">                previous,</span><br><span class="line">                index &#x3D; 0;</span><br><span class="line">            if (position &#x3D;&#x3D;&#x3D; 0)&#123; &#x2F;&#x2F;在第一项</span><br><span class="line">                node.next &#x3D; current;</span><br><span class="line">                while(current.next !&#x3D;&#x3D; head)&#123;</span><br><span class="line">                    current &#x3D; current.next;</span><br><span class="line">                &#125;</span><br><span class="line">                head &#x3D; node;</span><br><span class="line">                current.next &#x3D; head;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                while (index++ &lt; position)&#123;</span><br><span class="line">                    previous &#x3D; current;</span><br><span class="line">                    current &#x3D; current.next;</span><br><span class="line">                &#125;</span><br><span class="line">                node.next &#x3D; current;</span><br><span class="line">                previous.next &#x3D; node;</span><br><span class="line">                if (node.next &#x3D;&#x3D;&#x3D; null)&#123; &#x2F;&#x2F;在最后一个元素更新</span><br><span class="line">                    node.next &#x3D; head;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            length++;</span><br><span class="line">            return true;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    this.removeAt &#x3D; function(position)&#123;</span><br><span class="line">        if (position &gt; -1 &amp;&amp; position &lt; length)&#123;</span><br><span class="line">            var current &#x3D; head,</span><br><span class="line">                previous,</span><br><span class="line">                index &#x3D; 0;</span><br><span class="line">            if (position &#x3D;&#x3D;&#x3D; 0)&#123;</span><br><span class="line">                while(current.next !&#x3D;&#x3D; head)&#123;</span><br><span class="line">                    current &#x3D; current.next;</span><br><span class="line">                &#125;</span><br><span class="line">                head &#x3D; head.next;</span><br><span class="line">                current.next &#x3D; head; &#x2F;&#x2F;更新最后一项</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                while (index++ &lt; position)&#123;</span><br><span class="line">                    previous &#x3D; current;</span><br><span class="line">                    current &#x3D; current.next;</span><br><span class="line">                &#125;</span><br><span class="line">                previous.next &#x3D; current.next;</span><br><span class="line">            &#125;</span><br><span class="line">            length--;</span><br><span class="line">            return current.element;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    this.remove &#x3D; function(element)&#123;</span><br><span class="line">        var index &#x3D; this.indexOf(element);</span><br><span class="line">        return this.removeAt(index);</span><br><span class="line">    &#125;;</span><br><span class="line">    this.indexOf &#x3D; function(element)&#123;</span><br><span class="line">        var current &#x3D; head,</span><br><span class="line">            index &#x3D; -1;</span><br><span class="line">        if (element &#x3D;&#x3D; current.element)&#123; &#x2F;&#x2F;检查第一项</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        index++;</span><br><span class="line">        while(current.next !&#x3D;&#x3D; head)&#123; &#x2F;&#x2F;检查列表中间</span><br><span class="line">            if (element &#x3D;&#x3D; current.element)&#123;</span><br><span class="line">                return index;</span><br><span class="line">            &#125;</span><br><span class="line">            current &#x3D; current.next;</span><br><span class="line">            index++;</span><br><span class="line">        &#125;</span><br><span class="line">        if (element &#x3D;&#x3D; current.element)&#123; &#x2F;&#x2F;检查最后一项</span><br><span class="line">            return index;</span><br><span class="line">        &#125;</span><br><span class="line">        return -1;</span><br><span class="line">    &#125;;</span><br><span class="line">    this.isEmpty &#x3D; function() &#123;</span><br><span class="line">        return length &#x3D;&#x3D;&#x3D; 0;</span><br><span class="line">    &#125;;</span><br><span class="line">    this.size &#x3D; function() &#123;</span><br><span class="line">        return length;</span><br><span class="line">    &#125;;</span><br><span class="line">    this.getHead &#x3D; function()&#123;</span><br><span class="line">        return head;</span><br><span class="line">    &#125;;</span><br><span class="line">    this.toString &#x3D; function()&#123;</span><br><span class="line">        var current &#x3D; head,</span><br><span class="line">            s &#x3D; current.element;</span><br><span class="line">        while(current.next !&#x3D;&#x3D; head)&#123;</span><br><span class="line">            current &#x3D; current.next;</span><br><span class="line">            s +&#x3D; &#39;, &#39; + current.element;</span><br><span class="line">        &#125;</span><br><span class="line">        return s.toString();</span><br><span class="line">    &#125;;</span><br><span class="line">    this.print &#x3D; function()&#123;</span><br><span class="line">        console.log(this.toString());</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/12/12/JavaScript%E4%B8%ADSort%E5%87%BD%E6%95%B0/" rel="prev" title="JavaScript中Sort函数">
+                  <i class="fa fa-chevron-left"></i> JavaScript中Sort函数
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/12/14/JavaScript%E6%A0%91%E7%BB%93%E6%9E%84/" rel="next" title="JavaScript树结构">
+                  JavaScript树结构 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">H</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

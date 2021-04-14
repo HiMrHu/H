@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.3.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="MongoDB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mongoDB">
+<meta property="og:url" content="https://github.com/iosh/H.git/2020/11/14/mongoDB/index.html">
+<meta property="og:site_name" content="胡先生">
+<meta property="og:description" content="MongoDB">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-14T16:57:27.000Z">
+<meta property="article:modified_time" content="2021-04-14T08:31:47.422Z">
+<meta property="article:author" content="H">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/iosh/H.git/2020/11/14/mongoDB/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>mongoDB | 胡先生</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">胡先生</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Ease-of-Use"><span class="nav-number">1.1.</span> <span class="nav-text">Ease of Use</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Designed-to-Scale"><span class="nav-number">1.2.</span> <span class="nav-text">Designed to Scale</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rich-with-Features"><span class="nav-number">1.3.</span> <span class="nav-text">Rich with Features</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#getting-started"><span class="nav-number">2.</span> <span class="nav-text">getting started</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Documents"><span class="nav-number">2.1.</span> <span class="nav-text">Documents</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Collections"><span class="nav-number">2.2.</span> <span class="nav-text">Collections</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Getting-and-Starting-MongoDB"><span class="nav-number">3.</span> <span class="nav-text">Getting and Starting MongoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#introdctioon-to-eht-MongoDB-Shell"><span class="nav-number">3.1.</span> <span class="nav-text">introdctioon to eht MongoDB Shell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic-Operations-with-the-Shell"><span class="nav-number">3.2.</span> <span class="nav-text">Basic Operations with the Shell</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CREATE"><span class="nav-number">3.2.1.</span> <span class="nav-text">CREATE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#READ"><span class="nav-number">3.2.2.</span> <span class="nav-text">READ</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UPDATE"><span class="nav-number">3.2.3.</span> <span class="nav-text">UPDATE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DELETE"><span class="nav-number">3.2.4.</span> <span class="nav-text">DELETE</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Data-Types"><span class="nav-number">4.</span> <span class="nav-text">Data Types</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Datas"><span class="nav-number">4.1.</span> <span class="nav-text">Datas</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Array"><span class="nav-number">4.2.</span> <span class="nav-text">Array</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Embedded-Documents"><span class="nav-number">4.3.</span> <span class="nav-text">Embedded Documents</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#id-and-ObjectIds"><span class="nav-number">4.4.</span> <span class="nav-text">_id and ObjectIds</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OBJECTIDS"><span class="nav-number">4.5.</span> <span class="nav-text">OBJECTIDS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AUTOGENERATION-OF-ID"><span class="nav-number">4.6.</span> <span class="nav-text">AUTOGENERATION OF _ID</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Using-the-MongoDB-shell"><span class="nav-number">5.</span> <span class="nav-text">Using the MongoDB shell</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Running-Scripts-with-the-Shell"><span class="nav-number">5.1.</span> <span class="nav-text">Running Scripts with the Shell</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CRUD-Documents"><span class="nav-number">6.</span> <span class="nav-text">CRUD Documents</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#inserting-Document"><span class="nav-number">7.</span> <span class="nav-text">inserting Document</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#insert-Validation"><span class="nav-number">7.1.</span> <span class="nav-text">insert Validation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#insert"><span class="nav-number">7.2.</span> <span class="nav-text">insert</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Removing-Document"><span class="nav-number">7.3.</span> <span class="nav-text">Removing Document</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Updating-Documents"><span class="nav-number">7.4.</span> <span class="nav-text">Updating Documents</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getting-started-with-the-set-modifier"><span class="nav-number">7.5.</span> <span class="nav-text">getting started with the $set modifier</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#incrementing-and-decrementing"><span class="nav-number">7.6.</span> <span class="nav-text">incrementing and decrementing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#array-operators"><span class="nav-number">7.7.</span> <span class="nav-text">array operators</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Querying"><span class="nav-number">8.</span> <span class="nav-text">Querying</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#find"><span class="nav-number">8.1.</span> <span class="nav-text">find</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#specifying-which-keys-to-return"><span class="nav-number">8.2.</span> <span class="nav-text">specifying which keys to return</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#query-criteria"><span class="nav-number">8.3.</span> <span class="nav-text">query criteria</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OR-queries"><span class="nav-number">8.4.</span> <span class="nav-text">OR queries</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Type-specific-queries"><span class="nav-number">8.5.</span> <span class="nav-text">Type specific queries</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#null"><span class="nav-number">8.5.1.</span> <span class="nav-text">null</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Regular-Expressions"><span class="nav-number">8.5.2.</span> <span class="nav-text">Regular Expressions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Querying-Arrays"><span class="nav-number">8.5.3.</span> <span class="nav-text">Querying Arrays</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ALL"><span class="nav-number">8.5.4.</span> <span class="nav-text">$ALL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SIZE"><span class="nav-number">8.5.5.</span> <span class="nav-text">$SIZE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SLICE"><span class="nav-number">8.5.6.</span> <span class="nav-text">$SLICE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#where"><span class="nav-number">8.5.7.</span> <span class="nav-text">$where</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cursors"><span class="nav-number">8.6.</span> <span class="nav-text">Cursors</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Indexes"><span class="nav-number">9.</span> <span class="nav-text">Indexes</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#introduction-to-indexes"><span class="nav-number">9.1.</span> <span class="nav-text">introduction to indexes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#creating-an-index"><span class="nav-number">9.1.1.</span> <span class="nav-text">creating an index</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#introduction-to-compound-indexes"><span class="nav-number">9.1.2.</span> <span class="nav-text">introduction to compound indexes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#how-mongoDB-selects-an-index"><span class="nav-number">9.1.3.</span> <span class="nav-text">how mongoDB selects an index</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#using-compound-indexes"><span class="nav-number">9.1.4.</span> <span class="nav-text">using compound indexes</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#explain-output"><span class="nav-number">9.2.</span> <span class="nav-text">explain output</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#special-index-abd-cikkectuibs-types"><span class="nav-number">9.3.</span> <span class="nav-text">special index abd cikkectuibs types</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Geospatioal-indexes"><span class="nav-number">9.3.1.</span> <span class="nav-text">Geospatioal indexes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Indexes-for-Full-Text-Search"><span class="nav-number">9.3.2.</span> <span class="nav-text">Indexes for Full Text Search</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#create-a-text-index"><span class="nav-number">9.3.2.1.</span> <span class="nav-text">create a text index</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#text-search"><span class="nav-number">9.3.2.2.</span> <span class="nav-text">text search</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#optimizing-full-text-search"><span class="nav-number">9.3.2.3.</span> <span class="nav-text">optimizing full-text search</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#searching-in-other-languages"><span class="nav-number">9.3.2.4.</span> <span class="nav-text">searching in other languages</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#capped-collections"><span class="nav-number">9.4.</span> <span class="nav-text">capped collections</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#creating-capped-collections"><span class="nav-number">9.4.1.</span> <span class="nav-text">creating capped collections</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction-to-the-Aggregation-Framework"><span class="nav-number">10.</span> <span class="nav-text">Introduction to the Aggregation Framework</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#expressions"><span class="nav-number">10.1.</span> <span class="nav-text">expressions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unwind"><span class="nav-number">10.2.</span> <span class="nav-text">$unwind</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Array-Expressions"><span class="nav-number">10.3.</span> <span class="nav-text">Array Expressions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Accumulators"><span class="nav-number">10.4.</span> <span class="nav-text">Accumulators</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#introduction-to-grouping"><span class="nav-number">10.5.</span> <span class="nav-text">introduction to grouping</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Transactions"><span class="nav-number">11.</span> <span class="nav-text">Transactions</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#introduction-to-transactions"><span class="nav-number">11.1.</span> <span class="nav-text">introduction to transactions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#a-definition-oa-ACID"><span class="nav-number">11.2.</span> <span class="nav-text">a definition oa ACID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-to-Use-Transactions"><span class="nav-number">11.3.</span> <span class="nav-text">How to Use Transactions</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Application-Design"><span class="nav-number">12.</span> <span class="nav-text">Application Design</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Schema-Design-Considerations"><span class="nav-number">12.1.</span> <span class="nav-text">Schema Design Considerations</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Constraints"><span class="nav-number">12.1.1.</span> <span class="nav-text">Constraints</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Access-patterns-of-your-queries-and-of-your-writes"><span class="nav-number">12.1.2.</span> <span class="nav-text">Access patterns of your queries and of your writes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Relation-types"><span class="nav-number">12.1.3.</span> <span class="nav-text">Relation types</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cardinality"><span class="nav-number">12.1.4.</span> <span class="nav-text">Cardinality</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Schema-Design-patterns"><span class="nav-number">12.2.</span> <span class="nav-text">Schema Design patterns</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Normalization-Versus-Denormalization"><span class="nav-number">13.</span> <span class="nav-text">Normalization Versus Denormalization</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Cardinality-1"><span class="nav-number">13.1.</span> <span class="nav-text">Cardinality</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Optimization-for-Data-Manipulation"><span class="nav-number">14.</span> <span class="nav-text">Optimization for Data Manipulation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Removing-Old-Data"><span class="nav-number">14.1.</span> <span class="nav-text">Removing Old Data</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Setting-Up-a-Replica-Set"><span class="nav-number">15.</span> <span class="nav-text">Setting Up a Replica Set</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction-to-Replication"><span class="nav-number">15.1.</span> <span class="nav-text">Introduction to Replication</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Setting-Up-a-Replica-Set-1"><span class="nav-number">15.2.</span> <span class="nav-text">Setting Up a Replica Set</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Obeserving-Replication"><span class="nav-number">16.</span> <span class="nav-text">Obeserving Replication</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Changing-your-Replica-Set-Configuration"><span class="nav-number">17.</span> <span class="nav-text">Changing your Replica Set Configuration</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#How-to-Design-a-Set"><span class="nav-number">18.</span> <span class="nav-text">How to Design a Set</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Component-of-a-Replica-Set"><span class="nav-number">19.</span> <span class="nav-text">Component of a Replica Set</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Syncing"><span class="nav-number">19.1.</span> <span class="nav-text">Syncing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Heartbeats"><span class="nav-number">19.2.</span> <span class="nav-text">Heartbeats</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nenver-States"><span class="nav-number">19.3.</span> <span class="nav-text">Nenver States</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Elections"><span class="nav-number">19.4.</span> <span class="nav-text">Elections</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Connection-to-a-Replica-Set-from-Your-Application"><span class="nav-number">20.</span> <span class="nav-text">Connection to a Replica Set from Your Application</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Client-to-Replica-Set-Connnection-Behavior"><span class="nav-number">20.1.</span> <span class="nav-text">Client-to Replica Set Connnection Behavior</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Wating-for-Replication-on-Writes"><span class="nav-number">21.</span> <span class="nav-text">Wating for Replication on Writes</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Sharding"><span class="nav-number">22.</span> <span class="nav-text">Sharding</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Interdoction-to-Sharding"><span class="nav-number">22.1.</span> <span class="nav-text">Interdoction to Sharding</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Waht-is-sharding"><span class="nav-number">22.1.1.</span> <span class="nav-text">Waht is sharding</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Understanding-the-components-of-a-cluster"><span class="nav-number">22.2.</span> <span class="nav-text">Understanding the components of a cluster</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sharding-on-a-Single-Machine-Cluster"><span class="nav-number">22.3.</span> <span class="nav-text">Sharding on a Single-Machine Cluster</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Configuring-Sharding"><span class="nav-number">23.</span> <span class="nav-text">Configuring Sharding</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#When-to-shard"><span class="nav-number">23.1.</span> <span class="nav-text">When to shard</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">H</p>
+  <div class="site-description" itemprop="description">个人学习笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iosh" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iosh"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/iosh/H.git/2020/11/14/mongoDB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="H">
+      <meta itemprop="description" content="个人学习笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="胡先生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          mongoDB
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-11-14 16:57:27" itemprop="dateCreated datePublished" datetime="2020-11-14T16:57:27+00:00">2020-11-14</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-14 08:31:47" itemprop="dateModified" datetime="2021-04-14T08:31:47+00:00">2021-04-14</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>MongoDB</p>
+<span id="more"></span>
+
+<p>Reading notes of 《MongoDB The Definitive GUide》 to learn how to ues the MongoDB</p>
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MongoDB is a powerful, flexible, and scalable general-purpose database.</span><br><span class="line"></span><br><span class="line">-- chapter 1</span><br></pre></td></tr></table></figure>
+
+<h2 id="Ease-of-Use"><a href="#Ease-of-Use" class="headerlink" title="Ease of Use"></a>Ease of Use</h2><p>MongoDB is a <code>document-orented database</code> , not a relational database.</p>
+<p>the document-oriented approach makes it possible to represent complex hierarchical relastionships <code>with a single record</code>.</p>
+<p>this fits naturally into the way developers in modern <code>object-oriented</code> think about thrie data.</p>
+<p>there are also no predefined schemas: in MondoDB keys and values are <code>not fixed types or size schema</code>, this makes development <code>faster and quickly</code></p>
+<h2 id="Designed-to-Scale"><a href="#Designed-to-Scale" class="headerlink" title="Designed to Scale"></a>Designed to Scale</h2><p>as the data store grows. a defficult question: how should they scale their databases?</p>
+<p>scaling a database comes down the choice between scaling up (getting a bigger machine) or scaling out(partitioning data across more machines).</p>
+<p>scaling up has drawbacks: large machines are very expensive.<br>scaling out has drawbacks: difficult administer</p>
+<p><code>MongoDB is designed to scale out</code>. the document-oriented data model makes it easier to split data across multiple servers.</p>
+<h2 id="Rich-with-Features"><a href="#Rich-with-Features" class="headerlink" title="Rich with Features"></a>Rich with Features</h2><p>Mongodb is a general purpose database. so aside from creating reading updating and dalating data.</p>
+<ul>
+<li><p>indexing<br>MongoDB supports generic secondary indexes and provides unique. compound, geospatial and full-text indexing capabilities as well.</p>
+</li>
+<li><p>aggregate<br>not understand…</p>
+</li>
+<li><p>special collection and index types<br>MongoDb supports time-to-live(TTL) collections for data that should expire at a certain time.</p>
+</li>
+<li><p>File storage<br>MongoDB supports an easy-to-use protocol for storing large files and file metadata( why sotring file to database…)</p>
+</li>
+</ul>
+<p>some features common to relational databases are not present in MongoDB, notably complex joins. MongoDB supports joins in a very limited way through use of the $lookuo in the 3.6 relase</p>
+<h1 id="getting-started"><a href="#getting-started" class="headerlink" title="getting started"></a>getting started</h1><p>some basic concepts of MongoDB</p>
+<ul>
+<li>A document is the basic unit of data for MongoDb</li>
+<li>A collection as a table with a dynamic schema</li>
+<li>A single instance of MongoDB can hot multiple independent database, each of which contains its own collections.</li>
+<li>Every document has a special key, “_id” , that’s unique within a collectin,(_id is unique)</li>
+<li>MongoDB has a simple but powerful tool called the mongo shell</li>
+</ul>
+<h2 id="Documents"><a href="#Documents" class="headerlink" title="Documents"></a>Documents</h2><p>an ordered set of keys with associated values. in javascript document are represented as object</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">&quot;greeting&quot;</span>: <span class="string">&quot;hello world&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>the object can has multiple key/value , they can be one of several defferent data types</p>
+<p>the keys in a document are strrings, any UTF-8 character is allowed in a key .</p>
+<p>keys must not contain the character \0 this character used to signify the end of a key.</p>
+<p>the . and % characters have some special preoperties.</p>
+<p>MongoDB is type-sensitive and case-sensitive.</p>
+<p>in MongoDB can’t duplicate keys.</p>
+<h2 id="Collections"><a href="#Collections" class="headerlink" title="Collections"></a>Collections</h2><p>A collection is a group of documents.</p>
+<p>collections have dynamic schemas. this means that the documents within a single collection can have any number of different shapes.</p>
+<p>so “Whey do we need separate collections at all ?”, “Why should we use nore than one collections?”</p>
+<p>reasons:</p>
+<ul>
+<li><p>keeping defferent kinds of documents in the some collection can be a nightmare for developers and admins.</p>
+</li>
+<li><p>it’s much faster to get a list of collections than to extract a list of the types of documents in a collections.</p>
+</li>
+<li><p>grouping document of the some kind together in the same collection allows for data localiy.</p>
+</li>
+<li><p>by putting only document of a single type into the same collection , we can index or collections or efficiently.</p>
+</li>
+</ul>
+<p>a collection is identified by its name. collections names canbe any UTF-8 string, with a few restrictions:</p>
+<ul>
+<li><p>not allow the empty string</p>
+</li>
+<li><p>not allow end of the \0</p>
+</li>
+<li><p>you should not create any collections with names that start with <code>system</code>, a prefix reserved for internal collections.</p>
+</li>
+<li><p>user created collection should not contain the reserved chatacter % in their names.</p>
+</li>
+</ul>
+<p>a single instance of MongoDB can host serveral databases, each grouping together zero or more collections, A googd rule of thumb is to store all data for a single application in the same database , separate database are useful when stroing data for several applications or users on the same MongoDB server.</p>
+<p>databsase names can be any UTF-8 string, with the following restrictions:</p>
+<ul>
+<li><p>not allow empty string</p>
+</li>
+<li><p>can’t contain any of thest chatcters : / \ . , “ * &lt; &gt; ; | ? % a single space or \0</p>
+</li>
+<li><p>database name are case insensitive</p>
+</li>
+<li><p>databse names are limited to maximum of 64 bytes.</p>
+</li>
+</ul>
+<p>there are some reserved database names(initialized in MongoDB installed):</p>
+<ul>
+<li><p>admin:<br>the admin database plays a role in authentication and authorization.</p>
+</li>
+<li><p>local<br>this database stores data specific to a single server.</p>
+</li>
+<li><p>congig<br>sharded MongoDB clusters use the config database to store information about each shard</p>
+</li>
+</ul>
+<h1 id="Getting-and-Starting-MongoDB"><a href="#Getting-and-Starting-MongoDB" class="headerlink" title="Getting and Starting MongoDB"></a>Getting and Starting MongoDB</h1><p>i am run MongoDB in docker .</p>
+<p>when run with no aruments . MongoDB will use the default data directory(/data/db)</p>
+<p>by default MongoDB listens for socket connections on port 27017.</p>
+<h2 id="introdctioon-to-eht-MongoDB-Shell"><a href="#introdctioon-to-eht-MongoDB-Shell" class="headerlink" title="introdctioon to eht MongoDB Shell"></a>introdctioon to eht MongoDB Shell</h2><p>MongoDB comes with a javascript shell that allows interaction with a MongoDB instance form the command line.</p>
+<h2 id="Basic-Operations-with-the-Shell"><a href="#Basic-Operations-with-the-Shell" class="headerlink" title="Basic Operations with the Shell"></a>Basic Operations with the Shell</h2><p>CRUD command</p>
+<h3 id="CREATE"><a href="#CREATE" class="headerlink" title="CREATE"></a>CREATE</h3><p>the insertOne function adds a document to a collection.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">t = &#123; <span class="attr">name</span>: <span class="string">&quot;roger&quot;</span> &#125;;</span><br><span class="line">db.user.insterOne(t);</span><br></pre></td></tr></table></figure>
+
+<h3 id="READ"><a href="#READ" class="headerlink" title="READ"></a>READ</h3><p>find and findOne can be used to query a collection.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">db.user.find();</span><br><span class="line">db.user.findOne();</span><br></pre></td></tr></table></figure>
+
+<h3 id="UPDATE"><a href="#UPDATE" class="headerlink" title="UPDATE"></a>UPDATE</h3><p>updateOne</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">db.user.updateOne(&#123; <span class="attr">name</span>: <span class="string">&quot;roger&quot;</span> &#125;, &#123; <span class="attr">$set</span>: &#123; <span class="attr">age</span>: <span class="number">18</span> &#125; &#125;);</span><br><span class="line"></span><br><span class="line">WriteResult(&#123; <span class="attr">nMatched</span>: <span class="number">1</span>, <span class="attr">nUpserted</span>: <span class="number">0</span>, <span class="attr">nModified</span>: <span class="number">1</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="DELETE"><a href="#DELETE" class="headerlink" title="DELETE"></a>DELETE</h3><p>deleteOne and deleteMany permanently delete documents for the database.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.user.deleteOne(&#123; <span class="attr">name</span>: <span class="string">&quot;roger&quot;</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>can use deleteMany to delete all documents matching a filter</p>
+<h1 id="Data-Types"><a href="#Data-Types" class="headerlink" title="Data Types"></a>Data Types</h1><p>MongoDB supported types. MongoDB use the JSON , so JSON inclued six types: null boolean number string array and object.</p>
+<p>this list following is other MongoDB supported types:</p>
+<ul>
+<li><p>Data<br>MongoDB stores data as 64-bit integers representing milliseconds since the Unix epoch the time zone is not stored:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  x: <span class="keyword">new</span> Data();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>Regular expression<br>Queries can use regular expressions using javascrip regular expression syntax</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  x: <span class="regexp">/foobar/i</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>Embedded document<br>document can contain entire documents embedded as values in parent document</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  x: &#123;</span><br><span class="line">    foo: <span class="string">&quot;bar&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>Object ID<br>an object ID is a 12 byte ID for documents;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  x: ObjectId();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>Binary data<br>Binary data is a string of arbitrary types. it connot be manipulated form the shell. Binary data is the only way to save non-UTF-8 strings to the database</p>
+</li>
+<li><p>Code<br>MongoDB also make it possible to store arbitrary javascript in queres and document</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">x</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="Datas"><a href="#Datas" class="headerlink" title="Datas"></a>Datas</h2><p>in javscript the data class is used for MongoDB data type, when creating a new Data Object, always call new Data(), return a string representation of the data , not an actual Data object.</p>
+<h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><p>array are value that can be used interchangeably for both orderd operations unordered operations</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">&quot;things&quot;</span>: [<span class="number">1</span>, <span class="string">&quot;a&quot;</span>]&#125;</span><br></pre></td></tr></table></figure>
+
+<p>one of the great things about array in ducoment is that MongoDB “understands” their structure and knows how to reach inside of arrays to perform operations on their contents.</p>
+<h2 id="Embedded-Documents"><a href="#Embedded-Documents" class="headerlink" title="Embedded Documents"></a>Embedded Documents</h2><p>a document can be used as the value for a key. this is called an embedded document. Embedded documents can be used to organize data in a more natural way than just a flat structure of key/value pairs.</p>
+<h2 id="id-and-ObjectIds"><a href="#id-and-ObjectIds" class="headerlink" title="_id and ObjectIds"></a>_id and ObjectIds</h2><p>every document stored in MongoDB must have an _id key. the _id key value can ben any type, but it default to an ObjectId, in a single collection ,every document must havue a unique value for _id.</p>
+<h2 id="OBJECTIDS"><a href="#OBJECTIDS" class="headerlink" title="OBJECTIDS"></a>OBJECTIDS</h2><p>objectId is the defult type of _id, the objectId class is designed to be lightweight while still being easy to generate in a globally unnique way across different machines.</p>
+<h2 id="AUTOGENERATION-OF-ID"><a href="#AUTOGENERATION-OF-ID" class="headerlink" title="AUTOGENERATION OF _ID"></a>AUTOGENERATION OF _ID</h2><p>as stated earlier, if there is no _id key present when a document is inserted one will be autmatically added to the inserted document. this can be handle by the MongoDB server but will generally be done by the driver on the client side</p>
+<h1 id="Using-the-MongoDB-shell"><a href="#Using-the-MongoDB-shell" class="headerlink" title="Using the MongoDB shell"></a>Using the MongoDB shell</h1><p>how to connect a MongoDB.</p>
+<p>in mongo shell can input <code>help</code> to get the MongoDB help tips</p>
+<p>database-leve help is provided by db.help() and collection-level help by db.collection.help()</p>
+<h2 id="Running-Scripts-with-the-Shell"><a href="#Running-Scripts-with-the-Shell" class="headerlink" title="Running Scripts with the Shell"></a>Running Scripts with the Shell</h2><p>In addition to using the shell interactively, we can also pass the shell javaScrip files to execute. Simply pass in your script at the command line</p>
+<h1 id="CRUD-Documents"><a href="#CRUD-Documents" class="headerlink" title="CRUD Documents"></a>CRUD Documents</h1><h1 id="inserting-Document"><a href="#inserting-Document" class="headerlink" title="inserting Document"></a>inserting Document</h1><p>MongoDB provided the <code>insertOne</code> and <code>insetMany</code></p>
+<h2 id="insert-Validation"><a href="#insert-Validation" class="headerlink" title="insert Validation"></a>insert Validation</h2><p>all document must be smaller than 16MB,</p>
+<h2 id="insert"><a href="#insert" class="headerlink" title="insert"></a>insert</h2><p>in vdrsions of MongoDB prior to 3.0 insert was the primary method for inserting documents into MongoDb.</p>
+<p>we should instead prefet insertOne and insertMany for createing documents.</p>
+<h2 id="Removing-Document"><a href="#Removing-Document" class="headerlink" title="Removing Document"></a>Removing Document</h2><p>MongoDB provided <code>deleteOne</code> and <code>deleteMany</code></p>
+<p>use the <code>deleteMay(&#123;&#125;)</code> to delete all document.</p>
+<h2 id="Updating-Documents"><a href="#Updating-Documents" class="headerlink" title="Updating Documents"></a>Updating Documents</h2><p>MongoDb provided <code>updateOne</code> and <code>updateMany</code> and <code>replaceOne</code>, updateOne and UpdateMany each take a filter document as their first parameter and a modifier document. rep;aceOne also takes a filter as the first parameter, but as the second parameter replaceOne expects a document with which it will rep;ace the document matching the filter</p>
+<h2 id="getting-started-with-the-set-modifier"><a href="#getting-started-with-the-set-modifier" class="headerlink" title="getting started with the $set modifier"></a>getting started with the $set modifier</h2><p>$set sets the value of a field , if the field does not yet exist, it will be created. this can be handy for updateing schemas or adding userdfined keys.</p>
+<p>$unset can remove the key altogether</p>
+<h2 id="incrementing-and-decrementing"><a href="#incrementing-and-decrementing" class="headerlink" title="incrementing and decrementing"></a>incrementing and decrementing</h2><p>the <code>$inc</code> operator can be used to change the value for an existing key or to create a new key of it does not already exist.</p>
+<p><code>$inc</code> is similar to <code>$set</code> but it is designed for incrementing and decrementing numbers.</p>
+<p><code>$inc</code> can be used only one values of type integer long double or if iit used on any other tyoe of value it will fail this includes types that many languages will autmatically cast into numbers like nulls boolens or string of numeric characters.</p>
+<h2 id="array-operators"><a href="#array-operators" class="headerlink" title="array operators"></a>array operators</h2><p><code>$push</code> adds elements to the end of an array if the array exists and created a new array if it does not.</p>
+<p>we can use the <code>$each</code> modifer for push multiple values in one operation.</p>
+<h1 id="Querying"><a href="#Querying" class="headerlink" title="Querying"></a>Querying</h1><p>this chapter goal at follows:</p>
+<ol>
+<li>we can query for ranges. set inclusion, inequalities, and more by using $ conditionals.</li>
+<li>Queries return a database cursor, which lazily return batches of documents as we need them.</li>
+<li>there are a lot of metaoperations we can perform on a cursor, including skoping a certaion number of results, linmiting the number of results retured and sorting result.</li>
+</ol>
+<h2 id="find"><a href="#find" class="headerlink" title="find"></a>find</h2><p>the find method is used to perform queries in MongoDB. Querying returns a subset of ducuments at all to the entire collection. which documents get returned is determined by the first argument to find. which is a document specifying the query criteria.</p>
+<p>if find isn;t given a query document, it dfaults to ,(find() === find({}))</p>
+<p>the query works is a straightforward way for most types: numbers match number , booleans match booleans, and strings match strings.</p>
+<h2 id="specifying-which-keys-to-return"><a href="#specifying-which-keys-to-return" class="headerlink" title="specifying which keys to return"></a>specifying which keys to return</h2><p>we can pass the second argument to the find to find a specifying document in the query return.</p>
+<p>we can also use this second parameter to exclude specific key/value pairs from this results of a query.</p>
+<h2 id="query-criteria"><a href="#query-criteria" class="headerlink" title="query criteria"></a>query criteria</h2><p>queries can go beyond the exact matching described in the previous section. the can match more complex criteria, such as ranges, or claues and negation</p>
+<p><code>$lt</code> <code>$lte</code> <code>$gt</code> and <code>$gte</code> are all comparison operatirs, corresponding to &lt; &lt;= &gt; and &gt;=</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.users.find(&#123;<span class="attr">age</span>: &#123;<span class="string">&#x27;%gte&#x27;</span>: <span class="number">18</span> <span class="string">&quot;$lte&quot;</span>: <span class="number">50</span>&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><code>$nq</code> is not equal</p>
+<h2 id="OR-queries"><a href="#OR-queries" class="headerlink" title="OR queries"></a>OR queries</h2><p>there are two ways to do an OR query in mongodb.</p>
+<p><code>$in</code> can be used to query for a variety of values for a singo key.</p>
+<p><code>$or</code> is more general, it can be used to query for any of the given values across multiple keys.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db, raffle.find(&#123; <span class="attr">ticket_no</span>: &#123; <span class="attr">$in</span>: [<span class="number">100</span>, <span class="number">200</span>, <span class="number">300</span>] &#125; &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>$in is vary flexible and allows you to specify criteria of different types as well as values.</p>
+<p>$nin is not match any of the criteria in the array</p>
+<p><code>$or</code> takas an array of posible criteria.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.raffle.find(&#123; <span class="string">&quot;%or&quot;</span>: [&#123; <span class="attr">ticket_no</span>: <span class="number">999</span> &#125;, &#123; <span class="attr">winner</span>: <span class="literal">true</span> &#125;] &#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>$or</code> can contain other conditionals.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.raffle.find(&#123; <span class="string">&quot;%or&quot;</span>: [&#123; <span class="attr">tricket_no</span>: &#123; <span class="attr">$in</span>: [<span class="number">999</span>, <span class="number">222</span>] &#125; &#125;] &#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Type-specific-queries"><a href="#Type-specific-queries" class="headerlink" title="Type specific queries"></a>Type specific queries</h2><p>some of these types have special behavior when querying</p>
+<h3 id="null"><a href="#null" class="headerlink" title="null"></a>null</h3><p>null behaves a bit strangely, it does match itself, null also matchos <code>does not exist</code> if we only want to find keys whose value is null , we can check that the key is null and exists useing the <code>$exisits</code></p>
+<h3 id="Regular-Expressions"><a href="#Regular-Expressions" class="headerlink" title="Regular Expressions"></a>Regular Expressions</h3><p><code>$regex</code> provides regular expression capabilities for pattern matching strings in queries.</p>
+<p>MongoDB uses the Perl Compatible Regular Expression library to match regular expressions;</p>
+<h3 id="Querying-Arrays"><a href="#Querying-Arrays" class="headerlink" title="Querying Arrays"></a>Querying Arrays</h3><p>Querying for elements of an array is designed to behave the way querying for scalars does.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">db.food.insertOne(&#123; <span class="attr">fruit</span>: [<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>] &#125;);</span><br><span class="line"></span><br><span class="line">db.food.find(&#123; <span class="attr">fruit</span>: <span class="string">&quot;apple&quot;</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>we can query for it in mutch the same way as we would if we had a document that looked like the document</p>
+<h3 id="ALL"><a href="#ALL" class="headerlink" title="$ALL"></a>$ALL</h3><p>if we need to match array by more than one element. you can use <code>$all</code>.</p>
+<h3 id="SIZE"><a href="#SIZE" class="headerlink" title="$SIZE"></a>$SIZE</h3><p>a useful conditional for querying arrays is $size which allows you to query for arrays of a given size(match the array length)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.food.find(&#123; <span class="attr">fruit</span>: &#123; <span class="attr">$size</span>: <span class="number">3</span> &#125; &#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="SLICE"><a href="#SLICE" class="headerlink" title="$SLICE"></a>$SLICE</h3><p>the speacial <code>$slice</code> operator can be used to return a subset of element for an allay key.</p>
+<h3 id="where"><a href="#where" class="headerlink" title="$where"></a>$where</h3><p>key/value pairs are a fairly expressive way to query. but there are some queries that can bot represent.</p>
+<p>use of $where clauses should be highly resticted of eliminated.</p>
+<h2 id="Cursors"><a href="#Cursors" class="headerlink" title="Cursors"></a>Cursors</h2><p>the dotabase returns from <code>find</code> using a cursor</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> cursor = db.test.find();</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (cursor.hasNext()) &#123;</span><br><span class="line">  <span class="keyword">const</span> obj = cursor.next();</span><br><span class="line">  print(obj.x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>cursor.hasNext checks that the nest result exists, and cursor.nest fetches it;</p>
+<h1 id="Indexes"><a href="#Indexes" class="headerlink" title="Indexes"></a>Indexes</h1><p>this chapter introdces MongoDB indexes. Indexes enable you to perform queries efficiently.</p>
+<p>they’re an important part of application development and are event required for certain types of queries, in this chapter we weill cover:</p>
+<ul>
+<li>what indexes are and why you’d want to use them</li>
+<li>how to choose which fields to index</li>
+<li>how to enforce and evaluate index usage</li>
+<li>adminisrtative details on creating and removing indexes</li>
+</ul>
+<p>choosing the right indexes for you collections is critical to perfromance</p>
+<h2 id="introduction-to-indexes"><a href="#introduction-to-indexes" class="headerlink" title="introduction to indexes"></a>introduction to indexes</h2><p>a databbase index is similar to a book’s index. instead of looking trough the whole book, the database takes a shortcut and just looks at an ordered list with references to the content. this allows MongoDB to query orders of magnitude faster.</p>
+<h3 id="creating-an-index"><a href="#creating-an-index" class="headerlink" title="creating an index"></a>creating an index</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.test.createIndex(&#123; <span class="attr">x</span>: <span class="number">1</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="introduction-to-compound-indexes"><a href="#introduction-to-compound-indexes" class="headerlink" title="introduction to compound indexes"></a>introduction to compound indexes</h3><p>the purpose of an index is to make your queries as efficient.</p>
+<p>An index can only help with sotring ,</p>
+<h3 id="how-mongoDB-selects-an-index"><a href="#how-mongoDB-selects-an-index" class="headerlink" title="how mongoDB selects an index"></a>how mongoDB selects an index</h3><p>MongoDB can use several query plan, and cache the query result, next the query can select the cache plan</p>
+<h3 id="using-compound-indexes"><a href="#using-compound-indexes" class="headerlink" title="using compound indexes"></a>using compound indexes</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.test.createIndex(&#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">1</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>when designing a compound index:</p>
+<ul>
+<li><p>keys for equality filters should appear first.</p>
+</li>
+<li><p>key used for sorting should appear befor multivalue fields.</p>
+</li>
+<li><p>key for multivalue filters should appear last</p>
+</li>
+</ul>
+<h2 id="explain-output"><a href="#explain-output" class="headerlink" title="explain output"></a>explain output</h2><p>explain gives you lots of information about the queries. it’s one of the most important diagnostic tools there is for slow queries.</p>
+<p>for any query , we can add a call to explain at the end.</p>
+<p>there are tow types of explain output that you’ll see most commonly: for indexed and nonindex queries.</p>
+<h2 id="special-index-abd-cikkectuibs-types"><a href="#special-index-abd-cikkectuibs-types" class="headerlink" title="special index abd cikkectuibs types"></a>special index abd cikkectuibs types</h2><p>this chapter covers the special collections and index tyes mongoDB hash available ,including:</p>
+<ul>
+<li><p>Capped collections for queue-like data</p>
+</li>
+<li><p>TTL indexes for caches</p>
+</li>
+<li><p>Full-text indexes for simple string searching</p>
+</li>
+<li><p>Geospatial index for 2D and spherical geometries</p>
+</li>
+<li><p>GridFS fro storing large files</p>
+</li>
+</ul>
+<h3 id="Geospatioal-indexes"><a href="#Geospatioal-indexes" class="headerlink" title="Geospatioal indexes"></a>Geospatioal indexes</h3><p>MongoDB has two types of geospatial indexes: 2dsphere and 2d.</p>
+<p>2dsphere indexs work with spherical geometries that model the surface of the earth based ont the WGS84<br>datum.</p>
+<h3 id="Indexes-for-Full-Text-Search"><a href="#Indexes-for-Full-Text-Search" class="headerlink" title="Indexes for Full Text Search"></a>Indexes for Full Text Search</h3><p>text indexes in mongoDB support full-text search requirements.</p>
+<p>this type of text index should not be confused with the mongoDB Atlas Full-Text Search Indexes. wtich utilize Apache Lucene for additional text search capbilities when compared to mongoDB text indexes. use a text index if you application need to enable users to submit keyword queries that should match titles ,decriptions and text in other fields within a collection.</p>
+<p>string will be tokenized and stemmed and the index updated in. potentially, many place, for this reason , writes involving text indexes are usually more expensive than writes to single-fild, compound, or enven moltikey index.</p>
+<p>thus, weill tend to see poorer writer performance on text-indexed collections than on tohers, they will also slow down data movement if sharding : all text must be reindexed when it is migated to a new shard.</p>
+<h4 id="create-a-text-index"><a href="#create-a-text-index" class="headerlink" title="create a text index"></a>create a text index</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.test.createIndex(&#123; <span class="attr">title</span>: <span class="string">&quot;text&quot;</span>, <span class="attr">body</span>: <span class="string">&quot;text&quot;</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>this is not like a normal compound index where there is an ordering on the keys. by default, each is given equal consideration in a text index.</p>
+<p>we can control the relative importance mongoDb attaches to each field by specifying weights:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.text.createIndex(</span><br><span class="line">  &#123; <span class="attr">title</span>: <span class="string">&quot;text&quot;</span>, <span class="attr">body</span>: <span class="string">&quot;text&quot;</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">weights</span>: &#123; <span class="attr">title</span>: <span class="number">3</span>, <span class="attr">body</span>: <span class="number">2</span> &#125; &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>we cannot change field weights after index creation .</p>
+<p>for some collections, you may not know which fields a documents will contain, so we can create a full-text index on all string fields in a document by create an index on $** this not only indexes all top-;level string fields , but also searches embedded documents and array for dtring fields</p>
+<h4 id="text-search"><a href="#text-search" class="headerlink" title="text search"></a>text search</h4><p>use the $text query operator to perform text searches on a collection with a text index.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.test.find(&#123; <span class="attr">$text</span>: &#123; <span class="attr">$search</span>: <span class="string">&quot;hello word&quot;</span> &#125; &#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="optimizing-full-text-search"><a href="#optimizing-full-text-search" class="headerlink" title="optimizing full-text search"></a>optimizing full-text search</h4><p>there are a couple of way sto optimize full-text searches .</p>
+<p>if you can first narrow you search result by other criteria, you can create a compound index with a prefix of those criteria and then the full-text fields</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.test.createIndex(&#123; <span class="attr">data</span>: <span class="number">1</span>, <span class="attr">post</span>: <span class="string">&quot;text&quot;</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="searching-in-other-languages"><a href="#searching-in-other-languages" class="headerlink" title="searching in other languages"></a>searching in other languages</h4><p>we can set the text indexes a default_language opthin</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.test.createIndex(&#123; <span class="attr">title</span>: <span class="string">&quot;text&quot;</span> &#125;, &#123; <span class="attr">default_language</span>: <span class="string">&quot;chinese&quot;</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.test.inster(&#123;<span class="attr">title</span>: <span class="string">&#x27;你好&#x27;</span>&#125;， language: <span class="string">&#x27;chinese&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="capped-collections"><a href="#capped-collections" class="headerlink" title="capped collections"></a>capped collections</h2><p>mongoDB normal collections are dynamcally and automatically grow in size to fit additional data.</p>
+<p>mongoDB also supports a different type of collections, called a capped collection wich is created in advace and is fiexd in size</p>
+<p>having fixed-size collections brings up an interesting questions: what happens when we try to insert into a capped collection that is already full?</p>
+<p>the answer is that capped collections behave like circular queuess: if we’re out of space the oldest document will be deleted, and the new one will take its lace.</p>
+<h3 id="creating-capped-collections"><a href="#creating-capped-collections" class="headerlink" title="creating capped collections"></a>creating capped collections</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.createCollection(<span class="string">&quot;mycappedCollection&quot;</span>, &#123; <span class="attr">capped</span>: <span class="literal">true</span>, <span class="attr">size</span>: <span class="number">100000</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>the command create a capped collection. mycappedCollection that has fixed size of 100000 bytes, that also specify a limit on the number of document is a capped collectios:</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.createCollection(<span class="string">&quot;test&quot;</span>, &#123; <span class="attr">capped</span>: <span class="literal">true</span>, <span class="attr">size</span>: <span class="number">1000</span>, <span class="attr">max</span>: <span class="number">10</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<h1 id="Introduction-to-the-Aggregation-Framework"><a href="#Introduction-to-the-Aggregation-Framework" class="headerlink" title="Introduction to the Aggregation Framework"></a>Introduction to the Aggregation Framework</h1><p>many applications require data analysis of one form or another . mongoDB provides powerful support for running analytice natively using the aggregation framework. in this chapter we introduce this framework and some of the fundamental tools it provides we’ll cover;</p>
+<ul>
+<li><p>the aggregation framework</p>
+</li>
+<li><p>aggregation stages</p>
+</li>
+<li><p>aggregation expressions</p>
+</li>
+<li><p>aggregation accumulatiors</p>
+</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">db.companies.aggregate([</span><br><span class="line">  &#123; <span class="attr">$match</span>: &#123; <span class="attr">founded_year</span>: <span class="number">2004</span> &#125; &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    $project: &#123;</span><br><span class="line">      _id: <span class="number">0</span>,</span><br><span class="line">      name: <span class="number">1</span>,</span><br><span class="line">      founded_year: <span class="number">1</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+
+<p>the command to match the founded_year of the document and use the pipeline to reduce the output to just a few fields per document. will exclude the _id and include the name and founded_year</p>
+<p>many pipeline</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">db.test.aggregate([</span><br><span class="line">  &#123; <span class="attr">$match</span>: &#123; <span class="attr">founded_year</span>: <span class="number">2000</span> &#125; &#125;,</span><br><span class="line">  &#123; <span class="attr">$sort</span>: &#123; <span class="attr">name</span>: <span class="number">1</span> &#125; &#125;,</span><br><span class="line">  &#123; <span class="attr">$limit</span>: <span class="number">5</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">$project</span>: &#123; <span class="attr">_id</span>: <span class="number">0</span>, <span class="attr">name</span>: <span class="number">1</span> &#125; &#125;,</span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+
+<h2 id="expressions"><a href="#expressions" class="headerlink" title="expressions"></a>expressions</h2><p>the aggregation framework supports many different classes of expressions:</p>
+<ul>
+<li><p>boolean expressions allow us to use AND OR and Not expressions</p>
+</li>
+<li><p>set expressions allow us to work with arrays as sets, in particular, we can get the intersection or union of two or more sets, we can also take the difference of two sets and perform a number of other set perations.</p>
+</li>
+<li><p>comparison expressions enable us to express many different types of range filters</p>
+</li>
+<li><p>arithmetic expressions enable us to calculate the ceiling, floor natureal log and log, as well as perform simple arthmetic operations like multiplication, division, addition , and subtraction, we can event do more complex operations, such as calculationg the square root of a value.</p>
+</li>
+<li><p>string expressions allow us to concatenate find substrings,and preform operations having to do with case and text search operations.</p>
+</li>
+<li><p>array expressions provide a lot of power for manipulating arrays, including the ability to filter array elements. slice an array, or just take a range of values form a specific array.</p>
+</li>
+<li><p>variable expressions which we won’t dive into too deeply, allow us to work with literals, expressions for parsing date values, and conditional expressions.</p>
+</li>
+<li><p>Accumulators provide the ability to calculate sums, descriptive statistics, and many other types of values.</p>
+</li>
+</ul>
+<h2 id="unwind"><a href="#unwind" class="headerlink" title="$unwind"></a>$unwind</h2><p>when workin with array fields n an aggregation pipeline.</p>
+<ol>
+<li>match - match some document</li>
+<li>unwind - handle previous documents</li>
+<li>project - handle previous documents</li>
+</ol>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">db.test.aggregate([&#123;<span class="attr">$match</span>: someName: <span class="string">&quot;somevalue&quot;</span>&#125;, &#123;<span class="attr">$unwind</span>: $someKey&#125;, &#123;<span class="attr">$project</span>: &#123;<span class="attr">_id</span>: <span class="number">0</span>, <span class="attr">name</span>: <span class="number">1</span>, <span class="attr">somekey</span>: <span class="number">1</span></span><br><span class="line">&#125;&#125;])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Array-Expressions"><a href="#Array-Expressions" class="headerlink" title="Array Expressions"></a>Array Expressions</h2><p>$filter operator is designed to work with array fields and specifies the options we must supply .</p>
+<p>selects a subset of an array to return based on the specified conition , returns an arry with only those elements that match the condition. the returned element are in orginal order.</p>
+<h2 id="Accumulators"><a href="#Accumulators" class="headerlink" title="Accumulators"></a>Accumulators</h2><p>the Accumulatro provides enable us to proform operations such as summing all values in al particular field ($sum). calcalation an average ($avg), etc, we also consider $first and $last to be accumulatiors bacause these consider values in all documents that pass through the stage in which they are used. $max and $min are tow more examples of accumulatros that consider a stream of documents and save just one of the values they see. we can use $mergeObject to combine multiple document into a single document.</p>
+<p>we also have accumulators for arrays, we can $push values onto an array as documents pass through a pipeline stage. $addToSet is very similar to $push except that is ensures no duplicate values are included in the resulting array.</p>
+<h2 id="introduction-to-grouping"><a href="#introduction-to-grouping" class="headerlink" title="introduction to grouping"></a>introduction to grouping</h2><p>the group stage performs a function that is similar to the SQL GROUP BY command. in a group stage ,we can aggregate together value form multiple documents and perform some type of aggregation ioertation on them. such as calculating an average</p>
+<h1 id="Transactions"><a href="#Transactions" class="headerlink" title="Transactions"></a>Transactions</h1><p>Transactions are logical groups of processing in a database, and each group or transaction can contain one or more operations such as reads and/or writers across multiple documents. mongoDB supprts ACID-compliant transactions acroos multiple operations , collections, databases, documents, and shards, in this chapter , we introduce transactions , define what ACID means for a database, highlight how you use these in you applications, and provide tip for tuning transactions in mongoDB . cover following:</p>
+<ul>
+<li><p>what a transaction is</p>
+</li>
+<li><p>hot to use transactions</p>
+</li>
+<li><p>tuning transaction limits for you application</p>
+</li>
+</ul>
+<h2 id="introduction-to-transactions"><a href="#introduction-to-transactions" class="headerlink" title="introduction to transactions"></a>introduction to transactions</h2><p>as we mentioned above. a transaction is a logical unit of processing in database that includes one or more database operations, which can be read or write operations, there are stuations whre your application may require reads and writes to multiple documents as part of this logical unit of precessing, an improtant aspect of a transaction is that it is never partially completed it either succeeds or fails.</p>
+<h2 id="a-definition-oa-ACID"><a href="#a-definition-oa-ACID" class="headerlink" title="a definition oa ACID"></a>a definition oa ACID</h2><p>ACID is the accepted set of properties a transaction must meet to be a true transaction, ACID is an acronym for Atomicity Consistency isolation and Durability. ACID transactions guarantee the validity of you data and of you database’s state even power failures or other errors occur.</p>
+<p>Atomicity ensures that all operations inside a transaction will either be applied or noting will be applied. a transaction can never be portially applied, either it is committed or aborts.</p>
+<p>Consistency ensures that if a transaction succeeds, that database will move form one consisitent state to the next consisint state.</p>
+<p>Isolation is the property that permits multiple transactions to run at the same time in your database . it guarantees that a transaction wile not view the partial results of any other transaction, which means multiple transactions will have the same results as running each of the ransactions sequentially.</p>
+<p>Durability ensures that when a transaction is coommitted all data will presist event in the case of a system failure</p>
+<h2 id="How-to-Use-Transactions"><a href="#How-to-Use-Transactions" class="headerlink" title="How to Use Transactions"></a>How to Use Transactions</h2><p>MongoDb provides two APIs to use transactions. The first is a similar syntax to relational databases(example: start_transaction and commit_transaction) and called the core API and the second is called the callback API, which is the recommended to using to using transactions.</p>
+<p>the core API does not provide retry logic for the majority of errors and requires the developer to code the logic for the operations. the transaction commit function and any retry and error logic required.</p>
+<p>the callback API provides a single function that wraps a large degree of functonality when compared the core API including staring a transacion assocated with a specified logical session , execution a function supplied as the callback function , and then committing the transaction (or aborting on error) this funciton also includes retry logic that handle commit errors, this callback API was added in MongoDB 4.2 to simplify application develppment with transactions as well as make it easier to add application retry logic to handle andy transaction error.</p>
+<p>in both APIs, the developer is responsiblefor staring ht logical session that will be used by the transaction. Both APIs require operations in a transaction to be associated with a specific logical seeion . aA logical session in MongoDB tracks the time and sequencing of the operations in the context of the entre MongoDB deployment, A logical seeion or sever seeion is part of the underlying framework used by client sessions to suuport retryable writers and causal consistency in MongoDB both of these features were added in MongoDB version 3.6 as part of te foundation required to support transactions,, a specitfuc squence of read and write operations tha have a cauale relationship relected by theri ordering is defined as a causally consistent client session in mongoDB . a calient session is started by an applicaition and used to interact with a server session</p>
+<table>
+<thead>
+<tr>
+<th>Core API</th>
+<th>Callback API</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Requires explicit call to start the transaction and commit the transaction</td>
+<td>Starts a transaction, executes the spectified operation, and commits (or aborts on erro)</td>
+</tr>
+<tr>
+<td>Does not incorporate error handling logic for transientTranactionEroor and UnkonwoTranasctinCommitResult, and instead provides the filxbility to incorporate custom error handling for these error</td>
+<td>Automatically incorporeate error-handling logic for TransientTransactionError and unkonwnTransaction-commitResult</td>
+</tr>
+<tr>
+<td>Requires explict logical sesion to be passed toAPI for the specific trasaction</td>
+<td>Requires explicit logical session tobe pased to API for the specific transaction</td>
+</tr>
+</tbody></table>
+<h1 id="Application-Design"><a href="#Application-Design" class="headerlink" title="Application Design"></a>Application Design</h1><ul>
+<li><p>Schema design considerations</p>
+</li>
+<li><p>Trade-offs when deciding whether to embed data or to reference it</p>
+</li>
+<li><p>Tips for optimization</p>
+</li>
+<li><p>Consistency consideration</p>
+</li>
+<li><p>How to migrate schemas</p>
+</li>
+<li><p>How to manage schemas</p>
+</li>
+<li><p>When MongoDB isn’t a good choice of data store</p>
+</li>
+</ul>
+<h2 id="Schema-Design-Considerations"><a href="#Schema-Design-Considerations" class="headerlink" title="Schema Design Considerations"></a>Schema Design Considerations</h2><p>A Key aspect of data representation is the design of the schema. which is the way your data is represented in your documents. the best approach to this design is to represent the data the way your application wants to see it . Thus , unlike in relational databases, you first need to understand your queries and data access patterns brfore modeling you scahema</p>
+<p>here are the key aspects you need to consider when designing a schema:</p>
+<h3 id="Constraints"><a href="#Constraints" class="headerlink" title="Constraints"></a>Constraints</h3><p>you need to understand any database or hardware limitations.. you also need to consider a number of MongoDB’s specific aspects. such as the maximum document size of 16 MB, that full documents get read and written from disk, that an update rewrites the whole docment , and that atomic updates are at the document level</p>
+<h3 id="Access-patterns-of-your-queries-and-of-your-writes"><a href="#Access-patterns-of-your-queries-and-of-your-writes" class="headerlink" title="Access patterns of your queries and of your writes"></a>Access patterns of your queries and of your writes</h3><p>you will need to identify and quantify the workload of your application and of the wider system. the workload encompasses both the reads and the writes in your application. once you know when queries are running and how frequently, you can identify the most common queries. these are the queries you need to design your schema to supprot. once you have identified these queries you should try to minimize the number of queries and ensure in your design that data that gets queried together is stored in the same document.</p>
+<p>Data not used in these queries should be put into a different collections.Data tha is infrequently used should also be moved to a different collection, it is worth considering if you can separate your dynamic (read/write) data and your staic data. the best preformance results occur when you priorize your schema design for your most common queries.</p>
+<h3 id="Relation-types"><a href="#Relation-types" class="headerlink" title="Relation types"></a>Relation types</h3><p>you should consider which data is related in terms of your application’s needs, as well as the relationships’s. needs, as well as the relationships between documents, you can then deteremine the best approaches to embed or reference the data or documents. you will need to work out how you can reference documents without having to perform addtional queries, and how many documents are updated when there is a relationship change, you must also consider if the data sthructure is easy to query , such as tith nested array, thich suprot modeling certain relationships.</p>
+<h3 id="Cardinality"><a href="#Cardinality" class="headerlink" title="Cardinality"></a>Cardinality</h3><p>once you have determined how your documents and your data are related , you should consider the cardinality of these relationships specifically is it one to one , one to many many to many, ont to minlions or many to bilions</p>
+<p>it is very improtant to establish the cardinlity of the relationships to ensure you use the best format to model them in your MongoDB schema You should also consider whether the object on the many/monlions side is accessed sparately or only on the context of the parent object as well as the ratio of pdates to reads for the data field in question, the answers to these questions will help you to detemine whether you should embed document or reference documents and if you should be denmoealizing data acoss documents.</p>
+<h2 id="Schema-Design-patterns"><a href="#Schema-Design-patterns" class="headerlink" title="Schema Design patterns"></a>Schema Design patterns</h2><p>Schema design is important in MongoDB.</p>
+<p>Scheme design patterns that migth apply include:</p>
+<ul>
+<li>polymorphic pattern</li>
+</ul>
+<p>this is suitable where all documents in al collection have a similar, but not identical, strcutre, it involves identifying the common fields across the documents that support the common queries that will be run by the appliction, tracking specific fields in the documents or subdocuments will help identify the diffrerences between the data and different code paths or claaes/ subclasses that can be coded in you application to manage these differences. this allows for the use of simple queries in al single collection of not quite -identical documents to improve quer performance.</p>
+<ul>
+<li>Attribute pattern</li>
+</ul>
+<p>this is suitable when there are a subset of fields in a document that share commonfeatures on which you want to sort or query, or when the fields you need to sort on only exist in a subset of the documents, or when both of these conditions are true, it involves reshaping the data into an array of key/value pairs and creating an index on the elements in this array, Qualifirers can be added as additional fields to these key/value pairs this pattern assists in targeting many similar fields per document so that fewer indexes are required and queries become simpler to write.</p>
+<ul>
+<li>Bucket pattern</li>
+</ul>
+<p>this is suitable for time series data where the data is captured as a stream over a period of time. it is much more efficient in MongoDB to ‘bucket’ this data into a set of documents each holding the data for a particular time range than it is to create a doument per point in time/data poing. for example you might use a one-hour buket and place all readings for that hour in a array in a single document . the document tiself will have start and end times indication the period this bucket covers.</p>
+<ul>
+<li>Outlier pattern</li>
+</ul>
+<p>this addresses the rare instances where a few queries of documents fall outside the noremal partten for the application . it is an advanced schema pattern designed for situations wheere popularity is a factor . this can be seen in social netwoks with major influences, book sales, movie reviews etc it uses a flage to indicate the document is an outlier and stores the addtitonal overflow into one or monre documents that refer back to the firest document via the _id the flage will be uesd by your applicaiton code to make the additonal queries to retrieve the overflow documents.</p>
+<ul>
+<li>Computed pattern</li>
+</ul>
+<p>this is used when data needs to be computed frequently, and it can also be used when the data access pattern is read-intensive. this pattern recommends that the calculations be done in the backround , whith the main document being update peridically. this provides a valid approximation of the computed fields or document without having to continuousl generate these for individual queries, this can significantly reduce the starin on the CPU by avoiding repetition of the same calulations, particularly in use cases where reads trigger the calculation and you have a high read-to-write ratio.</p>
+<ul>
+<li>Subset pattern</li>
+</ul>
+<p>this is used when you have a working set that exceeds the available RAM of the macehine. this can be caused by large documents that contain a lot of information that isn’t being used by your application. this pattern suggests that you split frequently used data and infrequently used data into two separate collections. A typical example mingth be an ecommerce applicaiton keeping to 10most recent reviews of a prooduce in the main requentl accessed collection and moveing all the older reviews into a second collection querid oly of the application need more than the loast 10reviews.</p>
+<ul>
+<li>Extended Reference pattern</li>
+</ul>
+<p>this is used for scenarios where you have many different logical entities or things. each with their own collection, but you may want to gether these entities together for a specific function . A typical ecommerce shema might have separate collectins for orders customers and inventory. this can have a negative performance impact when we want to collect together all the information for a single order from these separate collections. the solution is to identify the frequenly accessed fields and duplcate these within the order this would be the name and address or the customer we are shipping the item to . this pattern trades off the number of queries necessary to collate the information together.</p>
+<ul>
+<li>Approximation pattern</li>
+</ul>
+<p>this is useful for situation where resouce expensive (time memory CPU cycles) calculations are needed but where exact is not absolutely required, an example of this is an image or post like/love counter or a pag view conunter where knowing the exact count isn’t necessary. in these situations aapplying this pattern can applying this pattern can greatly reduce the number of writers for exmlo by only updating the counter agter every 100 or more views instead of after every view.</p>
+<ul>
+<li>Tree pattern</li>
+</ul>
+<p>this can be applied when you hanve a lot of queryies and have data theat is parmarily hierarchical in structure , it follows the earlier concaept of storing data together that is typilcally queryied together , in MongoDB you can easily sotre a hierarchy in an array within the same documents, in the exple of the ecmmoerce site , specifically its produce catelog, there are ofen producets that belong to multiple cate gories or to categoris thea are part of other cateres .</p>
+<ul>
+<li>preallocation pattern</li>
+</ul>
+<p>this was primarily used with the MMAP storage engine, but there are still uses for this pattern . the pattern recommmends createing an initial empty structure that will be populated later.</p>
+<ul>
+<li>Document versioning pattern</li>
+</ul>
+<p>this provides a machanism to enable retention of older versions of documents, it requires an extra field to be added to each document to track the documents version in the main collection, and an dadditional collection that contains all the revisions of the documents thie pattern make a few assumptions specficall, that each document has a limited number of vevisions. that there are not large numbers of documents that need to be versioned and that the queries are promarily done on the current version of each documents . in situations where these assumptions are not valid, you may need to modify the pattern or consider a different schema desion pattern</p>
+<h1 id="Normalization-Versus-Denormalization"><a href="#Normalization-Versus-Denormalization" class="headerlink" title="Normalization Versus Denormalization"></a>Normalization Versus Denormalization</h1><p>there are many ways to represent data. and noe of the most important issues to consider is how much you should normalize your data. Normalization refers to dividing up date into multiple collections with references between collections. Each piece of data lives in one collections. although multiple documents may reference it. thus t change the data only one documents must be upodated the MongoDB aggreation Framework offers joins with tthe $lookuo stage. which performs a left outer join by adding documents to the joined collection where there is a matching document in the source collection it add a new array field to each matched document in the joined collection with the datils of he doucment from the source ollectin these reshaped documents are then available in the next stage for further processing.</p>
+<p>Denormalization is the opposite of normalization : embedding all of the data in a single document. instead of document containing references to one definitive copy of the data this means that multiple documents need to be updated if the information changes but enables all related data be fetched with a single query</p>
+<p>Deciding when to normalize and when to denormalize can be difficult: typically normalizing makes writers faster and denormalizing makes reads fater thus you need to decide what trade offs make sensu for you application</p>
+<p>conparison of embedding versus references</p>
+<table>
+<thead>
+<tr>
+<th>Embedding is better for…</th>
+<th>References are better for…</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Small subdocuments</td>
+<td>Large subdocuments</td>
+</tr>
+<tr>
+<td>Date that does not change</td>
+<td>Volatile data</td>
+</tr>
+<tr>
+<td>When eventual consistency is accptable</td>
+<td>When immediate consisitncy is necessary</td>
+</tr>
+<tr>
+<td>Documents that grow by a smail amount</td>
+<td>Documents that grow by a large amount</td>
+</tr>
+<tr>
+<td>Data that you’ll often need to perform a second query to fetch</td>
+<td>Data that you’ll often exclude from the result</td>
+</tr>
+<tr>
+<td>Fast reads</td>
+<td>Fast writers</td>
+</tr>
+</tbody></table>
+<h2 id="Cardinality-1"><a href="#Cardinality-1" class="headerlink" title="Cardinality"></a>Cardinality</h2><p>Cardinality is an indication of how many references a collection has no another collection. common relationships are one-to-one, one-to-many. or many-to-many.</p>
+<h1 id="Optimization-for-Data-Manipulation"><a href="#Optimization-for-Data-Manipulation" class="headerlink" title="Optimization for Data Manipulation"></a>Optimization for Data Manipulation</h1><p>to optimize your application, you must first datermine what its bottleneck is by evaluation its read and write performance. optimozomg reads gemerll involves having the correct indexes and retuning as much of the information as possible in a single document. optimizing writers usully invlues minimingzin the number of indexs you have and making updates as efficient as possible</p>
+<h2 id="Removing-Old-Data"><a href="#Removing-Old-Data" class="headerlink" title="Removing Old Data"></a>Removing Old Data</h2><p>Some data is only important for a brief time: after a few weeks or months it is just wasting storage space . There are three popular optinins for removing old data: using capped collection, using TTL collections. and dropping collections per time period.</p>
+<h1 id="Setting-Up-a-Replica-Set"><a href="#Setting-Up-a-Replica-Set" class="headerlink" title="Setting Up a Replica Set"></a>Setting Up a Replica Set</h1><p>MongoDB high-avaliability system: replica sets. it covers:</p>
+<ul>
+<li><p>what replica sets are</p>
+</li>
+<li><p>How to set up a replica set</p>
+</li>
+<li><p>What configuration options are available for relica set members</p>
+</li>
+</ul>
+<h2 id="Introduction-to-Replication"><a href="#Introduction-to-Replication" class="headerlink" title="Introduction to Replication"></a>Introduction to Replication</h2><p>Since the first chapter , we’ve been using a standalone server. a single mongod server. it’s an easy way to get started but a dangerous way to run in production . what if your server crashes or becones unavailable , your database will be unavailable for at least a little while . if there are problems with the hardware, you minght have to move your data to another machine. in the worst case disk or network issues could leave you with corrupt or inaccessible data</p>
+<h2 id="Setting-Up-a-Replica-Set-1"><a href="#Setting-Up-a-Replica-Set-1" class="headerlink" title="Setting Up a Replica Set"></a>Setting Up a Replica Set</h2><p>we start run three mongodb look like this:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mongod --replSet mdbDefGuide --dbpath ~/data/rs1 --port 27017 \</span><br><span class="line">    --smallfiles --oplogSize 200</span><br><span class="line">mongod --replSet mdbDefGuide --dbpath ~/data/rs2 --port 27018 \</span><br><span class="line">    --smallfiles --oplogSize 200</span><br><span class="line">mongod --replSet mdbDefGuide --dbpath ~/data/rs3 --port 27019 \</span><br><span class="line">    --smallfiles --oplogSize 200</span><br></pre></td></tr></table></figure>
+
+<p>then connects to ont of the running mongod instances</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongo --port 27017</span><br></pre></td></tr></table></figure>
+
+<p>then in the mongo shell . create a configuration document and pass the this to the rs.initiate() helper to initiate a replice set. this will initiate a replice set containing three members and propagate the configuration to the rest of the mongods so that a reploce set is formed:</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rs.initiate(&#123;</span><br><span class="line">  _id: <span class="string">&quot;mdbDefGuide&quot;</span>,</span><br><span class="line">  members: [</span><br><span class="line">    &#123; <span class="attr">_id</span>: <span class="number">0</span>, <span class="attr">host</span>: <span class="string">&quot;172.18.0.3:27017&quot;</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">_id</span>: <span class="number">1</span>, <span class="attr">host</span>: <span class="string">&quot;172.18.0.4:27018&quot;</span> &#125;,</span><br><span class="line">  ],</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>there are several important parts of a relica set configuration document . the config’s “_id” is the name of the replica set that you passed in on the command line , make sure that this name matches exactly.</p>
+<p>rs is a global variable that contains replication helper function (run rs.help()) to the the helpers it pexposes.</p>
+<h1 id="Obeserving-Replication"><a href="#Obeserving-Replication" class="headerlink" title="Obeserving Replication"></a>Obeserving Replication</h1><p>if your relica set elected the mongod on port 27017 as primary, hten the mongo shell used to initiate the relica set is currentlly connected to the primary</p>
+<p>we can use the db.isMaster() command to show the status of the replica set. is a much more concise form tha rs.status() it is also a convenient means of determining which member is promary when writing application</p>
+<p>if you attempt to query a secondary, you’ll get an error staring that it’s not the promary, this is to protect you application from accidentally connection to a secondary and reading stale data, to allow queries on the secondary , we can set an “i’am okay with reading from secondaries” flag like so</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">secondaryCoon = <span class="keyword">new</span> Mongo(<span class="string">&quot;localhost:27018&quot;</span>);</span><br><span class="line">secondaryDB = secondaryConn.getDB(<span class="string">&quot;test&quot;</span>);</span><br><span class="line">secondaryCoon.setSecondaryOk();</span><br></pre></td></tr></table></figure>
+
+<p>the secondary does not accept the writer, it will only perform writes that it gets through relication, not from clicents.</p>
+<p>automatic fail-over , if the primary goes down, one of the secondaries will automatically be elected parimary</p>
+<p>there are a few key concepts to remember:</p>
+<ul>
+<li><p>Clients can send a primary all the same operations they could send a standlalone server(reads, writers ,commands, index builds)</p>
+</li>
+<li><p>Clients cannot write to secondaries</p>
+</li>
+<li><p>Clients, by default connot read from secondaries , you can enable this explicitly setting an “i know i’m reading from a secondary” setting on the connection.</p>
+</li>
+</ul>
+<h1 id="Changing-your-Replica-Set-Configuration"><a href="#Changing-your-Replica-Set-Configuration" class="headerlink" title="Changing your Replica Set Configuration"></a>Changing your Replica Set Configuration</h1><p>Replica set configurations can be changed at any time: members can be added removed or modified there are shell helpers for some common operations:</p>
+<ul>
+<li>rs.add</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rs.add(<span class="string">&quot;localhost:27020&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>rs.remove</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rs.remove(<span class="string">&quot;localhost:27020&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>rs.config() check a reconfiguration</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rs.config();</span><br></pre></td></tr></table></figure>
+
+<p>each time you change the configuration , the “version” field will increase.</p>
+<p>you can also modify existing members, not just add and remove them. to make modifications, create the configuration document that you want in the shell and call rs.reconfig</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> config = rs.config();</span><br><span class="line">config.members[<span class="number">0</span>].host = <span class="string">&quot;localhost:27022&quot;</span>;</span><br><span class="line">rs.reconfig(config);</span><br></pre></td></tr></table></figure>
+
+<h1 id="How-to-Design-a-Set"><a href="#How-to-Design-a-Set" class="headerlink" title="How to Design a Set"></a>How to Design a Set</h1><p>There are a couple of common configurations that are recommended:</p>
+<ul>
+<li><p>A majority of the set in on data center, This is a good design if you have a primary data center where you always want you replica set’s primary to be located, so long as you primary data center in healthy , you will have a primary. however if that data center becomes unaveliable , your secondary data center will not be able to elect a new primary.</p>
+</li>
+<li><p>An equal number of servers in each data center , plus a tie-breaking server in a third location , this is a good design if your data centers are equal in preference since fenerall servers from either data center will be able to see a majority of the set however it invlove having three separate locations for servers.</p>
+</li>
+</ul>
+<h1 id="Component-of-a-Replica-Set"><a href="#Component-of-a-Replica-Set" class="headerlink" title="Component of a Replica Set"></a>Component of a Replica Set</h1><p>this chapter covers how this pieces of a replica set fit together including:</p>
+<ul>
+<li><p>How replica set members replicate new data</p>
+</li>
+<li><p>How bringing up new members works</p>
+</li>
+<li><p>How elections work</p>
+</li>
+<li><p>Possible server and network failure scenarios</p>
+</li>
+</ul>
+<h2 id="Syncing"><a href="#Syncing" class="headerlink" title="Syncing"></a>Syncing</h2><p>Replication is concerned with keeping an identical copy of data on multiple servers. the way MongoDb accomplishes this is by keeping a log of operations , or oplog. contaning ever writer that a primary performs this is a capped collection that lives in the local database on the primary the secondaries query this collection for opeartions to replicate</p>
+<p>Each secondary maintains its own oplog recording each operation is relicates from the primary. this allows any member to be used as a sync source for any other member , secondaries fetch operations from the member they are syncing from . apply the operations to their dataset and then write be operation to their oploog if applying an operation fails the secondary will exit</p>
+<h2 id="Heartbeats"><a href="#Heartbeats" class="headerlink" title="Heartbeats"></a>Heartbeats</h2><p>Members need to know about the other members states who’s primary, who they can sync from , and who’s down, to keep an up-to-data view of the set, a member sends out a heartbeat request to every other member of the set every two seconds, a heartbeat request is a short message tha checks everone’s state</p>
+<h2 id="Nenver-States"><a href="#Nenver-States" class="headerlink" title="Nenver States"></a>Nenver States</h2><p>members also communicate what state they are in via hearbeats, we’ve already discussed two states primary and secondary thre are several other normal states that you’ll often see members be in:</p>
+<ul>
+<li><p>STARTUP<br>the member isfirst started. while MongoDB is attempting to load its replice set configuration.</p>
+</li>
+<li><p>STARTUP2<br>this state lasts throughout the initial sync process.</p>
+</li>
+<li><p>RECOVERING<br>this tate indicates that the member is operation correctly but is not available for reads.</p>
+</li>
+<li><p>ARBITER<br>ARbiters have a special state and should alwayys be in the state druing normal opration</p>
+</li>
+<li><p>DOWN<br>if a member was up but then becomes unereachablel. it will enter this state. note that a member repported as down might in fact still be up just unreachable doue to network issues.</p>
+</li>
+<li><p>UNKNOWN<br>if a member has never been able to reach another member, it will not know what state it’s in, so it will report it as UNKOWSN this generally indicates that the unkonwn member is down or that there are network problems between the two members.</p>
+</li>
+<li><p>REMOVED<br>this is the state of a member that hash been removed from the set if a removed member is added back into the set it will transition back into its normal state.</p>
+</li>
+<li><p>ROLLBACK<br>this tate is used when a member is rolling back data .</p>
+</li>
+</ul>
+<h2 id="Elections"><a href="#Elections" class="headerlink" title="Elections"></a>Elections</h2><p>a member will seek election of it cannot reach a primary , a member seeking election will send out a notice to all of the members it can reach these members may know why thi memebr is an unsuitable ppromiary it may be behind in replication or there many alread be a primary that the member seeking election cannot reache in these cases, the other memebers will vote against the candidate.</p>
+<h1 id="Connection-to-a-Replica-Set-from-Your-Application"><a href="#Connection-to-a-Replica-Set-from-Your-Application" class="headerlink" title="Connection to a Replica Set from Your Application"></a>Connection to a Replica Set from Your Application</h1><p>this chapter covers how applicaitons interact with replica sets, including:</p>
+<ul>
+<li><p>How connections and failovers work</p>
+</li>
+<li><p>Waiting for replicaiton on writes</p>
+</li>
+<li><p>Routing reads to the correct member</p>
+</li>
+</ul>
+<h2 id="Client-to-Replica-Set-Connnection-Behavior"><a href="#Client-to-Replica-Set-Connnection-Behavior" class="headerlink" title="Client-to Replica Set Connnection Behavior"></a>Client-to Replica Set Connnection Behavior</h2><p>MongoDB client libaries are designed to manage communication with MongoDB servers regardless of whether the server is standalone MongoDB instance or a replica set, for replica sets, by default drivers will connect to the primary and rout all traffic to it , you application can perform reads and writes as though it were talking to sandalon server while your replica set quietly keeps hot standbys ready in the background</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">`mongodb://server-1:27017,server-2:27017,server-3:27017`</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Wating-for-Replication-on-Writes"><a href="#Wating-for-Replication-on-Writes" class="headerlink" title="Wating for Replication on Writes"></a>Wating for Replication on Writes</h1><p>Depending on the needs of you application , you might want to require that all writes are replicated to a majority of the replica set before they are acknowledged by the server. in the rare circumstance where the promary of a set goes down and the newly elected promary primary did not relicate the very last writes to the former primary, those writers will be rolled back when the former primary comes back up, they can be recovered but it requires manual inter vaention for many appliaciton having a small number or writes rolled back is not a problem , in a bolg appliaciton for example there is litter read dinger in rolling back one or two comments from ont reader</p>
+<h1 id="Sharding"><a href="#Sharding" class="headerlink" title="Sharding"></a>Sharding</h1><h2 id="Interdoction-to-Sharding"><a href="#Interdoction-to-Sharding" class="headerlink" title="Interdoction to Sharding"></a>Interdoction to Sharding</h2><ul>
+<li><p>What sharding is and the components of a cluster</p>
+</li>
+<li><p>How to configure sharding</p>
+</li>
+<li><p>The basics of how sharding interacts with your application</p>
+</li>
+</ul>
+<h3 id="Waht-is-sharding"><a href="#Waht-is-sharding" class="headerlink" title="Waht is sharding"></a>Waht is sharding</h3><p>sharding refers to the process of splitting date up across machines; the term partitioning is also sometimes used to describe this concept. By putting a subset oa date on each machine , it becomes possible to shore more data and handle more load without requireing larger or more powerfull machines just a larger quanitiy of less powerful machines, sharding may be used for other puposes as well ,including placing more frequently accesssed data on more performant hardware or splitting a dataset based on geograplhy to locate a subset of documents in a collction close to the application servers from which they are most commonly accessed.</p>
+<p>MongoDB supports autosharding, which tries to both abstract the archiecture away from the application and simplify the administration of such a system.</p>
+<h2 id="Understanding-the-components-of-a-cluster"><a href="#Understanding-the-components-of-a-cluster" class="headerlink" title="Understanding the components of a cluster"></a>Understanding the components of a cluster</h2><p>MongoDB’s sharding allows you to create a cluster of many machines and break up a collection across them, putting a subset of data on eache shard this allows your application to grow beyond the resource limits of a sandalone server or replica set</p>
+<h2 id="Sharding-on-a-Single-Machine-Cluster"><a href="#Sharding-on-a-Single-Machine-Cluster" class="headerlink" title="Sharding on a Single-Machine Cluster"></a>Sharding on a Single-Machine Cluster</h2><p>start cluster on a single machine.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongo --nodb --norc</span><br></pre></td></tr></table></figure>
+
+<p>to create a cluster, use the ShardingTest class.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">st = ShardingTest(&#123;</span><br><span class="line">  name: <span class="string">&quot;one-min-shards&quot;</span>,</span><br><span class="line">  chunkSize: <span class="number">1</span>,</span><br><span class="line">  shards: <span class="number">2</span>,</span><br><span class="line">  rs: &#123;</span><br><span class="line">    nodes: <span class="number">3</span>,</span><br><span class="line">    oplogSize: <span class="number">10</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  other: &#123;</span><br><span class="line">    enableBalancer: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>now use the new mongo shell</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// use the mongo shell , not connect the DB</span></span><br><span class="line">mongo --nodb</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">db = <span class="keyword">new</span> Mongo(<span class="string">&quot;localhost:20009&quot;</span>).getDB(<span class="string">&quot;accounts&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</span><br><span class="line">  db.user.insert(&#123; <span class="attr">name</span>: <span class="string">&quot;user&quot;</span> + <span class="number">1</span>, <span class="attr">create_at</span>: <span class="keyword">new</span> <span class="built_in">Date</span>() &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// now the collection hash 10000 user</span></span><br><span class="line"></span><br><span class="line">db.user.count(); <span class="comment">// 10000</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// show the sharding status</span></span><br><span class="line">sh.status();</span><br></pre></td></tr></table></figure>
+
+<h1 id="Configuring-Sharding"><a href="#Configuring-Sharding" class="headerlink" title="Configuring Sharding"></a>Configuring Sharding</h1><ul>
+<li><p>How to set up config servers, shards, and mongos processes</p>
+</li>
+<li><p>How to add capactty to a cluster</p>
+</li>
+<li><p>How data is stored and distrubuted</p>
+</li>
+</ul>
+<h2 id="When-to-shard"><a href="#When-to-shard" class="headerlink" title="When to shard"></a>When to shard</h2><p>deciding when to shard is a balancing act. you generally do not want to shard too early because it adds operational complexity to you deployment an forces you to make design decisions that are difficult to change later. on the other hand. you do not want to wait too long to shard because it is difficult to shard an overloaded system without downtime.</p>
+<p>in general, sharding is used to:</p>
+<ul>
+<li><p>Increase available RAM</p>
+</li>
+<li><p>Increase available disk space</p>
+</li>
+<li><p>Reduce load on a server</p>
+</li>
+<li><p>Read ot write data with greater throughput than a single mongod an hanlde</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/07/04/NGINX/" rel="prev" title="Nginx">
+                  <i class="fa fa-chevron-left"></i> Nginx
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/01/03/bash/" rel="next" title="command line">
+                  command line <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">H</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
